@@ -1,0 +1,136 @@
+/* Syntax colours for the three highlighters the apps use, all mapped onto `--code-*`:
+   highlight.js (`.hljs-*`), Prism (`.token.*`, or the flattened `.t-*` runs legit's worker
+   emits) and Pygments (`.codehilite` / `.highlight` short classes, as Zulip renders them). */
+
+/* ---- keyword --------------------------------------------------------------------------- */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-doctag,
+.hljs-formula,
+.token:is(.keyword, .important, .directive, .atrule, .rule),
+:is(.t-keyword, .t-important, .t-directive, .t-atrule, .t-rule),
+:is(.codehilite, .highlight) :is(.k, .kc, .kd, .kn, .kp, .kr, .ow) {
+  color: var(--code-kw);
+}
+
+/* ---- string ---------------------------------------------------------------------------- */
+.hljs-string,
+.hljs-addition,
+.hljs-meta .hljs-string,
+.token:is(.string, .char, .attr-value, .template-string, .inserted),
+:is(.t-string, .t-char, .t-attr-value, .t-template-string, .t-inserted),
+:is(.codehilite, .highlight)
+  :is(.s, .sa, .sb, .sc, .dl, .sd, .s1, .s2, .se, .sh, .si, .sx, .ss, .gi) {
+  color: var(--code-str);
+}
+
+/* ---- number and literal ---------------------------------------------------------------- */
+.hljs-number,
+.hljs-literal,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-variable.constant_,
+.token:is(.number, .boolean, .constant, .symbol),
+:is(.t-number, .t-boolean, .t-constant, .t-symbol),
+:is(.codehilite, .highlight) :is(.m, .mb, .mf, .mh, .mi, .mo, .il, .no) {
+  color: var(--code-num);
+}
+
+/* ---- comment --------------------------------------------------------------------------- */
+.hljs-comment,
+.hljs-quote,
+.token:is(.comment, .prolog, .cdata, .doc-comment),
+:is(.t-comment, .t-prolog, .t-cdata, .t-doc-comment),
+:is(.codehilite, .highlight) :is(.c, .ch, .cm, .cp, .cpf, .c1, .cs) {
+  color: var(--code-com);
+  font-style: italic;
+}
+
+/* ---- function -------------------------------------------------------------------------- */
+.hljs-title,
+.hljs-title.function_,
+.hljs-section,
+.token:is(.function, .function-definition, .method),
+:is(.t-function, .t-function-definition, .t-method),
+:is(.codehilite, .highlight) :is(.nf, .fm, .nd) {
+  color: var(--code-fn);
+}
+
+/* ---- type and builtin ------------------------------------------------------------------ */
+.hljs-type,
+.hljs-built_in,
+.hljs-title.class_,
+.hljs-title.class_.inherited__,
+.token:is(.class-name, .builtin, .type, .builtin-type, .namespace),
+:is(.t-class-name, .t-builtin, .t-type, .t-builtin-type, .t-namespace),
+:is(.codehilite, .highlight) :is(.kt, .nc, .nn, .ne, .nb, .bp) {
+  color: var(--code-type);
+}
+
+/* ---- variable, attribute, property ----------------------------------------------------- */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attr,
+.hljs-attribute,
+.hljs-property,
+.hljs-params,
+.token:is(.variable, .property, .attr-name, .parameter, .lifetime-annotation),
+:is(.t-variable, .t-property, .t-attr-name, .t-parameter, .t-lifetime-annotation),
+:is(.codehilite, .highlight) :is(.nv, .vc, .vg, .vi, .vm, .na) {
+  color: var(--code-var);
+}
+
+/* ---- tag and deletion ------------------------------------------------------------------ */
+.hljs-tag .hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-name,
+.hljs-deletion,
+.token:is(.tag, .selector, .deleted, .title),
+:is(.t-tag, .t-selector, .t-deleted, .t-title),
+:is(.codehilite, .highlight) :is(.nt, .gd) {
+  color: var(--code-tag);
+}
+
+/* ---- operator and punctuation ---------------------------------------------------------- */
+.hljs-operator,
+.hljs-punctuation,
+.hljs-tag,
+.token:is(.operator, .punctuation, .entity, .doctype),
+:is(.t-operator, .t-punctuation, .t-entity, .t-doctype),
+:is(.codehilite, .highlight) :is(.o, .p) {
+  color: var(--code-op);
+}
+/* The quotes around an attribute value belong to the value. */
+.token.attr-value > .token.punctuation,
+.t-attr-value.t-punctuation {
+  color: var(--code-str);
+}
+
+/* ---- meta: preprocessor, regex, url ---------------------------------------------------- */
+.hljs-meta,
+.hljs-subst,
+.hljs-regexp,
+.hljs-link,
+.token:is(.regex, .url, .macro, .annotation, .decorator),
+:is(.t-regex, .t-url, .t-macro, .t-annotation, .t-decorator),
+:is(.codehilite, .highlight) :is(.sr, .ni, .nl) {
+  color: var(--code-meta);
+}
+
+/* ---- emphasis -------------------------------------------------------------------------- */
+.hljs-emphasis,
+.token.italic,
+.t-italic,
+:is(.codehilite, .highlight) .ge {
+  font-style: italic;
+}
+.hljs-strong,
+.token.bold,
+.t-bold,
+:is(.codehilite, .highlight) .gs {
+  font-weight: 650;
+}
+:is(.codehilite, .highlight) .err {
+  text-decoration: underline wavy var(--danger);
+}

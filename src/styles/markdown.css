@@ -1,0 +1,373 @@
+/* `.md`: rendered markdown. Sized in `em`, so it follows `--font-size` (density) and whatever
+   size the container sets. The rhythm is custom properties, so an app tunes it without
+   fighting selectors: `.md--compact` is the chat rhythm, and an app layers its own content
+   (mentions, wikilinks, embeds) on top as `.md .its-class`. */
+
+.md {
+  --md-block: 0.6em;
+  --md-line-height: 1.55;
+  --md-h1: 1.5em;
+  --md-h2: 1.25em;
+  --md-h3: 1.1em;
+  --md-h4: 1em;
+  --md-indent: 1.5em;
+  --md-media-h: none;
+
+  line-height: var(--md-line-height);
+  /* Nothing a message contains may widen its pane; `break-word` declines wherever the line has
+     another break opportunity, which a long URL does not. */
+  overflow-wrap: anywhere;
+}
+
+/* A message rather than a document: tight blocks, headings barely above the body. */
+.md--compact {
+  --md-block: 0.35em;
+  --md-line-height: inherit;
+  --md-h1: 1.05em;
+  --md-h2: 1.05em;
+  --md-h3: 1.05em;
+  --md-h4: 1.05em;
+  --md-indent: 1.4em;
+  --md-media-h: 300px;
+}
+
+.md > :first-child {
+  margin-top: 0;
+}
+.md > :last-child {
+  margin-bottom: 0;
+}
+
+.md p {
+  margin: var(--md-block) 0;
+}
+
+.md h1,
+.md h2,
+.md h3,
+.md h4,
+.md h5,
+.md h6 {
+  margin: calc(var(--md-block) * 2) 0 var(--md-block);
+  font-weight: 650;
+  line-height: 1.25;
+  color: var(--color2);
+}
+.md h1 {
+  font-size: var(--md-h1);
+}
+.md h2 {
+  font-size: var(--md-h2);
+}
+.md h3 {
+  font-size: var(--md-h3);
+}
+.md h4,
+.md h5,
+.md h6 {
+  font-size: var(--md-h4);
+}
+
+.md strong {
+  font-weight: 650;
+  color: var(--color2);
+}
+
+.md ul,
+.md ol {
+  margin: var(--md-block) 0;
+  padding-left: var(--md-indent);
+}
+.md li {
+  margin: 0.15em 0;
+}
+.md li > :is(ul, ol) {
+  margin: 0.1em 0;
+}
+.md li > p {
+  margin: 0.2em 0;
+}
+
+/* Task lists: the checkbox takes the bullet's place. */
+.md li:has(> input[type="checkbox"]),
+.md li.task-list-item {
+  list-style: none;
+}
+.md li > input[type="checkbox"]:first-child {
+  margin: 0 0.45em 0 calc(-1 * var(--md-indent) + 0.15em);
+}
+
+.md input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: var(--check);
+  height: var(--check);
+  padding: 0;
+  vertical-align: -0.2em;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+.md input[type="checkbox"]::before {
+  content: "";
+  width: 72%;
+  height: 72%;
+  background: var(--on-accent);
+  -webkit-mask: var(--md-tick) center / contain no-repeat;
+  mask: var(--md-tick) center / contain no-repeat;
+  opacity: 0;
+  --md-tick: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z'/%3E%3C/svg%3E");
+}
+.md input[type="checkbox"]:checked {
+  border-color: var(--theme);
+  background: var(--theme);
+}
+.md input[type="checkbox"]:checked::before {
+  opacity: 1;
+}
+/* An app that toggles tasks on click re-enables them; a disabled one still reads clearly. */
+.md input[type="checkbox"]:disabled {
+  opacity: 1;
+}
+@media (hover: hover) {
+  .md input[type="checkbox"]:not(:disabled):hover {
+    border-color: var(--theme2);
+  }
+}
+
+.md hr {
+  margin: calc(var(--md-block) * 2) 0;
+  border: none;
+  border-top: 1px solid var(--border);
+}
+
+.md blockquote {
+  margin: var(--md-block) 0;
+  padding: 0 0 0 0.75em;
+  border-left: 2px solid var(--border-strong);
+  color: var(--muted);
+}
+.md blockquote > :first-child {
+  margin-top: 0;
+}
+.md blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* ---- code ------------------------------------------------------------------------------ */
+
+.md code {
+  padding: 0.1em 0.3em;
+  border-radius: var(--radius-sm);
+  background: var(--code-bg);
+  font-family: var(--mono);
+  font-size: 0.86em;
+  font-variant-ligatures: none;
+}
+
+.md pre {
+  margin: var(--md-block) 0;
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--code-bg);
+  line-height: 1.45;
+  /* A code block has a width of its own; it scrolls inside its box, never the pane. */
+  overflow-x: auto;
+  overflow-wrap: normal;
+}
+.md pre code {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  font-size: 0.86em;
+}
+
+/* A code block with a header: `.code-block` (or Zulip's `div.codehilite`) wraps a `.code-head`
+   (`.code-lang`, `.code-copy`) and the `pre`. */
+.md :is(.code-block, div.codehilite) {
+  position: relative;
+  margin: var(--md-block) 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--code-bg);
+  overflow: hidden;
+}
+.md :is(.code-block, div.codehilite) pre {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+}
+.md .code-head {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-4);
+  min-height: calc(var(--fs-micro) * 2);
+  padding: 0 var(--sp-2) 0 var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+.md .code-lang {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
+  color: var(--muted);
+  user-select: none;
+}
+.md .code-copy {
+  flex: none;
+  padding: 0 var(--sp-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-micro);
+  font-weight: 550;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity var(--dur);
+}
+.md :is(.code-block, div.codehilite):is(:hover, :focus-within) .code-copy,
+.md .code-copy.is-on {
+  opacity: 1;
+}
+@media (hover: hover) {
+  .md .code-copy:hover {
+    background: var(--bg3);
+    color: var(--color2);
+  }
+}
+@media (hover: none) {
+  .md .code-copy {
+    opacity: 1;
+  }
+}
+
+/* ---- tables ---------------------------------------------------------------------------- */
+
+.md table {
+  /* Block, so a wide table scrolls in its own box. */
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin: var(--md-block) 0;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.95em;
+}
+.md th,
+.md td {
+  padding: 0.2em 0.6em;
+  border: 1px solid var(--border);
+  text-align: left;
+  /* Cells wrap as prose does, not mid-word. */
+  overflow-wrap: break-word;
+}
+.md th {
+  background: var(--bg2);
+  font-weight: 600;
+  color: var(--color2);
+}
+
+/* ---- media ----------------------------------------------------------------------------- */
+
+.md img,
+.md video {
+  max-width: 100%;
+  max-height: var(--md-media-h);
+  height: auto;
+  border-radius: var(--radius);
+  vertical-align: bottom;
+}
+.md video {
+  display: block;
+  background: var(--scrim-strong);
+}
+.md audio {
+  display: block;
+  width: min(100%, 380px);
+}
+.md figure {
+  margin: var(--md-block) 0;
+}
+.md figcaption {
+  margin-top: var(--gap-2);
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+/* An inline emoji picture sits on the text, at the text's size. */
+.md img.emoji,
+.md .emoji {
+  width: 1.2em;
+  height: 1.2em;
+  max-height: none;
+  border-radius: 0;
+  vertical-align: -0.22em;
+}
+
+/* ---- inline furniture ------------------------------------------------------------------ */
+
+/* A person or group named in the text. Apps map their own markup onto it (or copy the rule). */
+.md .mention {
+  padding: 0 0.2em;
+  border-radius: var(--radius-sm);
+  background: var(--mention);
+  font-weight: 550;
+  color: var(--theme2);
+  white-space: nowrap;
+}
+.md .mention.is-self {
+  background: var(--theme);
+  color: var(--on-accent);
+}
+
+.md time {
+  padding: 0 0.3em;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--chip);
+  font-size: 0.92em;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.md mark {
+  padding: 0 0.1em;
+  border-radius: var(--radius-sm);
+  background: var(--mention);
+  color: inherit;
+}
+
+.md kbd {
+  font-size: 0.8em;
+}
+
+/* Spoilers and other disclosures. */
+.md details {
+  margin: var(--md-block) 0;
+  padding: var(--sp-1) var(--sp-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.md summary {
+  font-weight: 550;
+  color: var(--color2);
+  cursor: pointer;
+  user-select: none;
+}
+.md details[open] > summary {
+  margin-bottom: var(--gap-2);
+  padding-bottom: var(--gap-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.md .katex {
+  font-size: 1.05em;
+}
+.md math {
+  font-family: var(--mono);
+}

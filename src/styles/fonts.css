@@ -1,0 +1,4 @@
+/* Inter as one variable file for every weight, and Fira Code's regular for code. Bundled with
+   the app, so nothing is fetched at runtime. Import before `purr/styles.css`. */
+@import "@fontsource-variable/inter";
+@import "@fontsource/fira-code/400.css";

@@ -15,6 +15,13 @@
   --muted: #6e6e6e;
   --faint: #9a9a9a;
   --code-bg: #f6f6f6;
+  /* What a raised sheet, a `.btn` and a `.field-input` are painted with. */
+  --surface: var(--bg);
+  --control-bg: var(--bg);
+  --control-hover: var(--bg3);
+  --control-border: var(--border);
+  --field-bg: var(--bg2);
+  --field-border: var(--border);
 
   --theme: #451551;
   --theme2: #7b2490;
@@ -87,6 +94,7 @@
   --z-sticky: 10;
   --z-resize: 20;
   --z-popover: 100;
+  --z-sheet: 150;
   --z-chrome: 200;
   --z-banner: 250;
   --z-modal: 300;
@@ -94,6 +102,7 @@
   --z-menu: 400;
   --z-dialog: 500;
   --z-lightbox: 600;
+  --z-toast: 650;
   --z-tooltip: 700;
 
   /* Every type step derives from `--font-size`, so density changes the whole interface. */
@@ -109,18 +118,27 @@
 
   /* Control sizes: an icon button's hit area, a list row, a badge. */
   --btn: 24px;
+  --btn-md: 20px;
+  --btn-sm: 16px;
   --row-h: 24px;
   --badge: 12px;
   --avatar: 22px;
+  --check: 15px;
+  --swatch: 16px;
+  /* The glyph inside a `--btn`, `--btn-md` and `--btn-sm` button; Phosphor's `1em` reads it. */
+  --icon-lg: 15px;
+  --icon-md: 13px;
+  --icon-sm: 11px;
 
   /* Safe-area insets, zero on desktop; `body.mobile` (see `lib/platform.ts`) fills them. */
   --safe-top: 0px;
   --safe-bottom: 0px;
   --safe-left: 0px;
   --safe-right: 0px;
+  /* How much of the screen the software keyboard covers; `trackKeyboard` in `lib/platform.ts`. */
+  --kb: 0px;
 
-  --font:
-    "Inter Variable", Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font: "Inter Variable", Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
@@ -138,6 +156,12 @@ html.dark {
   --muted: #888;
   --faint: #5c5c5c;
   --code-bg: #1c1c1c;
+  --surface: var(--bg2);
+  --control-bg: var(--bg3);
+  --control-hover: var(--bg4);
+  --control-border: var(--border-strong);
+  --field-bg: var(--bg);
+  --field-border: var(--border-strong);
 
   --theme: #a138bd;
   --theme2: #c264cf;
@@ -198,7 +222,12 @@ html.density-dense {
 /* Touch: 44px is the smallest comfortable target. */
 body.mobile {
   --btn: 44px;
+  --btn-md: 38px;
+  --btn-sm: 32px;
   --row-h: 44px;
+  --icon-lg: 20px;
+  --icon-md: 18px;
+  --icon-sm: 16px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left: env(safe-area-inset-left, 0px);

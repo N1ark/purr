@@ -25,16 +25,16 @@ npm run format   # prettier
 
 ## Layout
 
-| Path                   | What it is                                                              |
-| ---------------------- | ----------------------------------------------------------------------- |
-| `src/index.ts`         | The barrel: every component, action and utility is exported from here  |
-| `src/styles/`          | `tokens.css` (the contract), `base.css`, `classes.css`, `markdown.css`, `code.css`, `fonts.css`; `index.css` imports all but fonts |
-| `src/components/`      | Svelte components, PascalCase, one per file                             |
-| `src/actions/`         | Svelte actions (`use:tooltip`, `use:dragList`, …)                       |
-| `src/lib/`             | Plain TS utilities and `.svelte.ts` rune state (overlays, menu, theme)  |
-| `src/icons/`           | `index.ts` re-exports all of `phosphor-svelte` plus purr's hand-drawn icons |
-| `src/vite.ts`          | The `purr()` Vite plugin                                                |
-| `playground/`          | A Vite app showing every component; not shipped                         |
+| Path              | What it is                                                                                                                         |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `src/index.ts`    | The barrel: every component, action and utility is exported from here                                                              |
+| `src/styles/`     | `tokens.css` (the contract), `base.css`, `classes.css`, `markdown.css`, `code.css`, `fonts.css`; `index.css` imports all but fonts |
+| `src/components/` | Svelte components, PascalCase, one per file                                                                                        |
+| `src/actions/`    | Svelte actions (`use:tooltip`, `use:dragList`, …)                                                                                  |
+| `src/lib/`        | Plain TS utilities and `.svelte.ts` rune state (overlays, menu, theme)                                                             |
+| `src/icons/`      | `index.ts` re-exports all of `phosphor-svelte` plus purr's hand-drawn icons                                                        |
+| `src/vite.ts`     | The `purr()` Vite plugin                                                                                                           |
+| `playground/`     | A Vite app showing every component; not shipped                                                                                    |
 
 ## Rules
 
