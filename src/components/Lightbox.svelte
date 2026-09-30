@@ -1,13 +1,5 @@
 <script lang="ts" module>
-  export interface LightboxItem {
-    src: string;
-    kind?: "image" | "video" | "audio";
-    /** Alt text, and the caption when there is no `caption`. */
-    alt?: string;
-    caption?: string;
-    /** A muted line under the caption: a size, a date. */
-    detail?: string;
-  }
+  export type { LightboxItem } from "./types";
 </script>
 
 <script lang="ts">
@@ -20,6 +12,7 @@
 
   import IconButton from "./IconButton.svelte";
   import Modal from "./Modal.svelte";
+  import type { LightboxItem } from "./types";
 
   interface Props {
     items: readonly LightboxItem[];

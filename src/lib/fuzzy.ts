@@ -137,6 +137,12 @@ export function matchScore(query: string, text: string): number | null {
   return score(text, hay, needle, false)?.score ?? null;
 }
 
+/** The tier alone (null for a miss), for a list that orders by tier and then by its own rule. */
+export function matchTier(query: string, text: string): Tier | null {
+  const s = matchScore(query, text);
+  return s === null ? null : ((TIERS - Math.floor(s / TIER_WEIGHT)) as Tier);
+}
+
 export interface Ranked<T> {
   item: T;
   score: number;

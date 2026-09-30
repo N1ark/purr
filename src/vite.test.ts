@@ -1,6 +1,8 @@
 // @vitest-environment node
 /// <reference types="node" />
-import { readFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { customIcons, iconDepsIn, purr, rewriteIconImports, trimWeights } from "./vite";
 
@@ -121,5 +123,15 @@ describe("purr()", () => {
     expect(out.optimizeDeps.exclude).toEqual(["purr"]);
     // Purr's own components import icons per file; those are prebundled up front.
     expect(out.optimizeDeps.include).toContain("phosphor-svelte/lib/XIcon");
+  });
+
+  it("prebundles purr's copy of Phosphor for an app that has none", async () => {
+    const root = mkdtempSync(join(tmpdir(), "purr-app-"));
+    writeFileSync(join(root, "package.json"), "{}");
+    const [config] = purr();
+    const hook = config.config as (c: object, e: object) => Record<string, any>;
+    const out = hook({ root }, { command: "serve" });
+    expect(out.optimizeDeps.include).toContain("purr > phosphor-svelte/lib/XIcon");
+    expect(out.optimizeDeps.include).not.toContain("phosphor-svelte/lib/XIcon");
   });
 });

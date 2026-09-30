@@ -14,7 +14,7 @@ export { default as Field } from "./components/Field.svelte";
 export { default as IconButton } from "./components/IconButton.svelte";
 export { default as LiveRegion } from "./components/LiveRegion.svelte";
 export { default as PanelHeader } from "./components/PanelHeader.svelte";
-export { default as PresenceDot, type Presence } from "./components/PresenceDot.svelte";
+export { default as PresenceDot } from "./components/PresenceDot.svelte";
 export { default as ProgressRing } from "./components/ProgressRing.svelte";
 export { default as SearchInput } from "./components/SearchInput.svelte";
 export { default as Segmented } from "./components/Segmented.svelte";
@@ -30,16 +30,12 @@ export { default as Twisty } from "./components/Twisty.svelte";
 // ---- behaviour: components ----
 export { default as ActionSheet } from "./components/ActionSheet.svelte";
 export { default as Banner } from "./components/Banner.svelte";
-export {
-  default as CommandPalette,
-  type PaletteItem,
-  type RowState,
-} from "./components/CommandPalette.svelte";
+export { default as CommandPalette } from "./components/CommandPalette.svelte";
 export { default as ContextMenuHost } from "./components/ContextMenuHost.svelte";
 export { default as DialogHost } from "./components/DialogHost.svelte";
 export { default as Highlight } from "./components/Highlight.svelte";
 export { default as Kbd } from "./components/Kbd.svelte";
-export { default as Lightbox, type LightboxItem } from "./components/Lightbox.svelte";
+export { default as Lightbox } from "./components/Lightbox.svelte";
 export { default as Menu } from "./components/Menu.svelte";
 export { default as Modal } from "./components/Modal.svelte";
 export { default as Popover } from "./components/Popover.svelte";
@@ -49,6 +45,7 @@ export { default as ShortcutList } from "./components/ShortcutList.svelte";
 export { default as ShortcutsOverlay } from "./components/ShortcutsOverlay.svelte";
 export { default as ToastHost } from "./components/ToastHost.svelte";
 export { default as VirtualList } from "./components/VirtualList.svelte";
+export type { LightboxItem, PaletteItem, Presence, RowState } from "./components/types";
 
 // ---- actions ----
 export { dragList, dropIndex, type DragListParams } from "./actions/dragList";
@@ -91,17 +88,24 @@ export {
 } from "./lib/dialog.svelte";
 export { IS_BROWSER, IS_TAURI, detectMobile, isMobile } from "./lib/env";
 export {
+  EXACT,
+  PREFIX,
+  SUBSEQUENCE,
+  SUBSTRING,
+  WORD_START,
   byName,
   escapeRegExp,
   fuzzyMatch,
   highlightRuns,
   matchScore,
+  matchTier,
   matchesAny,
   rank,
   type Match,
   type RankOptions,
   type Ranked,
   type Run,
+  type Tier,
 } from "./lib/fuzzy";
 export {
   accelerator,
@@ -137,6 +141,7 @@ export {
   type MenuEntry,
   type MenuHeading,
   type MenuItem,
+  type MenuSource,
 } from "./lib/menu.svelte";
 export {
   closeAllOverlays,
@@ -145,7 +150,7 @@ export {
   registerOverlay,
   type OverlayOptions,
 } from "./lib/overlays.svelte";
-export { persisted } from "./lib/persisted.svelte";
+export { persisted, persistedFlag } from "./lib/persisted.svelte";
 export {
   MOD,
   applyPlatform,

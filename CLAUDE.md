@@ -14,6 +14,18 @@ Goals, in order: consistency, performance, reusability. It is opinionated on pur
 - Entry: `import "purr/fonts.css"; import "purr/styles.css";` then the app's own CSS.
 - Imports: components/actions/utilities from `"purr"`, icons from `"purr/icons"`.
 
+## Setup gotchas
+
+- **Two copies of Svelte's types.** purr has its own `node_modules/svelte` (a dev dependency), so
+  svelte-check can see two `Snippet` types ("Two different types with this name exist"). Fix in the
+  app's `tsconfig.json`: `"paths": { "svelte": ["./node_modules/svelte"], "svelte/*":
+["./node_modules/svelte/*"] }` and `"typeRoots": ["./node_modules", "./node_modules/@types"]`.
+  At runtime `vite-plugin-svelte` dedupes Svelte, so there is only ever one.
+- **Types a type-aware linter must see live in `.ts` files** (`components/types.ts`), not in a
+  `.svelte` module script; components re-export them.
+- **`purr/vite` is loaded by Node as TypeScript**, which needs Node >= 22.18.
+- **CI** must check purr out beside the app (`../purr`), since apps depend on `file:../purr`.
+
 ## Commands
 
 ```sh

@@ -28,6 +28,8 @@
     onswatchcontextmenu?: (e: MouseEvent, color: string) => void;
     /** A swatch's accessible name; defaults to the colour itself. */
     colorLabel?: (color: string) => string;
+    /** A swatch's tooltip, e.g. how to remove a colour the user added; none by default. */
+    colorTip?: (color: string) => string | null;
   }
 
   const {
@@ -45,6 +47,7 @@
     oncustom,
     onswatchcontextmenu,
     colorLabel = (c) => c,
+    colorTip,
   }: Props = $props();
 
   const current = $derived(value?.toLowerCase() ?? null);
@@ -64,6 +67,7 @@
       style:--c={color}
       aria-label={colorLabel(color)}
       aria-pressed={color.toLowerCase() === current}
+      use:tooltip={colorTip?.(color)}
       onclick={() => onpick(color)}
       oncontextmenu={onswatchcontextmenu && ((e) => onswatchcontextmenu(e, color))}
     ></button>

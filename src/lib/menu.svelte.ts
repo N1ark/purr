@@ -98,44 +98,50 @@ export function entries(...list: MaybeEntry[]): MenuEntry[] {
 /** Where a menu opens: at a point (a right-click) or hung off an element (a "…" button). */
 export type MenuAnchor = Point | Rect | HTMLElement;
 
+/** The entries, or a builder re-read while the menu is open, so a `keepOpen` toggle shows its new state. */
+export type MenuSource = MaybeEntry[] | (() => MaybeEntry[]);
+
+const build = entries;
+
 class MenuState {
   open = $state(false);
   anchor = $state.raw<MenuAnchor>({ x: 0, y: 0 });
   placement = $state<Placement>("point");
   /** Small heading, e.g. the message author or the channel name. */
   title = $state<string | null>(null);
-  entries = $state.raw<MenuEntry[]>([]);
+  #source = $state.raw<() => MaybeEntry[]>(() => []);
+  readonly entries: MenuEntry[] = $derived(build(...this.#source()));
   /** Bumped per opening, so a closing animation cannot shut the menu that replaced it. */
   version = $state(0);
 
-  #open(anchor: MenuAnchor, placement: Placement, list: MaybeEntry[], title?: string | null) {
-    const items = entries(...list);
-    if (!items.length) return false;
+  #open(anchor: MenuAnchor, placement: Placement, list: MenuSource, title?: string | null) {
+    const source = typeof list === "function" ? list : () => list;
+    if (!build(...source()).length) return false;
     this.anchor = anchor;
     this.placement = placement;
     this.title = title ?? null;
-    this.entries = items;
+    this.#source = source;
     this.version++;
     this.open = true;
     return true;
   }
 
   /** From a `contextmenu` (or any mouse) event: suppresses the browser's menu and any menu above. */
-  show(event: MouseEvent, list: MaybeEntry[], title?: string | null) {
+  show(event: MouseEvent, list: MenuSource, title?: string | null) {
     if (!this.#open({ x: event.clientX, y: event.clientY }, "point", list, title)) return;
     event.preventDefault();
     event.stopPropagation();
   }
 
   /** At a point with no event left, e.g. after an await or from a keyboard shortcut. */
-  showAt(x: number, y: number, list: MaybeEntry[], title?: string | null) {
+  showAt(x: number, y: number, list: MenuSource, title?: string | null) {
     this.#open({ x, y }, "point", list, title);
   }
 
   /** Hung off an element, a "…" button's menu. */
   showFor(
     element: HTMLElement,
-    list: MaybeEntry[],
+    list: MenuSource,
     title?: string | null,
     placement: Placement = "bottom-start",
   ) {
@@ -145,7 +151,7 @@ class MenuState {
   close(version?: number) {
     if (version !== undefined && version !== this.version) return;
     this.open = false;
-    this.entries = [];
+    this.#source = () => [];
     this.title = null;
   }
 }

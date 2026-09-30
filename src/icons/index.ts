@@ -3,6 +3,12 @@
 // `Icon` suffix, as Phosphor's are. `purr()` rewrites imports from here into per-file ones.
 export * from "phosphor-svelte";
 
+import type { Component } from "svelte";
+import type { IconComponentProps } from "phosphor-svelte";
+
+/** Any icon from here, for a prop or a table that names one. */
+export type IconComponent = Component<IconComponentProps>;
+
 export { default as DistributeHorizontal } from "./DistributeHorizontal.svelte";
 export { default as DistributeHorizontalIcon } from "./DistributeHorizontal.svelte";
 export { default as DistributeVertical } from "./DistributeVertical.svelte";

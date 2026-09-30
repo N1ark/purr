@@ -8,10 +8,13 @@
     /** What the armed button says ("Click to confirm"). */
     confirmLabel: string;
     onconfirm: () => void;
-    variant?: "default" | "ghost" | "danger";
+    /** `link` for an inline action in running text ("Undo (keep changes)"). */
+    variant?: "default" | "ghost" | "danger" | "link";
     size?: "sm" | "md" | "lg";
     /** Milliseconds before an armed button disarms. */
     timeout?: number;
+    /** Armed, waiting for the second press; bind it to arm from a shortcut too. */
+    armed?: boolean;
     /** The idle content. */
     children: Snippet;
   }
@@ -22,31 +25,32 @@
     variant = "danger",
     size = "md",
     timeout = 4000,
+    armed = $bindable(false),
     type = "button",
     class: extra,
     children,
     ...rest
   }: Props = $props();
 
-  let armed = $state(false);
-  let timer: ReturnType<typeof setTimeout> | undefined;
-
   function disarm() {
-    clearTimeout(timer);
     armed = false;
   }
 
   function click() {
     if (!armed) {
       armed = true;
-      timer = setTimeout(disarm, timeout);
       return;
     }
     disarm();
     onconfirm();
   }
 
-  $effect(() => disarm);
+  // However it was armed, it disarms by itself.
+  $effect(() => {
+    if (!armed) return;
+    const timer = setTimeout(disarm, timeout);
+    return () => clearTimeout(timer);
+  });
 </script>
 
 <button
@@ -71,5 +75,11 @@
     background: var(--danger);
     border-color: var(--danger);
     color: var(--on-danger);
+  }
+  /* A link arms by turning red, not by growing a fill around the words. */
+  .btn--link.is-armed,
+  .btn--link.is-armed:hover:not(:disabled) {
+    background: none;
+    color: var(--danger);
   }
 </style>

@@ -1,31 +1,5 @@
 <script lang="ts" module>
-  import type { Component } from "svelte";
-
-  export interface PaletteItem {
-    id: string;
-    label: string;
-    /** Muted text after the label, matched one tier below it. */
-    detail?: string;
-    icon?: Component<any>;
-    iconProps?: Record<string, unknown>;
-    /** Tints the icon: a channel's or a tag's colour. */
-    iconColor?: string;
-    /** A shortcut hint, rendered by `Kbd`. */
-    hint?: string;
-    /** More text to match on, never shown. */
-    keywords?: readonly string[];
-    /** Left out of the results. */
-    disabled?: boolean;
-    /** What choosing it does; the event says whether ⌘ was held (open in a new window). */
-    run?: (event: KeyboardEvent | MouseEvent) => void;
-  }
-
-  export interface RowState {
-    /** Matched indices in the field that matched: the label (`field` 0) or the detail (1). */
-    indices: number[];
-    field: number;
-    active: boolean;
-  }
+  export type { PaletteItem, RowState } from "./types";
 </script>
 
 <script lang="ts" generics="T extends PaletteItem">
@@ -40,6 +14,7 @@
   import Highlight from "./Highlight.svelte";
   import Kbd from "./Kbd.svelte";
   import Modal from "./Modal.svelte";
+  import type { PaletteItem, RowState } from "./types";
   import VirtualList from "./VirtualList.svelte";
 
   interface Props {
@@ -290,6 +265,10 @@
   .label {
     flex: 0 1 auto;
     font-weight: 500;
+  }
+  /* The hint sits at the row's end, with or without a detail between. */
+  .option > :global(.kbd) {
+    margin-left: auto;
   }
   .detail {
     flex: 1 1 0;

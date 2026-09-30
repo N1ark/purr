@@ -137,6 +137,12 @@
   border-color: var(--theme);
   color: var(--on-accent);
 }
+/* A shortcut hint on the accent fill ("Save ⌘↩"): a grey key cap would read as a hole in it. */
+.btn--primary kbd {
+  background: color-mix(in srgb, currentColor 18%, transparent);
+  box-shadow: none;
+  color: inherit;
+}
 
 .btn--danger {
   color: var(--danger);

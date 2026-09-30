@@ -1,10 +1,11 @@
 <script lang="ts" module>
-  export type Presence = "active" | "idle" | "offline";
+  export type { Presence } from "./types";
 </script>
 
 <script lang="ts">
   // Presence: green when active, amber when idle, nothing when offline. Set `--ring-bg` on the
   // surface behind it so the cut-out ring matches. Rendered once per row: keep it bare.
+  import type { Presence } from "./types";
 
   interface Props {
     state: Presence;

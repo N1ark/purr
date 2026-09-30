@@ -9,9 +9,10 @@
 
   let { checked = $bindable(), label, disabled = false, onchange }: Props = $props();
 
+  // With `onchange` the caller owns the state, so a save that fails leaves the switch where it was.
   function toggle() {
-    checked = !checked;
-    onchange?.(checked);
+    if (onchange) onchange(!checked);
+    else checked = !checked;
   }
 </script>
 

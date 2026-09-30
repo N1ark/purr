@@ -46,6 +46,18 @@ describe("the menu singleton", () => {
     expect(e.defaultPrevented).toBe(false);
   });
 
+  it("reads a builder, and drops what it leaves out", () => {
+    menu.showAt(0, 0, () => [item("a"), false, "separator"]);
+    expect(menu.entries).toEqual([item("a")]);
+    menu.close();
+    expect(menu.entries).toEqual([]);
+  });
+
+  it("does not open for a builder with nothing to show", () => {
+    menu.showAt(0, 0, () => [false]);
+    expect(menu.open).toBe(false);
+  });
+
   it("ignores a close meant for the menu it replaced", () => {
     menu.showAt(0, 0, [item("a")]);
     const old = menu.version;

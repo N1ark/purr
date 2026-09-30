@@ -66,9 +66,11 @@ export class Updater<I extends UpdateInfo = UpdateInfo> {
     if (this.stage === "ready") return this.info;
     const now = Date.now();
     const interval = this.#options.interval ?? CHECK_INTERVAL;
+    // `start`'s timer fires one interval after the first check began, a little before it ended.
+    const slack = interval / 10;
     if (
       !manual &&
-      (this.#options.enabled?.() === false || !dueForCheck(this.checkedAt, now, interval))
+      (this.#options.enabled?.() === false || !dueForCheck(this.checkedAt, now + slack, interval))
     ) {
       return null;
     }

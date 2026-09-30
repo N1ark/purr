@@ -33,6 +33,20 @@ describe("noteLines", () => {
   it("summarises without the headings", () => {
     expect(noteSummary(notes, 2)).toEqual(["A thing that wraps", "Another"]);
   });
+
+  it("reads a bullet however it is marked", () => {
+    expect(noteLines("- One\n* Two\n+ Three").map((l) => l.text)).toEqual(["One", "Two", "Three"]);
+  });
+
+  it("shows no more than it is asked to, and nothing for no notes", () => {
+    const many = Array.from({ length: 20 }, (_, i) => `- ${i}`).join("\n");
+    expect(noteLines(many, 3).map((l) => l.text)).toEqual(["0", "1", "2"]);
+    expect(noteLines("\n  \n")).toEqual([]);
+  });
+
+  it("does not let the headings use up a summary's lines", () => {
+    expect(noteSummary("# A\n## B\n### C\n\n- The only bullet", 2)).toEqual(["The only bullet"]);
+  });
 });
 
 describe("Updater", () => {

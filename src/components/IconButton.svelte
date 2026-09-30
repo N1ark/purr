@@ -3,7 +3,7 @@
   // these never carry visible text. The icon inherits the glyph size, so it needs no `size`.
   import type { Snippet } from "svelte";
   import type { HTMLButtonAttributes } from "svelte/elements";
-  import { tooltip, type TooltipContent } from "../actions/tooltip";
+  import { tooltip, type TooltipSource } from "../actions/tooltip";
 
   interface Props extends Omit<HTMLButtonAttributes, "children"> {
     label: string;
@@ -17,8 +17,8 @@
     pressed?: boolean;
     /** A shortcut shown in the tooltip after the label, in `keys` notation ("Mod+K"). */
     shortcut?: string;
-    /** Tooltip when it should differ from the label (text, `{ text, hint }`); `false` for none. */
-    tip?: TooltipContent;
+    /** Tooltip when it differs from the label: text, `{ text, hint }` or a function; `false` for none. */
+    tip?: TooltipSource;
     disabled?: boolean;
     onclick?: (e: MouseEvent & { currentTarget: HTMLButtonElement }) => void;
     children: Snippet;

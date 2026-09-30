@@ -17,6 +17,7 @@ describe("draggedSize", () => {
     expect(draggedSize(200, -5000, { side: "left" })).toBe(140);
     expect(draggedSize(200, 5000, { side: "left" })).toBe(520);
     expect(draggedSize(200, 5000, { side: "left", max: 300 })).toBe(300);
+    expect(draggedSize(200, -5000, { side: "left", min: 180 })).toBe(180);
   });
 
   it("rounds, so a fractional pointer cannot make a fractional pane", () => {

@@ -79,30 +79,50 @@ function hide(target: HTMLElement) {
   if (owner === target) hideAny();
 }
 
+/** Every node with a tooltip, and how to read its content. */
+const sources = new WeakMap<HTMLElement, () => TooltipContent>();
+let listening = false;
+
+function enter(e: Event) {
+  const node = e.target as HTMLElement;
+  const read = sources.get(node);
+  const content = read?.();
+  if (content) show(node, content);
+}
+
+// Only a keyboard focus asks: focus given back by a closing dialog is not a question.
+function focus(e: Event) {
+  if ((e.target as HTMLElement).matches?.(":focus-visible")) enter(e);
+}
+
+function leave(e: Event) {
+  hide(e.target as HTMLElement);
+}
+
+/**
+ * One set of capturing listeners on the document for every tooltip, rather than six on each node:
+ * a row carrying a button would otherwise pay for them once per row. Capture sees `pointerenter`
+ * and `focus` on every element even though neither bubbles.
+ */
+function listen() {
+  if (listening || typeof document === "undefined") return;
+  listening = true;
+  document.addEventListener("pointerenter", enter, true);
+  document.addEventListener("pointerleave", leave, true);
+  document.addEventListener("focus", focus, true);
+  document.addEventListener("blur", leave, true);
+  document.addEventListener("pointerdown", hideAny, true);
+  document.addEventListener("keydown", hideAny, true);
+}
+
 export const tooltip: Action<HTMLElement, TooltipSource> = (node, source) => {
   let current = source;
   const resolve = () => {
     const got = typeof current === "function" ? current(node) : current;
     return got || null;
   };
-  const enter = () => {
-    const content = resolve();
-    if (content) show(node, content);
-  };
-  // Only a keyboard focus asks: focus given back by a closing dialog is not a question.
-  const focus = () => {
-    if (node.matches(":focus-visible")) enter();
-  };
-  const leave = () => hide(node);
-  const listeners = [
-    ["pointerenter", enter],
-    ["pointerleave", leave],
-    ["pointerdown", leave],
-    ["focus", focus],
-    ["blur", leave],
-    ["keydown", leave],
-  ] as const;
-  for (const [type, fn] of listeners) node.addEventListener(type, fn);
+  listen();
+  sources.set(node, resolve);
   return {
     update(next) {
       current = next;
@@ -113,7 +133,7 @@ export const tooltip: Action<HTMLElement, TooltipSource> = (node, source) => {
     },
     destroy() {
       hide(node);
-      for (const [type, fn] of listeners) node.removeEventListener(type, fn);
+      sources.delete(node);
     },
   };
 };

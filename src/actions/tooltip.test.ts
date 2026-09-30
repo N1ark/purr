@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { tooltip } from "./tooltip";
 
@@ -43,6 +43,16 @@ describe("tooltip", () => {
     tooltip(el, { text: "Undo", hint: "⌘Z" });
     el.dispatchEvent(new Event("pointerenter"));
     expect(bubble()?.querySelector("kbd")?.textContent).toMatch(/⌘Z|Ctrl\+Z/);
+  });
+
+  it("listens on the document, not on each node, and forgets a destroyed one", () => {
+    const el = target();
+    const spy = vi.spyOn(el, "addEventListener");
+    const action = tooltip(el, "Row");
+    expect(spy).not.toHaveBeenCalled();
+    action?.destroy?.();
+    el.dispatchEvent(new Event("pointerenter"));
+    expect(bubble()?.classList.contains("show") ?? false).toBe(false);
   });
 
   it("stays out of the way on a phone", () => {

@@ -24,9 +24,29 @@ describe("moveItem", () => {
 });
 
 describe("topK", () => {
+  const asc = (a: number, b: number) => a - b;
+
   it("keeps the best few in order", () => {
-    expect(topK([5, 1, 4, 2, 3], 3, (a, b) => a - b)).toEqual([1, 2, 3]);
-    expect(topK([1, 2], 0, (a, b) => a - b)).toEqual([]);
+    expect(topK([5, 1, 4, 2, 3], 3, asc)).toEqual([1, 2, 3]);
+    expect(topK([1, 2], 0, asc)).toEqual([]);
+    expect(topK([1, 2], -1, asc)).toEqual([]);
+  });
+
+  it("returns everything when there are fewer than the limit", () => {
+    expect(topK([2, 1], 5, asc)).toEqual([1, 2]);
+  });
+
+  it("is stable among equals: the first seen wins the place", () => {
+    const items = [
+      { k: 1, tag: "first" },
+      { k: 1, tag: "second" },
+    ];
+    expect(topK(items, 1, (a, b) => a.k - b.k)[0].tag).toBe("first");
+  });
+
+  it("agrees with a full sort over a long list", () => {
+    const items = Array.from({ length: 5000 }, (_, i) => (i * 7919) % 5000);
+    expect(topK(items, 8, asc)).toEqual([...items].sort(asc).slice(0, 8));
   });
 });
 
@@ -47,6 +67,31 @@ describe("lruCache", () => {
     cache.set("bigger", "y", 8);
     expect(cache.has("big")).toBe(false);
     expect(cache.has("bigger")).toBe(true);
+  });
+
+  it("keeps a single entry that is over budget on its own", () => {
+    // Dropping it would mean the cache never holds anything at all.
+    const cache = lruCache<string, string>(10);
+    cache.set("one", "x", 1000);
+    expect(cache.get("one")).toBe("x");
+  });
+
+  it("replaces a re-set key's weight rather than adding to it", () => {
+    const cache = lruCache<string, string>(100);
+    cache.set("a", "x", 90);
+    cache.set("a", "y", 90);
+    cache.set("b", "z", 10);
+    expect(cache.get("a")).toBe("y");
+    expect(cache.get("b")).toBe("z");
+  });
+
+  it("forgets a deleted key, and its weight with it", () => {
+    const cache = lruCache<string, string>(100);
+    cache.set("a", "x", 100);
+    cache.delete("a");
+    cache.set("b", "y", 100);
+    expect(cache.has("a")).toBe(false);
+    expect(cache.has("b")).toBe(true);
   });
 });
 

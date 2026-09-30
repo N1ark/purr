@@ -71,8 +71,22 @@ export function startOfDay(input: TimeInput): number {
   return d.getTime();
 }
 
+const msOf = (input: TimeInput) => (typeof input === "number" ? input : toDate(input).getTime());
+
+/** The last day asked about: a list compares each row with its neighbour, mostly within a day. */
+let dayStart = 0;
+let dayEnd = 0;
+
 export function isSameDay(a: TimeInput, b: TimeInput): boolean {
-  return startOfDay(a) === startOfDay(b);
+  const at = msOf(a);
+  if (!(at >= dayStart && at < dayEnd)) {
+    dayStart = startOfDay(at);
+    const next = new Date(dayStart);
+    next.setDate(next.getDate() + 1);
+    dayEnd = next.getTime();
+  }
+  const other = msOf(b);
+  return other >= dayStart && other < dayEnd;
 }
 
 export interface DayLabels {

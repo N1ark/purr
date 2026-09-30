@@ -1,4 +1,4 @@
-import { readJson, writeJson } from "./storage";
+import { readFlag, readJson, writeFlag, writeJson } from "./storage";
 
 /**
  * A rune that survives a reload: `const open = persisted("app:minimap", true)`, then read and
@@ -17,6 +17,20 @@ export function persisted<T>(
     set value(next: T) {
       value = next;
       writeJson(key, $state.snapshot(next));
+    },
+  };
+}
+
+/** `persisted` for a toggle kept as `"1"`/`"0"`, the shape apps stored their flags in before. */
+export function persistedFlag(key: string, initial: boolean): { value: boolean } {
+  let value = $state(readFlag(key, initial));
+  return {
+    get value() {
+      return value;
+    },
+    set value(next: boolean) {
+      value = next;
+      writeFlag(key, next);
     },
   };
 }

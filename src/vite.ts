@@ -148,8 +148,18 @@ function workspaceRoot(root: string): string {
   }
 }
 
+/**
+ * What `purr()` returns, typed by shape rather than as Vite's `Plugin`: the linked package's own
+ * copy of Vite (and of Rollup under it) is not the app's, and their `Plugin` types do not unify.
+ */
+export interface PurrPlugin {
+  name: string;
+  enforce?: "pre" | "post";
+  [hook: string]: unknown;
+}
+
 /** Wires purr into an app: `plugins: [purr(), svelte()]`. */
-export function purr(options: PurrOptions = {}): Plugin[] {
+export function purr(options: PurrOptions = {}): PurrPlugin[] {
   const weights = options.weights ?? DEFAULT_WEIGHTS;
   const icons = customIcons(readFileSync(join(ICONS_DIR, "index.ts"), "utf8"), ICONS_DIR);
   let phosphorLib = join(PURR_ROOT, "node_modules", "phosphor-svelte", "lib");
@@ -176,7 +186,9 @@ export function purr(options: PurrOptions = {}): Plugin[] {
       const include = new Set<string>();
       if (env.command === "serve")
         for (const file of [...sourceFiles(root), ...sourceFiles(join(PURR_ROOT, "src"))])
-          for (const dep of iconDepsIn(readFileSync(file, "utf8"), lookup)) include.add(dep);
+          for (const dep of iconDepsIn(readFileSync(file, "utf8"), lookup))
+            // An app without its own copy names purr's, or Vite cannot resolve it from the root.
+            include.add(fromPurr.has("phosphor-svelte") ? `purr > ${dep}` : dep);
       return {
         resolve: { dedupe: inApp },
         server: { fs: { allow: [workspaceRoot(root), PURR_ROOT] } },
@@ -214,7 +226,8 @@ export function purr(options: PurrOptions = {}): Plugin[] {
     },
   };
 
-  return [config, iconImports, phosphorWeights];
+  // Spread into plain objects, which (unlike the `Plugin` interface) satisfy `PurrPlugin`.
+  return [{ ...config }, { ...iconImports }, { ...phosphorWeights }];
 }
 
 export default purr;
