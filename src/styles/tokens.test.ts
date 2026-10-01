@@ -87,3 +87,78 @@ describe.each(ACCENTS)("the $label accent", (accent) => {
     );
   });
 });
+
+// What `.tag` and `.ink` compute: the picked colour with its OKLCH lightness clamped, drawn on
+// that colour's own tint (at most 22%) over any surface.
+type Rgb = [number, number, number];
+const toLinear = (c: number) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+const toGamma = (c: number) => (c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055);
+const clip = (c: number) => Math.min(1, Math.max(0, c));
+
+function clampLightness(rgb: Rgb, min: number, max: number): Rgb {
+  const [r, g, b] = rgb.map(toLinear);
+  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
+  const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
+  const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+  const L = Math.min(max, Math.max(min, 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s));
+  const A = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s;
+  const B = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s;
+  const l3 = (L + 0.3963377774 * A + 0.2158037573 * B) ** 3;
+  const m3 = (L - 0.1055613458 * A - 0.0638541728 * B) ** 3;
+  const s3 = (L - 0.0894841775 * A - 1.291485548 * B) ** 3;
+  return [
+    4.0767416621 * l3 - 3.3077115913 * m3 + 0.2309699292 * s3,
+    -1.2684380046 * l3 + 2.6097574011 * m3 - 0.3413193965 * s3,
+    -0.0041960863 * l3 - 0.7034186147 * m3 + 1.707614701 * s3,
+  ].map((c) => clip(toGamma(c))) as Rgb;
+}
+
+const hex = (rgb: Rgb) =>
+  `#${rgb
+    .map((c) =>
+      Math.round(c * 255)
+        .toString(16)
+        .padStart(2, "0"),
+    )
+    .join("")}`;
+const rgbOf = (colour: string): Rgb =>
+  [1, 3, 5].map((i) => parseInt(colour.slice(i, i + 2), 16) / 255) as Rgb;
+const expand = (colour: string) =>
+  colour.length === 4 ? `#${[...colour.slice(1)].map((c) => c + c).join("")}` : colour;
+
+describe.each(THEMES)("text in any picked colour on %s", (theme) => {
+  const palette = PALETTE[theme];
+  const min = Number(palette["--ink-min"]);
+  const max = Number(palette["--ink-max"]);
+  const steps = [0, 1, 2, 3, 4, 5, 6, 7].map((i) => i / 7);
+
+  it("stays AA on its own tint over every surface", () => {
+    let worst = Infinity;
+    for (const r of steps)
+      for (const g of steps)
+        for (const b of steps) {
+          const pick: Rgb = [r, g, b];
+          const ink = hex(clampLightness(pick, min, max));
+          for (const page of ["--bg", "--bg2", "--bg3"]) {
+            const under = rgbOf(expand(palette[page]));
+            const tint = hex(under.map((c, i) => 0.22 * pick[i] + 0.78 * c) as Rgb);
+            worst = Math.min(worst, contrastRatio(ink, tint));
+          }
+        }
+    expect(worst).toBeGreaterThanOrEqual(AA_TEXT);
+  });
+
+  it("keeps a glyph in that colour 3:1 against every surface", () => {
+    const markMin = Number(palette["--mark-min"]);
+    const markMax = Number(palette["--mark-max"]);
+    let worst = Infinity;
+    for (const r of steps)
+      for (const g of steps)
+        for (const b of steps) {
+          const mark = hex(clampLightness([r, g, b], markMin, markMax));
+          for (const page of ["--bg", "--bg2", "--bg3", "--bg4"])
+            worst = Math.min(worst, contrastRatio(mark, expand(palette[page])));
+        }
+    expect(worst).toBeGreaterThanOrEqual(AA_NON_TEXT);
+  });
+});

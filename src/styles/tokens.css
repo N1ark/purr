@@ -17,6 +17,13 @@
   --code-bg: #f6f6f6;
   /* Code inside a sentence: a shade off the page, not a block's depth. */
   --code-inline-bg: #efefef;
+  /* Text in a picked colour (`.tag`, `.ink`) keeps its hue and chroma, its OKLCH lightness held
+     inside these bounds: AA on its own tint over any surface, for every sRGB colour. */
+  --ink-min: 0;
+  --ink-max: 0.41;
+  /* The same for a glyph in a picked colour (`.ink-mark`): 3:1 against any surface. */
+  --mark-min: 0;
+  --mark-max: 0.56;
   /* What a raised sheet, a `.btn` and a `.field-input` are painted with. */
   --surface: var(--bg);
   --control-bg: var(--bg);
@@ -159,6 +166,10 @@ html.dark {
   --faint: #5c5c5c;
   --code-bg: #0b0b0c;
   --code-inline-bg: #222;
+  --ink-min: 0.78;
+  --ink-max: 1;
+  --mark-min: 0.62;
+  --mark-max: 1;
   --surface: var(--bg2);
   --control-bg: var(--bg3);
   --control-hover: var(--bg4);

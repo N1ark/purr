@@ -358,8 +358,10 @@ select.field-input {
   font-size: var(--fs-micro);
   font-weight: 550;
   line-height: 1.5;
-  /* Mostly the tag's own colour: a saturated pick should stay saturated. */
-  color: color-mix(in oklab, var(--tag, var(--muted)) 85%, var(--color2));
+  /* Its own hue and chroma, lightness clamped to stay readable (`--ink-*`); the mix is for
+     engines without relative colours. */
+  color: color-mix(in oklab, var(--tag, var(--muted)) 50%, var(--color2));
+  color: oklch(from var(--tag, var(--muted)) clamp(var(--ink-min), l, var(--ink-max)) c h);
   white-space: nowrap;
 }
 /* Furniture rather than content: "BOT", "you", "built-in". */
@@ -367,6 +369,17 @@ select.field-input {
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+/* Text in a picked colour, `--c`, kept readable the way a tag's is. */
+.ink {
+  color: color-mix(in oklab, var(--c) 50%, var(--color2));
+  color: oklch(from var(--c) clamp(var(--ink-min), l, var(--ink-max)) c h);
+}
+/* A glyph in a picked colour: looser, since an icon needs 3:1 where text needs 4.5:1. */
+.ink-mark {
+  color: color-mix(in oklab, var(--c) 70%, var(--color2));
+  color: oklch(from var(--c) clamp(var(--mark-min), l, var(--mark-max)) c h);
 }
 
 /* A capsule toggle ("Unread", "Archived"). */

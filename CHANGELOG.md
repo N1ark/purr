@@ -9,8 +9,11 @@ turns the Unreleased section into a dated one and tags it.
 
 ### Changed
 
-- Tags keep their own colour: the text is mostly the tag's hue (85%, was 60%) on a stronger
-  tint, so a saturated pick stays saturated.
+- Text in a picked colour stays readable whatever the colour: `.tag` and the new `.ink` (text in
+  `--c`) keep the colour's hue and chroma and clamp its OKLCH lightness to `--ink-min`/`--ink-max`,
+  which hold AA on the colour's own tint over every surface for any sRGB colour; `.ink-mark` does
+  the same for glyphs at 3:1 (`--mark-min`/`--mark-max`). A test checks both across the colour
+  space. Tags are no longer washed toward the text colour, so a saturated pick stays saturated.
 - Inline code everywhere (any `code` outside a `pre`) has one style on the new
   `--code-inline-bg`, a shade off the page; only code blocks keep the near-black `--code-bg`.
   Apps can delete their own inline-code rules.
