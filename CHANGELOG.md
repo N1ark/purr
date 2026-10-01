@@ -7,6 +7,49 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+### Changed
+
+- **Breaking:** `styles.css` no longer assumes an app's fixed window, so a website can use purr.
+  The rules that did moved to a new `purr/shell.css`: `html, body { height: 100%; overflow:
+hidden }`, `#app { height: 100% }`, chrome (`button`, `kbd`, `time`, `label`, the ARIA
+  roles) not selectable with `.md`/inputs/`.selectable` opting back in, and `body.mobile`'s
+  no-select, no-callout, no-overscroll. **Apps: add `import "purr/shell.css";` right after
+  `import "purr/styles.css";`** in `main.ts`; nothing else changes.
+- The thin scrollbars apply to scrolling panes only (`body *`); the page's own scrollbar is the
+  platform's, overlay on macOS. No difference inside an app's shell.
+- `.unselectable` is a class of its own in `classes.css`, in a page or a shell.
+- `applyTheme({ storageKey })` stores the mode too, and `bootTheme` honours it: a `system` choice
+  is resolved afresh at boot instead of repeating what the system was last time.
+- `Modal` (and so `Lightbox`, dialogs, palettes) holds the page still while open (`lockScroll`):
+  in a page that scrolls, the wheel no longer moves the page behind the scrim.
+- `.md` headings take their spacing and weight from `--md-heading-before`,
+  `--md-heading-after` and `--md-heading-weight`; the defaults are what they were.
+- `Tag` takes `pressed` with `onclick`: a filter that is on, as `aria-pressed` and ringed in its
+  own ink.
+
+### Added
+
+- Server rendering: every module imports, and every component renders, under Node
+  (`src/ssr.test.ts` holds them to it).
+- `ThemeScript` and `themeScript(key)`: `bootTheme` as an inline `<head>` script, for a
+  server-rendered page to paint the stored or system theme before the first frame.
+  `storedThemeMode(key)` reads the choice back; `liveTheme` is the painted theme as a rune
+  (`liveTheme.current`, `liveTheme.dark`). `readStoredTheme` is exported.
+- `Callout`: an aside in running text, tinted by `tone` or `color`, with an optional `title` and
+  `icon` (leading the title, or in the corner). Tuned by `--callout-tint`, `--callout-pad`,
+  `--callout-border`, `--callout-shadow`.
+- `TableOfContents`: headings as a nested rail of links, with `current` and `onselect`;
+  `headingsIn(root)` reads them off rendered HTML (naming unnamed headings), `tocRows` is the
+  layout, `uniqueSlug` the naming.
+- `Heading`: a heading that links to itself, `#` in the margin on hover.
+- `FootnoteRef` and `Footnote`: a note's mark and its text, linked both ways.
+- `Masonry`: items of mixed heights in level columns (`packColumns`, `columnCount`), with CSS
+  columns standing in until it has measured itself, so it renders on a server.
+- `formatDate(input, { style, locale })`: a calendar date at the precision it was written with
+  (`"2026"`, `"2026-07"`, `"2026-07-20"`), on its own day in every time zone; `isoDate` for the
+  `datetime` attribute.
+- `slugify`, and `lockScroll`.
+
 ## 0.2.1 — 2026-10-01
 
 ### Added

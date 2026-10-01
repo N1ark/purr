@@ -28,6 +28,7 @@ export default defineConfig({ plugins: [purr({ weights: ["regular", "bold"] }), 
 // main.ts, before the app's own CSS
 import "purr/fonts.css";
 import "purr/styles.css";
+import "purr/shell.css"; // a fixed window of panes; a page that scrolls leaves it out
 import { applyTheme } from "purr";
 
 applyTheme({ mode: "system" });
@@ -46,6 +47,29 @@ applyTheme({ mode: "system" });
   Delete
 </Button>
 ```
+
+## Use it in a website
+
+Purr renders on a server too (SvelteKit, prerendered): leave out `shell.css`, so the page
+scrolls, and paint the theme before the first frame with `ThemeScript`.
+
+```svelte
+<!-- +layout.svelte; `purr()` goes before `sveltekit()` in vite.config -->
+<script lang="ts">
+  import "purr/fonts.css";
+  import "purr/styles.css";
+  import { ThemeScript, applyTheme, liveTheme, storedThemeMode } from "purr";
+  import { onMount } from "svelte";
+
+  onMount(() => applyTheme({ mode: storedThemeMode("theme"), storageKey: "theme" }));
+  const toggle = () => applyTheme({ mode: liveTheme.dark ? "light" : "dark", storageKey: "theme" });
+</script>
+
+<ThemeScript storageKey="theme" />
+```
+
+Rendered markdown goes in `.md`; a reading site tunes its rhythm through the `--md-*` properties
+rather than overriding its selectors.
 
 The `purr()` plugin rewrites `purr/icons` imports to one file per icon and cuts the Phosphor
 weights the app doesn't use. Loading `purr/vite` needs Node ≥ 22.18.

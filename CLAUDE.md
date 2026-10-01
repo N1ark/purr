@@ -12,7 +12,9 @@ Goals, in order: consistency, performance, reusability. It is opinionated on pur
   compile it. To work on purr inside an app, `npm link ../purr` there; `npm install` undoes it.
 - `vite.config`: add the `purr()` plugin from `purr/vite` (serves purr's source when linked,
   rewrites `purr/icons` imports to per-file ones, trims unused Phosphor weights).
-- Entry: `import "purr/fonts.css"; import "purr/styles.css";` then the app's own CSS.
+- Entry: `import "purr/fonts.css"; import "purr/styles.css"; import "purr/shell.css";` then the
+  app's own CSS. `shell.css` is the app's fixed window (no document scroll, chrome not
+  selectable); a website (n1ark.com, SvelteKit) leaves it out and renders purr on the server.
 - Imports: components/actions/utilities from `"purr"`, icons from `"purr/icons"`.
 
 ## Setup gotchas
@@ -41,16 +43,16 @@ npm run format   # prettier
 
 ## Layout
 
-| Path              | What it is                                                                                                                         |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `src/index.ts`    | The barrel: every component, action and utility is exported from here                                                              |
-| `src/styles/`     | `tokens.css` (the contract), `base.css`, `classes.css`, `markdown.css`, `code.css`, `fonts.css`; `index.css` imports all but fonts |
-| `src/components/` | Svelte components, PascalCase, one per file                                                                                        |
-| `src/actions/`    | Svelte actions (`use:tooltip`, `use:dragList`, …)                                                                                  |
-| `src/lib/`        | Plain TS utilities and `.svelte.ts` rune state (overlays, menu, theme)                                                             |
-| `src/icons/`      | `index.ts` re-exports all of `phosphor-svelte` plus purr's hand-drawn icons                                                        |
-| `src/vite.js`     | The `purr()` Vite plugin                                                                                                           |
-| `site/`           | The catalog: one `stories/*.ts` per component (controls, events, examples), hand-written pages; not shipped                        |
+| Path              | What it is                                                                                                                                                |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/index.ts`    | The barrel: every component, action and utility is exported from here                                                                                     |
+| `src/styles/`     | `tokens.css` (the contract), `base.css`, `classes.css`, `markdown.css`, `code.css`, `fonts.css`, `shell.css`; `index.css` imports all but fonts and shell |
+| `src/components/` | Svelte components, PascalCase, one per file                                                                                                               |
+| `src/actions/`    | Svelte actions (`use:tooltip`, `use:dragList`, …)                                                                                                         |
+| `src/lib/`        | Plain TS utilities and `.svelte.ts` rune state (overlays, menu, theme)                                                                                    |
+| `src/icons/`      | `index.ts` re-exports all of `phosphor-svelte` plus purr's hand-drawn icons                                                                               |
+| `src/vite.js`     | The `purr()` Vite plugin                                                                                                                                  |
+| `site/`           | The catalog: one `stories/*.ts` per component (controls, events, examples), hand-written pages; not shipped                                               |
 
 ## Releases
 
@@ -74,6 +76,12 @@ npm run format   # prettier
   `.is-on` (engaged toggle), `.is-cursor` (keyboard cursor). `active` is never a selection.
 - **No user-facing strings baked in.** Anything a component shows is a prop; an English default is
   fine, but it must be overridable (dagobert localises everything, Tulip writes British English).
+- **Server-safe.** Purr is also rendered on a server (a prerendered site): nothing touches
+  `window`, `document`, `navigator`, storage or `matchMedia` at module top level or while a
+  component renders; that waits for an effect or an event. `src/ssr.test.ts` renders every
+  component under Node, and a new component gets a line there.
+- **Documents, not just shells.** `base.css`, `classes.css` and `markdown.css` must be right for a
+  page that scrolls; what only a fixed app window wants goes in `shell.css`.
 - **No hard Tauri dependency.** Legit's UI has no `@tauri-apps/api`. Detect Tauri with
   `IS_TAURI` from `lib/env.ts`; anything that needs the API takes it as an argument or imports it
   dynamically behind that check.
