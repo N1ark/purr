@@ -1,0 +1,7 @@
+<path class="line" d="M512 300 L352 512 M512 300 L672 512 M352 512 L512 724"/>
+<path class="line faint" d="M672 512 L512 724"/>
+<rect class="fill" x="452" y="240" width="120" height="120" rx="30"/>
+<rect class="fill" x="292" y="452" width="120" height="120" rx="30"/>
+<rect class="fill" x="612" y="452" width="120" height="120" rx="30"/>
+<rect class="fill" x="452" y="664" width="120" height="120" rx="30"/>
+<rect class="cut" x="642" y="482" width="60" height="60" rx="14"/>

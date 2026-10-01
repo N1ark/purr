@@ -18,6 +18,14 @@ turns the Unreleased section into a dated one and tags it.
   `--code-inline-bg`, a shade off the page; only code blocks keep the near-black `--code-bg`.
   Apps can delete their own inline-code rules.
 
+### Added
+
+- App icons in one style, lifted from legit's: `purr/app-icon` composes the tile, light and marks
+  around an app's glyph (`composeIcon`, plus `composeTray` for the menu-bar template), and
+  `purr-icon <name | glyph.svg> --out src-tauri/icons` writes `icon.svg`, `tray.svg` and the
+  PNGs `tauri icon` needs. The family's glyphs (legit, dagobert, tulip, purr) are in
+  `src/app-icons/`; the site's App icons page edits and previews them.
+
 ## 0.1.0 — 2026-10-01
 
 The first release: what dagobert, legit and Tulip shared, in one place.

@@ -24,6 +24,10 @@
       "types": "./src/vite.d.ts",
       "default": "./src/vite.js"
     },
+    "./app-icon": {
+      "types": "./src/app-icon.d.ts",
+      "default": "./src/app-icon.js"
+    },
     "./styles.css": "./src/styles/index.css",
     "./fonts.css": "./src/styles/fonts.css",
     "./styles/*": "./src/styles/*",
@@ -34,7 +38,8 @@
     }
   },
   "files": [
-    "src"
+    "src",
+    "bin"
   ],
   "scripts": {
     "dev": "vite",
@@ -52,6 +57,7 @@
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
     "@fontsource/fira-code": "^5.3.0",
+    "@resvg/resvg-js": "^2.6.2",
     "phosphor-svelte": "^3.1.0"
   },
   "devDependencies": {
@@ -71,5 +77,8 @@
     "type": "git",
     "url": "git+https://github.com/N1ark/purr.git"
   },
-  "homepage": "https://n1ark.github.io/purr/"
+  "homepage": "https://n1ark.github.io/purr/",
+  "bin": {
+    "purr-icon": "bin/purr-icon.js"
+  }
 }

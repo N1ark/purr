@@ -88,6 +88,15 @@ const WRITTEN: Page[] = [
     ...page("Icons"),
   },
   {
+    slug: "app-icons",
+    title: "App icons",
+    group: "Foundations",
+    description:
+      "One icon style for every app: the tile, the light and the strokes, around each app's glyph.",
+    keywords: ["app icon", "dock", "tray", "menu bar", "logo", "purr-icon", "favicon"],
+    ...page("AppIcons"),
+  },
+  {
     slug: "tooltip",
     title: "tooltip",
     group: "Actions",

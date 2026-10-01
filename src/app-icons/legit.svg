@@ -1,0 +1,6 @@
+<path class="line" d="M430 230 V794"/>
+<path class="line faint" d="M430 400 C430 470 600 450 600 512 C600 574 430 554 430 624"/>
+<circle class="fill" cx="430" cy="300" r="62"/>
+<circle class="fill" cx="430" cy="724" r="62"/>
+<circle class="fill" cx="600" cy="512" r="78"/>
+<circle class="cut" cx="600" cy="512" r="34"/>
