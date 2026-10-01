@@ -42,6 +42,12 @@ body.mobile.keyboard {
 .tooltip.show {
   opacity: 1;
 }
+.tooltip-icon {
+  display: inline-flex;
+  margin-left: var(--gap-2);
+  vertical-align: -0.12em;
+  color: var(--muted);
+}
 .tooltip kbd {
   margin-left: var(--gap-3);
   background: none;

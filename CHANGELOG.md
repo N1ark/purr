@@ -49,6 +49,11 @@ hidden }`, `#app { height: 100% }`, chrome (`button`, `kbd`, `time`, `label`, th
   (`"2026"`, `"2026-07"`, `"2026-07-20"`), on its own day in every time zone; `isoDate` for the
   `datetime` attribute.
 - `slugify`, and `lockScroll`.
+- Speech-bubble icons Phosphor lacks, on its `chat-circle` and at its line weight in every weight:
+  `ChatCircleQuestion`, `ChatCircleExclamation`, `ChatCircleCheck`, `ChatCircleX`,
+  `ChatCircleHeart` and `ChatCircleCode`, to sit beside its `ChatCircleDots` and `ChatCircleText`.
+- A tooltip can end with an icon: `use:tooltip={{ text, icon: ArrowSquareOut }}` (`iconProps` for
+  its props), for a link that leaves the site.
 
 ## 0.2.1 — 2026-10-01
 

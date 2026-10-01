@@ -4,6 +4,7 @@
  * there is no room. Nothing on a phone: there is no hover, and a tap is not a question.
  */
 
+import { mount, unmount, type Component } from "svelte";
 import type { Action } from "svelte/action";
 
 import { formatShortcut } from "../lib/keys";
@@ -16,6 +17,9 @@ export interface TooltipOptions {
   html?: string;
   /** A shortcut hint shown after the text: `{ text: "Undo", hint: "⌘Z" }`. */
   hint?: string;
+  /** An icon after the text, e.g. `ArrowSquareOut` for a link that leaves the site. */
+  icon?: Component<Record<string, unknown>>;
+  iconProps?: Record<string, unknown>;
   placement?: "top" | "bottom";
 }
 
@@ -25,6 +29,8 @@ export type TooltipSource = TooltipContent | ((node: HTMLElement) => TooltipCont
 
 let bubble: HTMLDivElement | null = null;
 let owner: HTMLElement | null = null;
+/** The icon mounted in the bubble, unmounted before the bubble is filled again. */
+let mounted: Record<string, unknown> | null = null;
 
 function ensure(): HTMLDivElement {
   if (bubble?.isConnected) return bubble;
@@ -36,12 +42,22 @@ function ensure(): HTMLDivElement {
 }
 
 function fill(el: HTMLElement, content: string | TooltipOptions) {
+  if (mounted) {
+    void unmount(mounted);
+    mounted = null;
+  }
   if (typeof content === "string") {
     el.textContent = content;
     return;
   }
   if (content.html !== undefined) el.innerHTML = content.html;
   else el.textContent = content.text ?? "";
+  if (content.icon) {
+    const slot = document.createElement("span");
+    slot.className = "tooltip-icon";
+    el.append(slot);
+    mounted = mount(content.icon, { target: slot, props: content.iconProps ?? {} });
+  }
   if (content.hint) {
     const kbd = document.createElement("kbd");
     kbd.textContent = formatShortcut(content.hint);

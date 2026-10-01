@@ -26,5 +26,22 @@ export default defineConfig({
   server: { port: 1430 },
   preview: { port: 1431 },
   build: { outDir: "../dist-site", emptyOutDir: true },
-  test: { root: ".", environment: "jsdom", include: ["src/**/*.test.ts", "site/**/*.test.ts"] },
+  // Two runs: the DOM tests with Svelte's browser build, so components mount; the server-rendering
+  // test with its server build, as SvelteKit renders.
+  test: {
+    root: ".",
+    projects: [
+      {
+        extends: true,
+        resolve: { conditions: ["browser"] },
+        test: {
+          name: "dom",
+          environment: "jsdom",
+          include: ["src/**/*.test.ts", "site/**/*.test.ts"],
+          exclude: ["src/ssr.test.ts"],
+        },
+      },
+      { extends: true, test: { name: "ssr", environment: "node", include: ["src/ssr.test.ts"] } },
+    ],
+  },
 });

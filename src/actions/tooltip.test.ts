@@ -1,5 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import ArrowSquareOut from "phosphor-svelte/lib/ArrowSquareOut";
+
 import { tooltip } from "./tooltip";
 
 function target() {
@@ -36,6 +38,18 @@ describe("tooltip", () => {
     text = "Now";
     el.dispatchEvent(new Event("pointerenter"));
     expect(bubble()?.textContent).toBe("Now");
+  });
+
+  it("puts an icon after the text, and takes it down for the next tooltip", () => {
+    const outside = target();
+    const plain = target();
+    tooltip(outside, { text: "GitHub", icon: ArrowSquareOut });
+    tooltip(plain, "Home");
+    outside.dispatchEvent(new Event("pointerenter"));
+    expect(bubble()?.textContent).toBe("GitHub");
+    expect(bubble()?.querySelector(".tooltip-icon svg")).not.toBeNull();
+    plain.dispatchEvent(new Event("pointerenter"));
+    expect(bubble()?.querySelector("svg")).toBeNull();
   });
 
   it("adds a formatted shortcut hint", () => {

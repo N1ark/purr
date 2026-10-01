@@ -9,6 +9,18 @@ import type { IconComponentProps } from "phosphor-svelte";
 /** Any icon from here, for a prop or a table that names one. */
 export type IconComponent = Component<IconComponentProps>;
 
+export { default as ChatCircleCheck } from "./ChatCircleCheck.svelte";
+export { default as ChatCircleCheckIcon } from "./ChatCircleCheck.svelte";
+export { default as ChatCircleCode } from "./ChatCircleCode.svelte";
+export { default as ChatCircleCodeIcon } from "./ChatCircleCode.svelte";
+export { default as ChatCircleExclamation } from "./ChatCircleExclamation.svelte";
+export { default as ChatCircleExclamationIcon } from "./ChatCircleExclamation.svelte";
+export { default as ChatCircleHeart } from "./ChatCircleHeart.svelte";
+export { default as ChatCircleHeartIcon } from "./ChatCircleHeart.svelte";
+export { default as ChatCircleQuestion } from "./ChatCircleQuestion.svelte";
+export { default as ChatCircleQuestionIcon } from "./ChatCircleQuestion.svelte";
+export { default as ChatCircleX } from "./ChatCircleX.svelte";
+export { default as ChatCircleXIcon } from "./ChatCircleX.svelte";
 export { default as DistributeHorizontal } from "./DistributeHorizontal.svelte";
 export { default as DistributeHorizontalIcon } from "./DistributeHorizontal.svelte";
 export { default as DistributeVertical } from "./DistributeVertical.svelte";
