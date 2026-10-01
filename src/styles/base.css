@@ -89,6 +89,23 @@ textarea::placeholder {
 [role="region"]:focus-visible {
   outline-offset: -2px;
 }
+/* Inside, its own rows and code blocks paint over that ring; a `.focus-frame` wrapper draws it on top. */
+.focus-frame {
+  position: relative;
+}
+.focus-frame > :focus-visible {
+  outline: none;
+}
+.focus-frame:has(> :focus-visible)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-resize);
+  border-radius: var(--radius);
+  outline: 1px solid var(--theme2);
+  outline-offset: -2px;
+  pointer-events: none;
+}
 /* A field shows focus through its own border. */
 input:focus-visible,
 textarea:focus-visible,

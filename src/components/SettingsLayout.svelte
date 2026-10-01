@@ -110,8 +110,10 @@
     gap: var(--sp-2);
     min-width: 0;
     margin: 0 var(--sp-2) var(--sp-2);
-    font-size: var(--fs-xs);
+    font-size: var(--fs-micro);
     font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     color: var(--muted);
   }
   .section {

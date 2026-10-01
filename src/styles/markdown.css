@@ -113,13 +113,13 @@
 }
 .md input[type="checkbox"]::before {
   content: "";
-  width: 72%;
-  height: 72%;
+  width: 60%;
+  height: 60%;
   background: var(--on-accent);
   -webkit-mask: var(--md-tick) center / contain no-repeat;
   mask: var(--md-tick) center / contain no-repeat;
   opacity: 0;
-  --md-tick: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 256'%3E%3Cpath d='M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z'/%3E%3C/svg%3E");
+  --md-tick: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='27.97 60 208.03 152'%3E%3Cpath d='M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z'/%3E%3C/svg%3E");
 }
 .md input[type="checkbox"]:checked {
   border-color: var(--theme);

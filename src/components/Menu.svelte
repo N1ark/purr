@@ -201,8 +201,22 @@
     node.style.top = `${y}px`;
   }
 
-  const has = (list: MenuEntry[], test: (item: MenuItem) => boolean) =>
-    list.some((e) => isItem(e) && test(e));
+  /** Per entry, whether its section (the run between separators and headings) has an icon column. */
+  function sectionsWithIcons(list: MenuEntry[]): boolean[] {
+    const out: boolean[] = [];
+    let start = 0;
+    for (let i = 0; i <= list.length; i++) {
+      const entry = list[i];
+      const boundary =
+        i === list.length || entry === "separator" || (!isItem(entry) && entry.kind === "heading");
+      if (!boundary) continue;
+      const run = list.slice(start, i);
+      const any = run.some((e) => isItem(e) && (!!e.icon || !!e.swatch));
+      for (let j = start; j <= i && j < list.length; j++) out[j] = any;
+      start = i + 1;
+    }
+    return out;
+  }
 </script>
 
 <!-- No gutter is reserved for checks: one sits in the icon slot when the item has no icon, else after the label. -->
@@ -217,7 +231,7 @@
 {/snippet}
 
 {#snippet level(list: MenuEntry[], depth: number, prefix: string)}
-  {@const icons = has(list, (item) => !!item.icon || !!item.swatch)}
+  {@const iconed = sectionsWithIcons(list)}
   <div class="level" data-menu-level={depth} role="none">
     {#each list as entry, i (i)}
       {#if entry === "separator"}
@@ -264,6 +278,7 @@
         {@const sub = !!item.items?.length}
         {@const expanded = sub && openPath[depth] === i}
         {@const decorated = !!item.icon || !!item.swatch}
+        {@const icons = iconed[i]}
         <div class="row" role="none">
           <button
             type="button"
