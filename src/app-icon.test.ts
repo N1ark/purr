@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
 
-import { PURPLE, TILE, composeIcon, composeMark, composeTray } from "./app-icon";
+import { PURPLE, TILE, composeIcon, composeMark, composeTray, squareAround } from "./app-icon";
 
 const GLYPH = `<path class="line" d="M430 230 V794"/><circle class="fill" cx="600" cy="512" r="78"/><circle class="cut" cx="600" cy="512" r="34"/>`;
 
@@ -46,5 +46,21 @@ describe("composeMark", () => {
     expect(svg).toContain(".line{fill:none;stroke:#c264cf");
     expect(svg).toContain(".fill{fill:#c264cf}");
     expect(svg).not.toContain("url(#bg)");
+  });
+});
+
+describe("squareAround", () => {
+  it("centres a square on the bounds, the longer side plus a margin each way", () => {
+    expect(squareAround({ x: 300, y: 200, width: 400, height: 600 }, 0.1)).toEqual({
+      x: 140,
+      y: 140,
+      size: 720,
+    });
+  });
+
+  it("crops a mark to it, and swaps colour in a dark scheme when asked", () => {
+    const svg = composeMark(GLYPH, "#8a2aa2", { box: { x: 10, y: 20, size: 30 }, dark: "#fff" });
+    expect(svg).toContain('viewBox="10 20 30 30"');
+    expect(svg).toContain("@media (prefers-color-scheme:dark){.line{fill:none;stroke:#fff");
   });
 });

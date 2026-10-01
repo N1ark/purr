@@ -49,7 +49,8 @@
     "test": "vitest run",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "release": "node scripts/release.mjs"
+    "release": "node scripts/release.mjs",
+    "favicon": "node bin/purr-icon.js purr --out site/public --favicon --no-icon"
   },
   "peerDependencies": {
     "svelte": "^5.40.0"

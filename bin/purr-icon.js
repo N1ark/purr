@@ -1,27 +1,30 @@
 #!/usr/bin/env node
 // Builds an app's icon in the family style from its glyph:
-//   purr-icon <dagobert|legit|tulip|purr|path/to/glyph.svg> [--out src-tauri/icons] [--tray] [--mark <colour>]
-// Always writes icon.svg and source.png (1024, for `tauri icon`). `--tray` adds tray.svg and
-// tray.png (a 128 menu-bar template); `--mark` adds mark.svg, the glyph alone in that colour.
-import { mkdirSync, existsSync, readFileSync, writeFileSync } from "node:fs";
+//   purr-icon <dagobert|legit|tulip|purr|path/to/glyph.svg> [--out src-tauri/icons]
+//     [--tray] [--mark <colour>] [--favicon] [--no-icon]
+// Writes icon.svg and source.png (1024, for `tauri icon`) unless `--no-icon`. `--tray` adds
+// tray.svg and tray.png (a 128 menu-bar template), `--mark` adds mark.svg (the glyph alone in that
+// colour) and `--favicon` favicon.svg (purple, white in a dark tab bar). Those three are cropped
+// to the glyph itself, so they fill their space.
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Resvg } from "@resvg/resvg-js";
-import { composeIcon, composeMark, composeTray } from "../src/app-icon.js";
+import { PURPLE, composeIcon, composeMark, composeTray, squareAround } from "../src/app-icon.js";
 
 const args = process.argv.slice(2);
+const VALUED = ["--out", "--mark"];
 const option = (name) => {
   const at = args.indexOf(name);
   return at >= 0 ? args[at + 1] : undefined;
 };
 const out = resolve(option("--out") ?? "src-tauri/icons");
 const mark = option("--mark");
-const tray = args.includes("--tray");
-const source = args.find(
-  (a, i) => !a.startsWith("--") && !["--out", "--mark"].includes(args[i - 1]),
-);
+const source = args.find((a, i) => !a.startsWith("--") && !VALUED.includes(args[i - 1]));
 if (!source) {
-  console.error("usage: purr-icon <name | glyph.svg> [--out dir] [--tray] [--mark <colour>]");
+  console.error(
+    "usage: purr-icon <name | glyph.svg> [--out dir] [--tray] [--mark <colour>] [--favicon] [--no-icon]",
+  );
   process.exit(1);
 }
 
@@ -35,21 +38,28 @@ if (!existsSync(path)) {
 const glyph = readFileSync(path, "utf8");
 const png = (svg, width) =>
   new Resvg(svg, { fitTo: { mode: "width", value: width } }).render().asPng();
+const box = squareAround(new Resvg(composeMark(glyph)).getBBox());
 
 mkdirSync(out, { recursive: true });
-const written = ["icon.svg", "source.png"];
-const icon = composeIcon(glyph);
-writeFileSync(join(out, "icon.svg"), icon);
-writeFileSync(join(out, "source.png"), png(icon, 1024));
-if (tray) {
-  const svg = composeTray(glyph);
-  writeFileSync(join(out, "tray.svg"), svg);
-  writeFileSync(join(out, "tray.png"), png(svg, 128));
-  written.push("tray.svg", "tray.png");
+const written = [];
+const write = (file, data) => {
+  writeFileSync(join(out, file), data);
+  written.push(file);
+};
+if (!args.includes("--no-icon")) {
+  const icon = composeIcon(glyph);
+  write("icon.svg", icon);
+  write("source.png", png(icon, 1024));
 }
-if (mark) {
-  writeFileSync(join(out, "mark.svg"), composeMark(glyph, mark));
-  written.push("mark.svg");
+if (args.includes("--tray")) {
+  const tray = composeTray(glyph, box);
+  write("tray.svg", tray);
+  write("tray.png", png(tray, 128));
 }
+if (mark) write("mark.svg", composeMark(glyph, mark, { box }));
+if (args.includes("--favicon"))
+  write("favicon.svg", composeMark(glyph, PURPLE.mid, { box, dark: "#fff" }));
+
 console.log(`purr-icon: wrote ${written.join(", ")} to ${out}`);
-console.log(`next: npx tauri icon ${join(out, "source.png")} -o ${out}`);
+if (written.includes("source.png"))
+  console.log(`next: npx tauri icon ${join(out, "source.png")} -o ${out}`);

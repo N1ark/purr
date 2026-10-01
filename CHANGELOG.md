@@ -7,6 +7,17 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+### Added
+
+- `purr-icon --favicon` writes the glyph alone as `favicon.svg`, purple in a light tab bar and
+  white in a dark one; `--no-icon` skips the app icon when only that is wanted.
+
+### Changed
+
+- Marks, tray icons and favicons are cropped to the glyph itself (measured with resvg) rather
+  than to the whole tile, so they fill the space they're given. `composeMark` takes a `box` and
+  a `dark` colour, and `squareAround` makes the box.
+
 ## 0.2.0 — 2026-10-01
 
 ### Changed

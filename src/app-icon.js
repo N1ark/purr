@@ -76,23 +76,52 @@ export function composeIcon(glyph, options = {}) {
 }
 
 /**
- * The glyph alone in one colour on nothing, cropped to the tile: for a toolbar, a login screen, a
- * favicon beside text. Faint parts stay faint and cut-outs become holes.
+ * @typedef {{ x: number, y: number, size: number }} MarkBox
+ * @typedef {{ box?: MarkBox, dark?: string }} MarkOptions
+ */
+
+/**
+ * A square crop around a glyph's bounds (as measured by resvg's `getBBox`), with a margin.
+ * @param {{ x: number, y: number, width: number, height: number }} bounds
+ * @param {number} [margin] Of the longer side.
+ * @returns {MarkBox}
+ */
+export function squareAround(bounds, margin = 0.06) {
+  const size = Math.max(bounds.width, bounds.height) * (1 + 2 * margin);
+  const round = (/** @type {number} */ n) => Math.round(n * 10) / 10;
+  return {
+    x: round(bounds.x + bounds.width / 2 - size / 2),
+    y: round(bounds.y + bounds.height / 2 - size / 2),
+    size: round(size),
+  };
+}
+
+const inkRules = (/** @type {string} */ color, /** @type {string} */ scope = "") =>
+  Object.entries(GLYPH_CLASSES)
+    .filter(([name]) => name !== "cut")
+    .map(([name, rule]) => `${scope}.${name}{${rule.replaceAll("#fff", color)}}`)
+    .join("");
+
+/**
+ * The glyph alone in one colour on nothing: for a toolbar, a login screen, a favicon. Faint parts
+ * stay faint and cut-outs become holes. Cropped to the tile unless `box` says tighter; `dark` is
+ * the colour to use instead under a dark colour scheme (a favicon's tab bar).
  * @param {string} glyph
  * @param {string} [color]
+ * @param {MarkOptions} [options]
  * @returns {string}
  */
-export function composeMark(glyph, color = "#fff") {
-  const { inset, size, canvas } = TILE;
-  const ink = Object.entries(GLYPH_CLASSES)
-    .filter(([name]) => name !== "cut")
-    .map(([name, rule]) => `.${name}{${rule.replaceAll("#fff", color)}}`)
-    .join("");
+export function composeMark(glyph, color = "#fff", options = {}) {
+  const { canvas } = TILE;
+  const { x, y, size } = options.box ?? { x: TILE.inset, y: TILE.inset, size: TILE.size };
+  const ink =
+    inkRules(color) +
+    (options.dark ? `@media (prefers-color-scheme:dark){${inkRules(options.dark)}}` : "");
   // Cut-outs become holes: drawn black in a mask (inline style beats `.cut{display:none}`).
   const cuts = (glyph.match(CUT_RE) ?? [])
     .map((tag) => tag.replace(/\/>$/, ' style="display:inline;fill:#000"/>'))
     .join("");
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${inset} ${inset} ${size} ${size}" width="128" height="128">
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${x} ${y} ${size} ${size}" width="128" height="128">
   <defs>
     <style>${ink}.cut{display:none}</style>
     <mask id="cuts" maskUnits="userSpaceOnUse" x="0" y="0" width="${canvas}" height="${canvas}">
@@ -107,10 +136,11 @@ export function composeMark(glyph, color = "#fff") {
 /**
  * The menu-bar template: the mark in black, which macOS reads only for its alpha.
  * @param {string} glyph
+ * @param {MarkBox} [box]
  * @returns {string}
  */
-export function composeTray(glyph) {
-  return composeMark(glyph, "#000");
+export function composeTray(glyph, box) {
+  return composeMark(glyph, "#000", { box });
 }
 
 /** A cut-out in a glyph: a self-closing shape whose class list includes `cut`. */
