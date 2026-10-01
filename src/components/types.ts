@@ -3,7 +3,7 @@
  * for `svelte-check` but not for an app's type-aware ESLint, which sees only `*.svelte`'s shim.
  */
 
-import type { Component } from "svelte";
+import type { Component, Snippet } from "svelte";
 
 /** `PresenceDot`, `Avatar`. */
 export type Presence = "active" | "idle" | "offline";
@@ -45,4 +45,23 @@ export interface LightboxItem {
   caption?: string;
   /** A muted line under the caption: a size, a date. */
   detail?: string;
+}
+
+/** One entry of a `SettingsLayout` nav. */
+export interface SettingsSection {
+  id: string;
+  label: string;
+  icon?: Component<any>;
+  /** After the label, pushed to the end: a "built-in" mark, a count. */
+  trailing?: Snippet;
+}
+
+/** A run of `SettingsLayout` sections under one heading; on a phone the groups sit side by side. */
+export interface SettingsGroup {
+  sections: readonly SettingsSection[];
+  /** The heading's text; `heading` replaces it when it needs more than text. */
+  label?: string;
+  heading?: Snippet;
+  /** After the group's sections: an "add" button. */
+  footer?: Snippet;
 }

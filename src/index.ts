@@ -40,12 +40,20 @@ export { default as Menu } from "./components/Menu.svelte";
 export { default as Modal } from "./components/Modal.svelte";
 export { default as Popover } from "./components/Popover.svelte";
 export { default as ResizeEdge } from "./components/ResizeEdge.svelte";
+export { default as SettingsLayout } from "./components/SettingsLayout.svelte";
 export { default as Sheet } from "./components/Sheet.svelte";
 export { default as ShortcutList } from "./components/ShortcutList.svelte";
 export { default as ShortcutsOverlay } from "./components/ShortcutsOverlay.svelte";
 export { default as ToastHost } from "./components/ToastHost.svelte";
 export { default as VirtualList } from "./components/VirtualList.svelte";
-export type { LightboxItem, PaletteItem, Presence, RowState } from "./components/types";
+export type {
+  LightboxItem,
+  PaletteItem,
+  Presence,
+  RowState,
+  SettingsGroup,
+  SettingsSection,
+} from "./components/types";
 
 // ---- actions ----
 export { dragList, dropIndex, type DragListParams } from "./actions/dragList";
@@ -151,6 +159,7 @@ export {
   type OverlayOptions,
 } from "./lib/overlays.svelte";
 export { persisted, persistedFlag } from "./lib/persisted.svelte";
+export { usingKeyboard } from "./lib/modality";
 export {
   MOD,
   applyPlatform,

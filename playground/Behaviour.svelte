@@ -13,8 +13,10 @@
     MOD,
     Menu,
     Modal,
+    PanelHeader,
     Popover,
     ResizeEdge,
+    SettingsLayout,
     Sheet,
     ShortcutsOverlay,
     ToastHost,
@@ -42,6 +44,7 @@
     type MaybeEntry,
     type MenuControl,
     type PaletteItem,
+    type SettingsGroup,
     type UpdateInfo,
   } from "purr";
   import {
@@ -215,7 +218,24 @@
 
   // ---- modals ----
 
-  let modal = $state<null | "titled" | "top" | "bare">(null);
+  let modal = $state<null | "titled" | "top" | "bare" | "settings">(null);
+
+  // ---- settings layout ----
+
+  const SETTINGS: SettingsGroup[] = [
+    {
+      label: "General",
+      sections: [
+        { id: "appearance", label: "Appearance", icon: Gear },
+        { id: "git", label: "Git", icon: GitBranch },
+      ],
+    },
+    {
+      label: "Keyboard",
+      sections: [{ id: "shortcuts", label: "Shortcuts", icon: Keyboard }],
+    },
+  ];
+  let settingsSection = $state("appearance");
   let showHelp = $state(false);
 
   async function ask() {
@@ -459,6 +479,7 @@
       <Button onclick={() => (modal = "titled")}>With a title</Button>
       <Button onclick={() => (modal = "top")}>Top, frosted</Button>
       <Button onclick={() => (modal = "bare")}>Bare pane</Button>
+      <Button onclick={() => (modal = "settings")}><Gear /> Settings layout</Button>
       <Button variant="danger" onclick={ask}>Confirm…</Button>
       <Button onclick={rename}>Prompt…</Button>
       <Button onclick={() => (showHelp = true)}><Keyboard /> Shortcuts <Kbd hint="?" /></Button>
@@ -641,6 +662,18 @@
 {:else if modal === "bare"}
   <Modal label="Pane" title="A pane as a page" bare onclose={() => (modal = null)}>
     <p class="pad">Opaque, edge to edge, no radius: what a phone shows every modal as.</p>
+  </Modal>
+{:else if modal === "settings"}
+  <Modal label="Settings" onclose={() => (modal = null)} width="560px" height="360px">
+    <SettingsLayout groups={SETTINGS} bind:current={settingsSection}>
+      {#snippet header()}
+        <PanelHeader title={settingsSection} onclose={() => (modal = null)} />
+      {/snippet}
+      <p>
+        The sections down the side, the current one in a pane a shade apart; on a phone the nav sits
+        on top.
+      </p>
+    </SettingsLayout>
   </Modal>
 {/if}
 

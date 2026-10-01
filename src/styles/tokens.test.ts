@@ -80,8 +80,9 @@ describe.each(ACCENTS)("the $label accent", (accent) => {
     );
   });
 
-  it.each(THEMES)("shows a mark in the accent against the page on %s", (theme) => {
-    expect(contrastRatio(accent[theme][0], PALETTE[theme]["--bg"])).toBeGreaterThanOrEqual(
+  // Fills may be deep (a filled box is told by its tick); rings and bars are drawn in `--theme2`.
+  it.each(THEMES)("shows a ring in the accent against the page on %s", (theme) => {
+    expect(contrastRatio(accent[theme][1], PALETTE[theme]["--bg"])).toBeGreaterThanOrEqual(
       AA_NON_TEXT,
     );
   });

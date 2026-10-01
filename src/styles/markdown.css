@@ -165,7 +165,6 @@
   background: var(--code-bg);
   font-family: var(--mono);
   font-size: 0.86em;
-  font-variant-ligatures: none;
 }
 
 .md pre {

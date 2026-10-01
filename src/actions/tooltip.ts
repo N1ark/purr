@@ -7,6 +7,7 @@
 import type { Action } from "svelte/action";
 
 import { formatShortcut } from "../lib/keys";
+import { usingKeyboard } from "../lib/modality";
 import { place, toRect } from "../lib/position";
 
 export interface TooltipOptions {
@@ -92,7 +93,8 @@ function enter(e: Event) {
 
 // Only a keyboard focus asks: focus given back by a closing dialog is not a question.
 function focus(e: Event) {
-  if ((e.target as HTMLElement).matches?.(":focus-visible")) enter(e);
+  // WebKit calls a script's focus visible, so check the input too.
+  if (usingKeyboard() && (e.target as HTMLElement).matches?.(":focus-visible")) enter(e);
 }
 
 function leave(e: Event) {

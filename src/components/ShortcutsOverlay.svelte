@@ -16,15 +16,7 @@
   const { groups, onclose, title = "Keyboard shortcuts", or, then, closeLabel }: Props = $props();
 </script>
 
-<Modal
-  label={title}
-  {title}
-  {onclose}
-  {closeLabel}
-  scrim="frosted"
-  width="min(600px, calc(100vw - 32px))"
-  height="min(600px, calc(100vh - 64px))"
->
+<Modal label={title} {title} {onclose} {closeLabel} scrim="frosted">
   <div class="scroll">
     <ShortcutList {groups} {or} {then} />
   </div>

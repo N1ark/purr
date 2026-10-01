@@ -5,6 +5,7 @@
   import type { Snippet } from "svelte";
 
   import { focusables, rememberFocus } from "../actions/focus";
+  import { usingKeyboard } from "../lib/modality";
   import { registerOverlay } from "../lib/overlays.svelte";
   import { place, toRect, type Placement, type Point, type Rect } from "../lib/position";
 
@@ -118,10 +119,10 @@
     if (!autofocus) return;
     const frame = requestAnimationFrame(() => {
       if (!card) return;
-      // The first entry rather than the card: a reader that lands on the card is told a menu
-      // opened and nothing about what is in it.
+      // The first entry when opened from the keyboard: a reader that lands on the card is told a
+      // menu opened and nothing about what is in it. From a click, the card, so no entry looks picked.
       const target =
-        (role === "dialog" ? null : entries()[0]) ??
+        (role === "dialog" || !usingKeyboard() ? null : entries()[0]) ??
         card.querySelector<HTMLElement>("[data-autofocus]") ??
         (role === "dialog"
           ? focusables(card).find((el) => el.matches("input, textarea, select"))

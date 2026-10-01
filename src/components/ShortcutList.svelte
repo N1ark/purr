@@ -36,12 +36,22 @@
 </div>
 
 <style>
+  /* One grid down the whole list, so keys line up across groups and the list is as wide as its longest row. */
   .shortcuts {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-5);
+    display: grid;
+    grid-template-columns: max-content minmax(0, max-content);
+    column-gap: var(--sp-4);
+    row-gap: var(--sp-5);
+  }
+  section,
+  dl,
+  .shortcut {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
   }
   h3 {
+    grid-column: 1 / -1;
     margin: 0 0 var(--sp-2);
     font-size: var(--fs-xs);
     font-weight: 600;
@@ -51,10 +61,7 @@
     margin: 0;
   }
   .shortcut {
-    display: grid;
-    grid-template-columns: minmax(120px, 38%) 1fr;
     align-items: baseline;
-    gap: var(--sp-4);
     padding: var(--sp-1) 0;
   }
   dt {

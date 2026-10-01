@@ -85,6 +85,10 @@ textarea::placeholder {
   outline: 1px solid var(--theme2);
   outline-offset: 1px;
 }
+/* A focusable scroll region fills its pane, so its ring goes inside rather than over the next one. */
+[role="region"]:focus-visible {
+  outline-offset: -2px;
+}
 /* A field shows focus through its own border. */
 input:focus-visible,
 textarea:focus-visible,

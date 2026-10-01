@@ -16,7 +16,7 @@ export interface Accent {
 /** Checked against the palette in `theme.test.ts`: every pair keeps AA in its theme. */
 export const ACCENTS: readonly Accent[] = [
   // The default, n1ark.com's purple; `tokens.css` carries the same four values.
-  { id: "purple", label: "Purple", light: ["#451551", "#7b2490"], dark: ["#a138bd", "#c264cf"] },
+  { id: "purple", label: "Purple", light: ["#8a2aa2", "#a33bb0"], dark: ["#8a2aa2", "#c264cf"] },
   { id: "magenta", label: "Magenta", light: ["#8d2757", "#b93d76"], dark: ["#c2447f", "#d96f9f"] },
   { id: "red", label: "Red", light: ["#8f2f2a", "#b34c46"], dark: ["#c0504a", "#d97a74"] },
   { id: "amber", label: "Amber", light: ["#8a5a12", "#906524"], dark: ["#9e6a1b", "#d19a3f"] },

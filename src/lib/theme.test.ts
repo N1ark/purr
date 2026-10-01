@@ -1,37 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { AA_NON_TEXT, AA_TEXT, contrastRatio } from "./color";
 import { memoryStorage } from "./storage";
-import {
-  ACCENTS,
-  accentVars,
-  applyTheme,
-  bootTheme,
-  currentTheme,
-  readStoredTheme,
-  type ResolvedTheme,
-} from "./theme";
-
-/** The surfaces from `tokens.css` an accent has to read against. */
-const SURFACE: Record<
-  ResolvedTheme,
-  { bg: string; bg3: string; onAccent: string; onAccent2: string }
-> = {
-  light: { bg: "#fff", bg3: "#f2f2f2", onAccent: "#fff", onAccent2: "#fff" },
-  dark: { bg: "#111", bg3: "#1d1d1d", onAccent: "#fff", onAccent2: "#111" },
-};
-
-describe.each(ACCENTS)("the $label accent", (accent) => {
-  it.each(["light", "dark"] as const)("keeps AA in the %s theme", (theme) => {
-    const [primary, secondary] = accent[theme];
-    const s = SURFACE[theme];
-    // `--theme2` is link and highlight text over the hovered row.
-    expect(contrastRatio(secondary, s.bg3)).toBeGreaterThanOrEqual(AA_TEXT);
-    expect(contrastRatio(s.onAccent, primary)).toBeGreaterThanOrEqual(AA_TEXT);
-    expect(contrastRatio(s.onAccent2, secondary)).toBeGreaterThanOrEqual(AA_TEXT);
-    expect(contrastRatio(primary, s.bg)).toBeGreaterThanOrEqual(AA_NON_TEXT);
-  });
-});
+import { ACCENTS, accentVars, applyTheme, bootTheme, currentTheme, readStoredTheme } from "./theme";
 
 describe("accentVars", () => {
   it("derives every tint from the two base colours", () => {

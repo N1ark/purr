@@ -9,6 +9,7 @@
   import { tick } from "svelte";
 
   import { isItem, type MenuAnchor, type MenuEntry, type MenuItem } from "../lib/menu.svelte";
+  import { usingKeyboard } from "../lib/modality";
   import { isMobileLayout } from "../lib/platform";
   import type { Placement } from "../lib/position";
   import ActionSheet from "./ActionSheet.svelte";
@@ -179,28 +180,43 @@
 
   $effect(() => {
     if (!sheet) return;
-    // The popover focuses its first entry itself; the sheet's is done here.
+    // The popover focuses its first entry itself; the sheet's is done here, from the keyboard only.
     const frame = requestAnimationFrame(() => {
       const first = root?.querySelector<HTMLElement>('[data-menu-level="0"]');
-      if (first) itemsOf(first)[0]?.focus({ preventScroll: true });
+      if (first && usingKeyboard()) itemsOf(first)[0]?.focus({ preventScroll: true });
     });
     return () => cancelAnimationFrame(frame);
   });
 
-  /** A submenu opens to the right, or to the left where the window ends, and slides up to fit. */
+  /** Fixed beside its row, since the menu scrolls and would clip it; flips left where the window ends. */
   function fit(node: HTMLElement) {
-    const box = node.getBoundingClientRect();
-    if (box.right > window.innerWidth - 8) node.classList.add("flip");
-    const over = box.bottom - (window.innerHeight - 8);
-    if (over > 0) node.style.top = `${-Math.min(over, box.top - 8)}px`;
+    const row = node.parentElement?.getBoundingClientRect();
+    if (!row) return;
+    const { width, height } = node.getBoundingClientRect();
+    const gap = 4;
+    let x = row.right + gap;
+    if (x + width > window.innerWidth - 8) x = Math.max(8, row.left - gap - width);
+    const y = Math.max(8, Math.min(row.top - gap, window.innerHeight - 8 - height));
+    node.style.left = `${x}px`;
+    node.style.top = `${y}px`;
   }
 
   const has = (list: MenuEntry[], test: (item: MenuItem) => boolean) =>
     list.some((e) => isItem(e) && test(e));
 </script>
 
+<!-- No gutter is reserved for checks: one sits in the icon slot when the item has no icon, else after the label. -->
+{#snippet mark(item: MenuItem)}
+  {#if item.checked}
+    <span class="mark" class:mixed={item.checked === "mixed"}>
+      {#if item.checked === "mixed"}<MinusIcon weight="bold" />{:else}<CheckIcon
+          weight="bold"
+        />{/if}
+    </span>
+  {/if}
+{/snippet}
+
 {#snippet level(list: MenuEntry[], depth: number, prefix: string)}
-  {@const marks = has(list, (item) => item.checked !== undefined)}
   {@const icons = has(list, (item) => !!item.icon || !!item.swatch)}
   <div class="level" data-menu-level={depth} role="none">
     {#each list as entry, i (i)}
@@ -247,6 +263,7 @@
         {@const path = `${prefix}${i}`}
         {@const sub = !!item.items?.length}
         {@const expanded = sub && openPath[depth] === i}
+        {@const decorated = !!item.icon || !!item.swatch}
         <div class="row" role="none">
           <button
             type="button"
@@ -266,19 +283,14 @@
             onclick={() => activate(item, depth, i, path)}
             onpointermove={(e) => hover(e, item, depth, i)}
           >
-            {#if marks}
-              <span class="mark">
-                {#if item.checked === "mixed"}<MinusIcon
-                    weight="bold"
-                  />{:else if item.checked}<CheckIcon weight="bold" />{/if}
-              </span>
-            {/if}
             {#if icons}
               <span class="icon">
                 {#if item.icon}
                   <item.icon {...item.iconProps} />
                 {:else if item.swatch}
                   <span class="dot" style:--c={item.swatch}></span>
+                {:else}
+                  {@render mark(item)}
                 {/if}
               </span>
             {/if}
@@ -286,6 +298,9 @@
               <span class="label truncate">{armed === path ? item.confirm : item.label}</span>
               {#if item.note}<span class="note">{item.note}</span>{/if}
             </span>
+            {#if (decorated || !icons) && item.checked}
+              {@render mark(item)}
+            {/if}
             {#if sub}
               <span class="caret" class:open={expanded && sheet}><CaretRightIcon /></span>
             {:else if item.hint}
@@ -418,7 +433,6 @@
     background: color-mix(in srgb, var(--danger) 14%, transparent);
     color: var(--danger);
   }
-  .mark,
   .icon {
     display: grid;
     place-items: center;
@@ -427,11 +441,13 @@
     font-size: var(--icon-md);
   }
   .mark {
-    width: var(--icon-md);
+    display: grid;
+    place-items: center;
+    flex: none;
     font-size: var(--icon-sm);
     color: var(--theme2);
   }
-  .item[aria-checked="mixed"] .mark {
+  .mark.mixed {
     color: var(--muted);
   }
   .icon {
@@ -470,9 +486,9 @@
     transform: rotate(90deg);
   }
   .submenu {
-    position: absolute;
-    top: calc(-1 * var(--sp-1) - 1px);
-    left: calc(100% + var(--sp-1));
+    position: fixed;
+    top: 0;
+    left: 0;
     z-index: var(--z-menu);
     min-width: var(--menu-min);
     max-width: var(--menu-max);
@@ -480,10 +496,6 @@
     overflow-y: auto;
     padding: var(--sp-1);
     box-shadow: var(--shadow-lg);
-  }
-  .submenu:global(.flip) {
-    left: auto;
-    right: calc(100% + var(--sp-1));
   }
   .inline-sub {
     padding-left: var(--sp-5);

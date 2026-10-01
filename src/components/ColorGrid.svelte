@@ -38,7 +38,7 @@
     onpick,
     label = "Colour",
     columns = 8,
-    shape = "round",
+    shape = "square",
     auto = false,
     autoLabel = "Automatic",
     custom = false,
@@ -62,7 +62,7 @@
   {#each colors as color (color)}
     <button
       type="button"
-      class={["swatch", shape === "square" && "swatch--square"]}
+      class={["swatch", shape === "round" && "swatch--round"]}
       class:is-on={color.toLowerCase() === current}
       style:--c={color}
       aria-label={colorLabel(color)}
@@ -75,7 +75,7 @@
   {#if auto}
     <button
       type="button"
-      class={["swatch extra", shape === "square" && "swatch--square"]}
+      class={["swatch extra", shape === "round" && "swatch--round"]}
       class:is-on={value === null}
       aria-label={autoLabel}
       aria-pressed={value === null}
@@ -87,10 +87,7 @@
   {/if}
   {#if custom}
     <!-- The native panel anchors to its input, so the input lies exactly over the swatch. -->
-    <label
-      class={["swatch extra", shape === "square" && "swatch--square"]}
-      use:tooltip={customLabel}
-    >
+    <label class={["swatch extra", shape === "round" && "swatch--round"]} use:tooltip={customLabel}>
       <PlusIcon weight="bold" />
       <input
         type="color"

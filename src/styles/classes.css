@@ -11,13 +11,6 @@
   white-space: nowrap;
 }
 
-/* For a row that shares its line: `width: 100%` plus a margin is wider than the line. */
-.fills {
-  flex: 1;
-  min-width: 0;
-  width: auto;
-}
-
 /* The hairline beside a heading. */
 .rule {
   flex: 1;
@@ -45,7 +38,6 @@
 .mono {
   font-family: var(--mono);
   font-size: 0.92em;
-  font-variant-ligatures: none;
 }
 .tabular {
   font-variant-numeric: tabular-nums;
@@ -88,6 +80,14 @@
     background: var(--bg3);
     color: var(--color2);
   }
+}
+
+/* For a row that shares its line: `width: 100%` plus a margin is wider than the line. After
+   `.row-item`, which it has to beat. */
+.fills {
+  flex: 1;
+  min-width: 0;
+  width: auto;
 }
 
 /* ---- buttons --------------------------------------------------------------------------- */
@@ -401,21 +401,21 @@ select.field-input {
   }
 }
 
-/* A colour to pick; set `--c`. Round by default, `.swatch--square` for a grid of many. */
+/* A colour to pick; set `--c`. A rounded square; `.swatch--round` for a dot. */
 .swatch {
   flex: none;
   width: var(--swatch);
   height: var(--swatch);
   padding: 0;
   border: none;
-  border-radius: 50%;
+  border-radius: var(--radius-sm);
   background: var(--c, var(--bg3));
   transition:
     transform var(--dur),
     box-shadow var(--dur);
 }
-.swatch--square {
-  border-radius: var(--radius-sm);
+.swatch--round {
+  border-radius: 50%;
 }
 .swatch.is-on,
 .swatch[aria-checked="true"],
@@ -437,6 +437,7 @@ select.field-input {
     transform: rotate(360deg);
   }
 }
+/* Always turning: put it on the icon while busy, never on a button. */
 .spin {
   display: inline-flex;
   animation: spin 0.8s linear infinite;

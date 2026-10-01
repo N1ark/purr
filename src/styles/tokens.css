@@ -23,12 +23,12 @@
   --field-bg: var(--bg2);
   --field-border: var(--border);
 
-  --theme: #451551;
-  --theme2: #7b2490;
-  --theme-soft: #45155114;
-  --theme-mid: #45155133;
-  --selection: #4515512e;
-  --mention: #4515511f;
+  --theme: #8a2aa2;
+  --theme2: #a33bb0;
+  --theme-soft: #8a2aa214;
+  --theme-mid: #8a2aa233;
+  --selection: #8a2aa22e;
+  --mention: #8a2aa21f;
   --on-accent: #fff;
   /* Text on the lighter hover fills (`--theme2`, `--danger`); dark text in the dark theme. */
   --on-accent2: #fff;
@@ -155,7 +155,7 @@ html.dark {
   --color2: #f0f0f0;
   --muted: #888;
   --faint: #5c5c5c;
-  --code-bg: #1c1c1c;
+  --code-bg: #0b0b0c;
   --surface: var(--bg2);
   --control-bg: var(--bg3);
   --control-hover: var(--bg4);
@@ -163,12 +163,12 @@ html.dark {
   --field-bg: var(--bg);
   --field-border: var(--border-strong);
 
-  --theme: #a138bd;
+  --theme: #8a2aa2;
   --theme2: #c264cf;
-  --theme-soft: #a138bd22;
-  --theme-mid: #a138bd4d;
-  --selection: #a138bd59;
-  --mention: #a138bd33;
+  --theme-soft: #8a2aa22e;
+  --theme-mid: #8a2aa266;
+  --selection: #8a2aa266;
+  --mention: #8a2aa244;
   --on-accent: #fff;
   --on-accent2: #111;
   --on-danger: #111;
