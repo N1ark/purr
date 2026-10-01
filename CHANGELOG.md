@@ -7,6 +7,8 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+## 0.1.0 — 2026-10-01
+
 The first release: what dagobert, legit and Tulip shared, in one place.
 
 ### Styling
