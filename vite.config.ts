@@ -18,6 +18,7 @@ export default defineConfig({
     alias: [
       { find: /^purr\/styles\.css$/, replacement: src("styles/index.css") },
       { find: /^purr\/fonts\.css$/, replacement: src("styles/fonts.css") },
+      { find: /^purr\/shell\.css$/, replacement: src("styles/shell.css") },
       { find: /^purr$/, replacement: src("index.ts") },
       { find: /^purr\/(.*)$/, replacement: src("$1") },
     ],

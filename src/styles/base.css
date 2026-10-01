@@ -1,5 +1,6 @@
 /* The reset and the document defaults. Bare elements are reset, not styled: a button that
-   looks like one is `.btn`, a field that looks like one is `.field-input`. */
+   looks like one is `.btn`, a field that looks like one is `.field-input`. Everything here is
+   right for a page that scrolls; an app's fixed shell adds `shell.css` on top. */
 
 *,
 *::before,
@@ -9,11 +10,8 @@
 
 html,
 body {
-  height: 100%;
   margin: 0;
   padding: 0;
-  /* Every app is a shell of panes that scroll themselves; the document never does. */
-  overflow: hidden;
 }
 
 body {
@@ -31,10 +29,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-}
-
-#app {
-  height: 100%;
 }
 
 button,
@@ -120,24 +114,25 @@ input[type="color"]:focus-visible {
   outline: 1px solid var(--theme2);
 }
 
-/* The default scrollbars are far too loud for a dense pane. */
-* {
+/* The default scrollbars are far too loud for a dense pane. Panes only: a page that scrolls
+   keeps the platform's own (overlay on macOS), which `::-webkit-scrollbar` would replace. */
+body * {
   scrollbar-width: thin;
   scrollbar-color: var(--border-strong) transparent;
 }
-::-webkit-scrollbar {
+body ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
-::-webkit-scrollbar-thumb {
+body ::-webkit-scrollbar-thumb {
   background: var(--border-strong);
   border-radius: var(--radius-pill);
 }
-::-webkit-scrollbar-thumb:hover {
+body ::-webkit-scrollbar-thumb:hover {
   background: var(--faint);
 }
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-corner {
+body ::-webkit-scrollbar-track,
+body ::-webkit-scrollbar-corner {
   background: transparent;
 }
 
@@ -187,49 +182,6 @@ kbd {
   }
 }
 
-/* Chrome is for clicking and dragging: in WebKit a selectable row wins the drag gesture, and
-   copying a conversation should not pick up its buttons, shortcuts and timestamps. */
-button,
-kbd,
-time,
-label,
-.unselectable,
-.sr-only,
-[role="button"],
-[role="menuitem"],
-[role="menuitemcheckbox"],
-[role="menuitemradio"],
-[role="option"],
-[role="separator"],
-[role="switch"],
-[role="tab"] {
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-/* What is typed or read opts back in; `.selectable` is a control that is also worth copying. */
-input,
-textarea,
-[contenteditable]:not([contenteditable="false"]),
-.md,
-.selectable {
-  -webkit-user-select: text;
-  user-select: text;
-}
-
-/* Touch: nothing in the shell is a document, so a long press acts instead of selecting. */
-body.mobile {
-  -webkit-user-select: none;
-  user-select: none;
-  -webkit-touch-callout: none;
-  -webkit-tap-highlight-color: transparent;
-  overscroll-behavior: none;
-}
-body.mobile
-  :is(input, textarea, [contenteditable]:not([contenteditable="false"]), .md, .selectable) {
-  -webkit-user-select: text;
-  user-select: text;
-}
 /* Below 16px Safari zooms the page when a field takes focus. */
 body.mobile :is(input, textarea, select) {
   font-size: max(16px, 1em) !important;

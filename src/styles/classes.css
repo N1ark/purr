@@ -29,6 +29,12 @@
   white-space: nowrap;
 }
 
+/* Furniture worth clicking but not copying: a counter, a glyph, a handle. */
+.unselectable {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 .muted {
   color: var(--muted);
 }
@@ -364,6 +370,12 @@ select.field-input {
   color: oklch(from var(--tag, var(--muted)) clamp(var(--ink-min), l, var(--ink-max)) c h);
   white-space: nowrap;
 }
+/* A tag that is a toggle, switched on: ringed in its own ink. Not a deeper tint: past 22% the
+   clamped ink no longer holds AA on it for every colour. */
+.tag.is-on {
+  box-shadow: inset 0 0 0 1.5px currentColor;
+}
+
 /* Furniture rather than content: "BOT", "you", "built-in". */
 .tag--caps {
   font-weight: 600;

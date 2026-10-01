@@ -1,5 +1,6 @@
 import "purr/fonts.css";
 import "purr/styles.css";
+import "purr/shell.css";
 import "./site.css";
 import { mount } from "svelte";
 import App from "./App.svelte";

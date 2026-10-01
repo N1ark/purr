@@ -30,6 +30,7 @@
     },
     "./styles.css": "./src/styles/index.css",
     "./fonts.css": "./src/styles/fonts.css",
+    "./shell.css": "./src/styles/shell.css",
     "./styles/*": "./src/styles/*",
     "./*": {
       "types": "./src/*",
