@@ -3,6 +3,7 @@
   // purr itself.
   import {
     ACCENTS,
+    Button,
     ColorGrid,
     ContextMenuHost,
     DialogHost,
@@ -11,6 +12,7 @@
     Popover,
     Segmented,
     ShortcutsOverlay,
+    Spinner,
     Tag,
     ToastHost,
     accentSwatch,
@@ -38,6 +40,19 @@
   import { pageBySlug } from "./pages";
 
   const page = $derived(pageBySlug(route.path));
+
+  /**
+   * A fetch that stalls gives up after a while rather than leaving the pane blank. "Try again"
+   * reloads: the browser would hand a second import the same stuck request.
+   */
+  function loadPage<T>(load: () => Promise<T>): Promise<T> {
+    return Promise.race([
+      load(),
+      new Promise<T>((_, reject) =>
+        setTimeout(() => reject(new Error("The page took too long to arrive.")), 10_000),
+      ),
+    ]);
+  }
 
   let main = $state<HTMLElement | null>(null);
   let filter = $state<HTMLInputElement | null>(null);
@@ -177,11 +192,18 @@
           <Home />
         {:else if page?.story}
           <Story story={page.story} />
+        {:else if page?.component}
+          <page.component />
         {:else if page?.load}
-          {#await page.load() then module}
+          {#await loadPage(page.load)}
+            <div class="loading"><Spinner size="20px" label="Loading the page" /></div>
+          {:then module}
             <module.default />
           {:catch error}
-            <EmptyState icon={Warning} text="This page didn't load" hint={String(error)} />
+            <EmptyState icon={Warning} text="This page didn't load" hint={String(error)}>
+              {#snippet action()}<Button onclick={() => location.reload()}>Try again</Button
+                >{/snippet}
+            </EmptyState>
           {/await}
         {:else}
           <EmptyState icon={Warning} text="No page at “{route.path}”">
@@ -344,5 +366,11 @@
     .page {
       padding: var(--sp-5) var(--sp-5) calc(var(--sp-5) * 3 + var(--safe-bottom));
     }
+  }
+  .loading {
+    display: grid;
+    place-items: center;
+    padding: var(--sp-5) 0;
+    color: var(--muted);
   }
 </style>
