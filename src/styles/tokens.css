@@ -15,6 +15,8 @@
   --muted: #6e6e6e;
   --faint: #9a9a9a;
   --code-bg: #f6f6f6;
+  /* Code inside a sentence: a shade off the page, not a block's depth. */
+  --code-inline-bg: #efefef;
   /* What a raised sheet, a `.btn` and a `.field-input` are painted with. */
   --surface: var(--bg);
   --control-bg: var(--bg);
@@ -156,6 +158,7 @@ html.dark {
   --muted: #888;
   --faint: #5c5c5c;
   --code-bg: #0b0b0c;
+  --code-inline-bg: #222;
   --surface: var(--bg2);
   --control-bg: var(--bg3);
   --control-hover: var(--bg4);

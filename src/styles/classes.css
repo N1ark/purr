@@ -354,11 +354,12 @@ select.field-input {
   max-width: 100%;
   padding: 0 var(--sp-2);
   border-radius: var(--radius-pill);
-  background: color-mix(in srgb, var(--tag, var(--muted)) 16%, transparent);
+  background: color-mix(in srgb, var(--tag, var(--muted)) 22%, transparent);
   font-size: var(--fs-micro);
   font-weight: 550;
   line-height: 1.5;
-  color: color-mix(in srgb, var(--tag, var(--muted)) 60%, var(--color2));
+  /* Mostly the tag's own colour: a saturated pick should stay saturated. */
+  color: color-mix(in oklab, var(--tag, var(--muted)) 85%, var(--color2));
   white-space: nowrap;
 }
 /* Furniture rather than content: "BOT", "you", "built-in". */

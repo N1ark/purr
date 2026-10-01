@@ -7,6 +7,14 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+### Changed
+
+- Tags keep their own colour: the text is mostly the tag's hue (85%, was 60%) on a stronger
+  tint, so a saturated pick stays saturated.
+- Inline code everywhere (any `code` outside a `pre`) has one style on the new
+  `--code-inline-bg`, a shade off the page; only code blocks keep the near-black `--code-bg`.
+  Apps can delete their own inline-code rules.
+
 ## 0.1.0 — 2026-10-01
 
 The first release: what dagobert, legit and Tulip shared, in one place.

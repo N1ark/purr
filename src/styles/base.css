@@ -152,6 +152,15 @@ a {
   }
 }
 
+/* Code inside a sentence, anywhere; `:where` keeps it as easy to override as a bare element. */
+:where(:not(pre)) > code {
+  padding: 0.1em 0.3em;
+  border-radius: var(--radius-sm);
+  background: var(--code-inline-bg);
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
 kbd {
   display: inline-block;
   padding: 0 var(--gap-2);

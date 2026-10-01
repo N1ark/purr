@@ -160,9 +160,6 @@
 /* ---- code ------------------------------------------------------------------------------ */
 
 .md code {
-  padding: 0.1em 0.3em;
-  border-radius: var(--radius-sm);
-  background: var(--code-bg);
   font-family: var(--mono);
   font-size: 0.86em;
 }
@@ -179,9 +176,6 @@
   overflow-wrap: normal;
 }
 .md pre code {
-  padding: 0;
-  border-radius: 0;
-  background: none;
   font-size: 0.86em;
 }
 
