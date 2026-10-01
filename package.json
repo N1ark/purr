@@ -53,15 +53,21 @@
     "favicon": "node bin/purr-icon.js purr --out site/public --favicon --no-icon"
   },
   "peerDependencies": {
-    "svelte": "^5.40.0"
+    "svelte": "^5.40.0",
+    "@resvg/resvg-js": "^2.6.2"
+  },
+  "peerDependenciesMeta": {
+    "@resvg/resvg-js": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
     "@fontsource/fira-code": "^5.3.0",
-    "@resvg/resvg-js": "^2.6.2",
     "phosphor-svelte": "^3.1.0"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@sveltejs/vite-plugin-svelte": "^6.2.4",
     "@tsconfig/svelte": "^5.0.8",
     "@types/node": "^24.19.0",

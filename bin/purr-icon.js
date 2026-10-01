@@ -9,7 +9,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { Resvg } from "@resvg/resvg-js";
 import { PURPLE, composeIcon, composeMark, composeTray, squareAround } from "../src/app-icon.js";
 
 const args = process.argv.slice(2);
@@ -36,6 +35,19 @@ if (!existsSync(path)) {
   process.exit(1);
 }
 const glyph = readFileSync(path, "utf8");
+
+// An optional peer: apps only need it on the day they rebuild an icon, not on every install.
+let Resvg;
+try {
+  ({ Resvg } = await import("@resvg/resvg-js"));
+} catch {
+  console.error(
+    "purr-icon renders with @resvg/resvg-js, which isn't installed. Add it for now with\n" +
+      "  npm i --no-save @resvg/resvg-js\n" +
+      "(the next npm install takes it away again), then run purr-icon again.",
+  );
+  process.exit(1);
+}
 const png = (svg, width) =>
   new Resvg(svg, { fitTo: { mode: "width", value: width } }).render().asPng();
 const box = squareAround(new Resvg(composeMark(glyph)).getBBox());
