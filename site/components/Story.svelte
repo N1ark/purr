@@ -214,7 +214,19 @@
     <div class="examples">
       {#each story.examples as example (example.title)}
         <figure class="example">
-          <div class="example-canvas">{@render render(exampleArgs(example), quiet)}</div>
+          <div class="example-canvas">
+            {#if story.preview}
+              {@const values = exampleArgs(example)}
+              <story.preview
+                args={values}
+                props={propsFor(values, quiet)}
+                on={quiet}
+                set={() => {}}
+              />
+            {:else}
+              {@render render(exampleArgs(example), quiet)}
+            {/if}
+          </div>
           <figcaption>
             <span>{example.title}</span>
             <Button variant="link" size="sm" onclick={() => tryExample(example)}>Try</Button>

@@ -12,6 +12,10 @@
   --md-h4: 1em;
   --md-indent: 1.5em;
   --md-media-h: none;
+  /* Around a heading, in its own `em`: the space before it is what sets a section apart. */
+  --md-heading-before: calc(var(--md-block) * 2);
+  --md-heading-after: var(--md-block);
+  --md-heading-weight: 650;
 
   line-height: var(--md-line-height);
   /* Nothing a message contains may widen its pane; `break-word` declines wherever the line has
@@ -48,8 +52,8 @@
 .md h4,
 .md h5,
 .md h6 {
-  margin: calc(var(--md-block) * 2) 0 var(--md-block);
-  font-weight: 650;
+  margin: var(--md-heading-before) 0 var(--md-heading-after);
+  font-weight: var(--md-heading-weight);
   line-height: 1.25;
   color: var(--color2);
 }

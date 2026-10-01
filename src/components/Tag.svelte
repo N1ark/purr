@@ -12,6 +12,8 @@
     caps?: boolean;
     title?: string;
     onclick?: (e: MouseEvent) => void;
+    /** With `onclick`, a toggle's state, as `aria-pressed`: a filter that is on. */
+    pressed?: boolean;
     onremove?: () => void;
     removeLabel?: string;
   }
@@ -23,14 +25,19 @@
     caps = false,
     title,
     onclick,
+    pressed,
     onremove,
     removeLabel = "Remove",
   }: Props = $props();
 </script>
 
-<span class={["tag", caps && "tag--caps", onremove && "removable"]} style:--tag={color} {title}>
+<span
+  class={["tag", caps && "tag--caps", onremove && "removable", onclick && pressed && "is-on"]}
+  style:--tag={color}
+  {title}
+>
   {#if onclick}
-    <button type="button" class="name truncate" {onclick}>
+    <button type="button" class="name truncate" aria-pressed={pressed} {onclick}>
       {#if children}{@render children()}{:else}{label}{/if}
     </button>
   {:else}

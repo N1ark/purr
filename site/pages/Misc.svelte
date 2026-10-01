@@ -1,10 +1,32 @@
 <script lang="ts">
-  import { Button, clamp, copyText, errorMessage, lruCache, moveItem, toast, topK } from "purr";
+  import {
+    Button,
+    clamp,
+    copyText,
+    errorMessage,
+    lockScroll,
+    lruCache,
+    moveItem,
+    slugify,
+    toast,
+    topK,
+  } from "purr";
   import { Copy } from "purr/icons";
   import PageHeader from "../components/PageHeader.svelte";
   import Section from "../components/Section.svelte";
 
   let toCopy = $state("npm install github:N1ark/purr");
+
+  let heading = $state("Où est passé l'été ?");
+
+  let release: (() => void) | null = $state(null);
+  function toggleLock() {
+    if (release) {
+      release();
+      release = null;
+    } else release = lockScroll();
+  }
+  $effect(() => () => release?.());
   async function copy() {
     const ok = await copyText(toCopy);
     if (ok) toast.success("Copied");
@@ -170,6 +192,24 @@ cache.get(key); // refreshes it`}
       {/each}
     </tbody>
   </table>
+</Section>
+
+<Section
+  title="slugify"
+  description="A heading's anchor: accents folded, anything that is not a letter or a digit one hyphen. `uniqueSlug` adds `-2`, `-3` past ids the document already uses."
+  code={`slugify(${JSON.stringify(heading)}) // ${JSON.stringify(slugify(heading))}`}
+>
+  <input class="field-input" aria-label="Heading" bind:value={heading} />
+  <span class="s-out">#{slugify(heading)}</span>
+</Section>
+
+<Section
+  title="lockScroll"
+  description="Holds a page that scrolls still while a modal is open (`Modal` takes it itself); counted, so stacked modals release it with the last. In an app's shell it changes nothing."
+  code={`$effect(() => lockScroll());`}
+>
+  <Button onclick={toggleLock}>{release ? "Release" : "Lock"} the page</Button>
+  <span class="muted">{release ? "html is overflow: hidden" : "unlocked"}</span>
 </Section>
 
 <style>

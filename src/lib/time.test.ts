@@ -4,8 +4,10 @@ import {
   formatAbsolute,
   formatClock,
   formatDay,
+  formatDate,
   formatRelative,
   isSameDay,
+  isoDate,
   setTwentyFourHourClock,
   startOfDay,
 } from "./time";
@@ -77,5 +79,28 @@ describe("setTwentyFourHourClock", () => {
     } finally {
       setTwentyFourHourClock(undefined);
     }
+  });
+});
+
+describe("formatDate", () => {
+  it("prints a date at the precision it was written with", () => {
+    expect(formatDate("2026-07-20", { style: "numeric", locale: "en-GB" })).toBe("20/07/2026");
+    expect(formatDate("2026-07", { style: "long", locale: "en-GB" })).toBe("July 2026");
+    expect(formatDate("2026", { locale: "en-GB" })).toBe("2026");
+    expect(formatDate("2026-07-20", { style: "short", locale: "en-GB" })).toBe("20 Jul 2026");
+  });
+
+  it("keeps a calendar date on its day in every zone, and leaves text alone", () => {
+    expect(formatDate("2026-01-01", { style: "numeric", locale: "en-GB" })).toBe("01/01/2026");
+    expect(formatDate("2023 – 2024")).toBe("2023 – 2024");
+    expect(formatDate(new Date(2026, 6, 20, 23, 30), { style: "numeric", locale: "en-GB" })).toBe(
+      "20/07/2026",
+    );
+  });
+
+  it("gives the datetime attribute to match", () => {
+    expect(isoDate(" 2026-07 ")).toBe("2026-07");
+    expect(isoDate("2023 – 2024")).toBe("");
+    expect(isoDate(Date.UTC(2026, 6, 20))).toBe("2026-07-20T00:00:00.000Z");
   });
 });

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { clamp, errorMessage, lruCache, moveItem, topK } from "./util";
+import { clamp, errorMessage, lruCache, moveItem, slugify, topK } from "./util";
 
 describe("clamp", () => {
   it("bounds a value", () => {
@@ -101,5 +101,19 @@ describe("errorMessage", () => {
     expect(errorMessage(new Error("boom"))).toBe("boom");
     expect(errorMessage({ message: "shaped" })).toBe("shaped");
     expect(errorMessage(42)).toBe("42");
+  });
+});
+
+describe("slugify", () => {
+  it("folds accents and joins words with one hyphen", () => {
+    expect(slugify("Où est l'été ?")).toBe("ou-est-l-ete");
+    expect(slugify("  Meta Garbage Collection: Using OCaml's GC  ")).toBe(
+      "meta-garbage-collection-using-ocaml-s-gc",
+    );
+  });
+
+  it("keeps letters outside Latin", () => {
+    expect(slugify("Ἀνθρώπειον 2")).toBe("ανθρωπειον-2");
+    expect(slugify("---")).toBe("");
   });
 });

@@ -4,6 +4,19 @@ export function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
 }
 
+/**
+ * A heading's anchor: `"Où est l'été ?"` → `"ou-est-l-ete"`. Accents are folded rather than
+ * dropped; anything else that is not a letter or a digit becomes one hyphen.
+ */
+export function slugify(text: string): string {
+  return text
+    .normalize("NFKD")
+    .replace(/\p{M}+/gu, "")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 /** A copy with the item at `from` moved to `to` (a position in the list without it). */
 export function moveItem<T>(list: readonly T[], from: number, to: number): T[] {
   if (from === to || from < 0 || from >= list.length) return [...list];

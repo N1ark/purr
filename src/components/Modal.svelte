@@ -6,6 +6,7 @@
 
   import { focusables, focusTrap, rememberFocus } from "../actions/focus";
   import { registerOverlay } from "../lib/overlays.svelte";
+  import { lockScroll } from "../lib/scrollLock";
   import PanelHeader from "./PanelHeader.svelte";
 
   interface Props {
@@ -71,6 +72,8 @@
   $effect(() => registerOverlay(() => onclose()));
 
   $effect(() => rememberFocus());
+
+  $effect(() => lockScroll());
 
   $effect(() => {
     const node = panel;

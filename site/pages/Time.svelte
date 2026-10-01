@@ -5,10 +5,12 @@
     formatAbsolute,
     formatClock,
     formatClockIn,
+    formatDate,
     formatDay,
     formatFull,
     formatRelative,
     isSameDay,
+    isoDate,
     setTwentyFourHourClock,
     startOfDay,
   } from "purr";
@@ -57,6 +59,11 @@
     "Not/AZone",
   ];
   let zone = $state("Asia/Tokyo");
+
+  const DATES = ["2026-07-20", "2026-07", "2026", "2023 – 2024"];
+  let written = $state("2026-07-20");
+  let dateStyle = $state<"numeric" | "short" | "long">("numeric");
+  let dateLocale = $state("en-GB");
 </script>
 
 <PageHeader
@@ -179,6 +186,31 @@ startOfDay(date)      // local midnight, in ms`}
     {#each ZONES as z (z)}<option value={z}>{z}</option>{/each}
   </select>
   {#key clock}<span class="s-out">{formatClockIn(now, zone) ?? "null"}</span>{/key}
+</Section>
+
+<Section
+  title="formatDate"
+  description="A calendar date at the precision it was written with: a year, a month or a day, and a day stays that day in every time zone. Text it cannot read comes back as it was. A server-rendered page passes a `locale`, or the server's and the reader's disagree."
+  code={`formatDate(${JSON.stringify(written)}, { style: "${dateStyle}", locale: "${dateLocale}" }) // ${JSON.stringify(formatDate(written, { style: dateStyle, locale: dateLocale || undefined }))}
+isoDate(${JSON.stringify(written)}) // ${JSON.stringify(isoDate(written))}`}
+>
+  <select class="field-input short" aria-label="Date" bind:value={written}>
+    {#each DATES as d (d)}<option value={d}>{d}</option>{/each}
+  </select>
+  <Segmented
+    label="Style"
+    size="sm"
+    options={[
+      { id: "numeric", label: "numeric" },
+      { id: "short", label: "short" },
+      { id: "long", label: "long" },
+    ]}
+    bind:value={dateStyle}
+  />
+  <input class="field-input short" aria-label="Locale" bind:value={dateLocale} />
+  <span class="s-out"
+    >{formatDate(written, { style: dateStyle, locale: dateLocale || undefined })}</span
+  >
 </Section>
 
 <style>

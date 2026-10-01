@@ -64,6 +64,58 @@ export function formatClockIn(input: TimeInput, timeZone: string): string | null
   }
 }
 
+export type DateStyle = "numeric" | "short" | "long";
+
+export interface DateOptions {
+  /** `20/07/2026`, `20 Jul 2026` or `20 July 2026` (in `en-GB`); `short` by default. */
+  style?: DateStyle;
+  /** A BCP 47 tag; the platform's by default. A server-rendered page fixes one, or the server's
+   *  locale and the reader's disagree and hydration rewrites every date. */
+  locale?: string;
+}
+
+const DATE_FIELDS: Record<DateStyle, Intl.DateTimeFormatOptions> = {
+  numeric: { day: "2-digit", month: "2-digit", year: "numeric" },
+  short: { day: "numeric", month: "short", year: "numeric" },
+  long: { day: "numeric", month: "long", year: "numeric" },
+};
+
+/**
+ * A calendar date, at the precision it was written with: `"2026"` is a year, `"2026-07"` a
+ * month and `"2026-07-20"` a day in every time zone, where `new Date()` would make each of them
+ * a UTC midnight and show the day before west of Greenwich. Anything unreadable is returned as
+ * it was given (`"2023 – 2024"`).
+ */
+export function formatDate(input: TimeInput, options: DateOptions = {}): string {
+  const style = options.style ?? "short";
+  const partial =
+    typeof input === "string" ? /^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/.exec(input.trim()) : null;
+  const date = partial ? new Date(input as string) : toDate(input);
+  if (Number.isNaN(date.getTime())) return String(input);
+  const precision = !partial ? "day" : partial[3] ? "day" : partial[2] ? "month" : "year";
+  const fields = { ...DATE_FIELDS[style] };
+  if (precision !== "day") delete fields.day;
+  if (precision === "year") delete fields.month;
+  const key = `date:${style}:${precision}:${partial ? "utc" : ""}:${options.locale ?? ""}`;
+  let fmt = formats.get(key);
+  if (!fmt) {
+    fmt = new Intl.DateTimeFormat(options.locale, {
+      ...fields,
+      timeZone: partial ? "UTC" : undefined,
+    });
+    formats.set(key, fmt);
+  }
+  return fmt.format(date);
+}
+
+/** The `datetime` attribute for `formatDate`'s input: the date as written, or an ISO string. */
+export function isoDate(input: TimeInput): string {
+  if (typeof input === "string" && /^\d{4}(?:-\d{2}(?:-\d{2})?)?$/.test(input.trim()))
+    return input.trim();
+  const date = toDate(input);
+  return Number.isNaN(date.getTime()) ? "" : date.toISOString();
+}
+
 /** Midnight at the start of the local day: arithmetic will not do, a day is 23 or 25 hours twice a year. */
 export function startOfDay(input: TimeInput): number {
   const d = new Date(toDate(input).getTime());

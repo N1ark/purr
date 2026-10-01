@@ -16,7 +16,9 @@
     isMac,
     isMobile,
     isMobileLayout,
+    liveTheme,
     onThemeChange,
+    storedThemeMode,
     os,
     tooltip,
     type Density,
@@ -148,6 +150,16 @@
         >No change yet: press t.</span
       >{/each}
   </div>
+</Section>
+
+<Section
+  title="liveTheme & storedThemeMode"
+  description="`liveTheme.current` is the painted theme as a rune (`liveTheme.dark` too), for markup that differs by theme; on a server it is light, so what the first paint must get right is styled from `html.dark`. `storedThemeMode(key)` is the mode last applied with that `storageKey` (`system` when none), for a page that has no preferences of its own. `ThemeScript` paints it before anything loads."
+  code={`applyTheme({ mode: storedThemeMode("theme"), storageKey: "theme" });
+liveTheme.current // "${liveTheme.current}"`}
+>
+  <span class="s-out">liveTheme.current = "{liveTheme.current}"</span>
+  <span class="s-out">storedThemeMode("theme") = "{storedThemeMode("theme")}"</span>
 </Section>
 
 <Section

@@ -37,7 +37,10 @@ export interface ThemeOptions {
   /** An `ACCENTS` id, or a custom pair set; omitted means the palette's own purple. */
   accent?: string | Accent;
   density?: Density;
-  /** Mirrors the resolved choice here for `bootTheme` to paint from before preferences load. */
+  /**
+   * Mirrors the choice here, for `bootTheme` or `themeScript` to paint from before anything else
+   * runs; a page with no preferences file of its own reads it back with `storedThemeMode`.
+   */
   storageKey?: string;
 }
 
@@ -112,7 +115,12 @@ function paint(options: ThemeOptions): ResolvedTheme {
   }
 
   if (options.storageKey) {
-    const saved: StoredTheme = { theme, accent: accent?.id, density: options.density };
+    const saved: StoredTheme = {
+      theme,
+      mode: options.mode,
+      accent: accent?.id,
+      density: options.density,
+    };
     writeJson(options.storageKey, saved);
   }
   if (before !== theme) for (const fn of listeners) fn(theme);
@@ -133,7 +141,10 @@ export function applyTheme(options: ThemeOptions): ResolvedTheme {
 }
 
 interface StoredTheme {
+  /** What it resolved to when it was written. */
   theme: ResolvedTheme;
+  /** What was asked for; `system` is resolved again on every boot. */
+  mode?: ThemeMode;
   accent?: string;
   density?: Density;
 }
@@ -145,8 +156,10 @@ export function readStoredTheme(raw: string | null): StoredTheme | null {
   try {
     const parsed = JSON.parse(raw) as Partial<StoredTheme> | null;
     if (parsed?.theme !== "dark" && parsed?.theme !== "light") return null;
+    const mode = parsed.mode;
     return {
       theme: parsed.theme,
+      mode: mode === "system" || mode === "light" || mode === "dark" ? mode : undefined,
       accent: typeof parsed.accent === "string" ? parsed.accent : undefined,
       density:
         parsed.density === "cozy" || parsed.density === "dense" || parsed.density === "compact"
@@ -158,15 +171,84 @@ export function readStoredTheme(raw: string | null): StoredTheme | null {
   }
 }
 
+/** The mode last applied with this `storageKey`; `system` when there is none. */
+export function storedThemeMode(storageKey: string): ThemeMode {
+  const saved = readStoredTheme(readString(storageKey));
+  return saved?.mode ?? saved?.theme ?? "system";
+}
+
 /**
  * Paints before the first frame, when the preferences file has not arrived yet: the last
- * resolved theme from storage, or the system's. Call from `main.ts` before mounting.
+ * choice from storage (`system` resolved afresh), or the system's. Call from `main.ts` before
+ * mounting; a server-rendered page uses `themeScript` instead, which does the same inline.
  */
 export function bootTheme(storageKey: string): ResolvedTheme {
   const saved = readStoredTheme(readString(storageKey));
   return paint({
-    mode: saved?.theme ?? "system",
+    mode: saved?.mode ?? saved?.theme ?? "system",
     accent: saved?.accent,
     density: saved?.density,
   });
+}
+
+/**
+ * The accents as `themeScript` carries them: each one's two pairs, and the tints as templates
+ * (`{1}`, `{2}` for the pair) taken from `accentVars`, so the script cannot drift from it.
+ */
+function accentData() {
+  const marked: Accent = { id: "", label: "", light: ["{1}", "{2}"], dark: ["{1}", "{2}"] };
+  const pairs: Record<string, Pick<Accent, "light" | "dark">> = {};
+  for (const { id, light, dark } of ACCENTS) if (id !== DEFAULT_ACCENT) pairs[id] = { light, dark };
+  return { pairs, tints: { light: accentVars(marked, "light"), dark: accentVars(marked, "dark") } };
+}
+
+type AccentData = ReturnType<typeof accentData>;
+
+// What `bootTheme` does, as a self-contained function `themeScript` writes out as source:
+// it runs before any module has loaded, so it may use nothing outside itself.
+function boot(key: string, accents: AccentData) {
+  try {
+    const root = document.documentElement;
+    let raw: string | null = null;
+    try {
+      raw = localStorage.getItem(key);
+    } catch {
+      // Storage disabled: the system's theme.
+    }
+    let saved: { theme?: string; mode?: string; accent?: string; density?: string } = {};
+    if (raw === "dark" || raw === "light") saved = { theme: raw };
+    else if (raw) saved = JSON.parse(raw) || {};
+    const mode = saved.mode || saved.theme || "system";
+    const dark =
+      mode === "system" ? matchMedia("(prefers-color-scheme: dark)").matches : mode === "dark";
+    root.classList.toggle("dark", dark);
+    if (saved.density === "cozy" || saved.density === "dense")
+      root.classList.add("density-" + saved.density);
+    const accent = saved.accent ? accents.pairs[saved.accent] : undefined;
+    if (accent) {
+      const theme = dark ? "dark" : "light";
+      const [primary, secondary] = accent[theme];
+      const tints: Record<string, string> = accents.tints[theme];
+      for (const name in tints)
+        root.style.setProperty(
+          name,
+          tints[name].split("{1}").join(primary).split("{2}").join(secondary),
+        );
+    }
+  } catch {
+    // Unreadable storage paints the stylesheet's default.
+  }
+}
+
+/**
+ * `bootTheme` as inline script source, for a server-rendered page: put it in a `<script>` in
+ * the `<head>` (or render `ThemeScript`) and the first paint is already in the stored theme.
+ * Reads what `applyTheme({ storageKey })` writes.
+ */
+export function themeScript(storageKey: string): string {
+  // Escaped so the JSON can never close the `<script>` it is written into.
+  const data = (value: unknown) => JSON.stringify(value).replace(/</g, "\\u003c");
+  // Indentation only: the lines stay, so a comment or a missing semicolon still ends where it did.
+  const source = boot.toString().replace(/\n\s+/g, "\n");
+  return `(${source})(${data(storageKey)},${data(accentData())});`;
 }
