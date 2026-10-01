@@ -7,6 +7,8 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+## 0.2.0 — 2026-10-01
+
 ### Changed
 
 - Text in a picked colour stays readable whatever the colour: `.tag` and the new `.ink` (text in
