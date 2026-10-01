@@ -76,16 +76,17 @@ export function composeIcon(glyph, options = {}) {
 }
 
 /**
- * The menu-bar version: the glyph alone in black, cropped to the tile. macOS reads a template image
- * for its alpha, so faint parts stay faint and cut-outs become holes.
+ * The glyph alone in one colour on nothing, cropped to the tile: for a toolbar, a login screen, a
+ * favicon beside text. Faint parts stay faint and cut-outs become holes.
  * @param {string} glyph
+ * @param {string} [color]
  * @returns {string}
  */
-export function composeTray(glyph) {
+export function composeMark(glyph, color = "#fff") {
   const { inset, size, canvas } = TILE;
-  const black = Object.entries(GLYPH_CLASSES)
+  const ink = Object.entries(GLYPH_CLASSES)
     .filter(([name]) => name !== "cut")
-    .map(([name, rule]) => `.${name}{${rule.replaceAll("#fff", "#000")}}`)
+    .map(([name, rule]) => `.${name}{${rule.replaceAll("#fff", color)}}`)
     .join("");
   // Cut-outs become holes: drawn black in a mask (inline style beats `.cut{display:none}`).
   const cuts = (glyph.match(CUT_RE) ?? [])
@@ -93,7 +94,7 @@ export function composeTray(glyph) {
     .join("");
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${inset} ${inset} ${size} ${size}" width="128" height="128">
   <defs>
-    <style>${black}.cut{display:none}</style>
+    <style>${ink}.cut{display:none}</style>
     <mask id="cuts" maskUnits="userSpaceOnUse" x="0" y="0" width="${canvas}" height="${canvas}">
       <rect width="${canvas}" height="${canvas}" fill="#fff"/>${cuts}
     </mask>
@@ -101,6 +102,15 @@ export function composeTray(glyph) {
   <g mask="url(#cuts)">${glyph}</g>
 </svg>
 `;
+}
+
+/**
+ * The menu-bar template: the mark in black, which macOS reads only for its alpha.
+ * @param {string} glyph
+ * @returns {string}
+ */
+export function composeTray(glyph) {
+  return composeMark(glyph, "#000");
 }
 
 /** A cut-out in a glyph: a self-closing shape whose class list includes `cut`. */

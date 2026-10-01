@@ -1,3 +1,4 @@
 dist-site/
 src/icons/index.ts
 package-lock.json
+site/public/favicon.svg

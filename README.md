@@ -1,3 +1,5 @@
+<img src="site/public/favicon.svg" alt="" width="96" height="96" align="right" />
+
 # purr
 
 The shared interface of three Svelte 5 + Tauri 2 apps — [dagobert](https://github.com/N1ark/dagobert),

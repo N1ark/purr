@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
 
-import { PURPLE, TILE, composeIcon, composeTray } from "./app-icon";
+import { PURPLE, TILE, composeIcon, composeMark, composeTray } from "./app-icon";
 
 const GLYPH = `<path class="line" d="M430 230 V794"/><circle class="fill" cx="600" cy="512" r="78"/><circle class="cut" cx="600" cy="512" r="34"/>`;
 
@@ -37,5 +37,14 @@ describe("composeTray", () => {
     expect(mask).toContain(`class="cut" cx="600" cy="512" r="34" style="display:inline;fill:#000"`);
     expect(mask).not.toContain('class="line"');
     expect(mask).not.toContain('class="fill"');
+  });
+});
+
+describe("composeMark", () => {
+  it("draws the glyph alone in the colour asked for", () => {
+    const svg = composeMark(GLYPH, "#c264cf");
+    expect(svg).toContain(".line{fill:none;stroke:#c264cf");
+    expect(svg).toContain(".fill{fill:#c264cf}");
+    expect(svg).not.toContain("url(#bg)");
   });
 });

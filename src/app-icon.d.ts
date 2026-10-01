@@ -18,5 +18,7 @@ export const PURPLE: IconColors;
 
 /** The full icon: tile, light and the glyph (SVG markup in the 1024 space) on the grid. */
 export function composeIcon(glyph: string, options?: IconOptions): string;
+/** The glyph alone in one colour (white by default), cut-outs as holes, cropped to the tile. */
+export function composeMark(glyph: string, color?: string): string;
 /** The menu-bar template: the glyph alone in black, cut-outs as holes, cropped to the tile. */
 export function composeTray(glyph: string): string;
