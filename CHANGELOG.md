@@ -7,6 +7,8 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+## 0.3.0 — 2026-10-01
+
 ### Changed
 
 - **Breaking:** `styles.css` no longer assumes an app's fixed window, so a website can use purr.

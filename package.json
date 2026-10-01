@@ -1,6 +1,6 @@
 {
   "name": "purr",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Shared Svelte 5 components, utilities and styling for N1ark's Tauri apps",
   "type": "module",
   "private": true,
