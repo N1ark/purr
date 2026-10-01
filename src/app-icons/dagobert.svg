@@ -1,7 +1,15 @@
-<path class="line" d="M512 300 L352 512 M512 300 L672 512 M352 512 L512 724"/>
-<path class="line faint" d="M672 512 L512 724"/>
-<rect class="fill" x="452" y="240" width="120" height="120" rx="30"/>
-<rect class="fill" x="292" y="452" width="120" height="120" rx="30"/>
-<rect class="fill" x="612" y="452" width="120" height="120" rx="30"/>
-<rect class="fill" x="452" y="664" width="120" height="120" rx="30"/>
-<rect class="cut" x="642" y="482" width="60" height="60" rx="14"/>
+<path class="thin" d="M 347.0 340.4 L 347.0 419.6"/>
+<path class="thin" d="M 347.0 564.8 L 347.0 644.0"/>
+<path class="thin" d="M 677.0 446.0 L 677.0 538.4"/>
+<path class="thin" d="M 399.8 287.6 C 485.6 287.6, 502.1 393.2, 584.6 393.2"/>
+<path class="thin" d="M 624.2 630.8 C 535.1 630.8, 518.6 736.4, 439.4 736.4"/>
+<path class="thin fill" d="M 347.0 428.7 L 361.0 397.3 L 333.0 397.3 Z"/>
+<path class="thin fill" d="M 347.0 653.1 L 361.0 621.7 L 333.0 621.7 Z"/>
+<path class="thin fill" d="M 677.0 547.5 L 691.0 516.1 L 663.0 516.1 Z"/>
+<path class="thin fill" d="M 593.7 393.2 L 562.3 379.2 L 562.3 407.2 Z"/>
+<path class="thin fill" d="M 430.3 736.4 L 461.7 750.4 L 461.7 722.4 Z"/>
+<rect class="fill" x="294.2" y="234.8" width="106" height="106" rx="23"/>
+<rect class="fill" x="294.2" y="459.2" width="106" height="106" rx="23"/>
+<rect class="fill" x="294.2" y="683.6" width="106" height="106" rx="23"/>
+<rect class="fill" x="624.2" y="340.4" width="106" height="106" rx="23"/>
+<rect class="fill" x="624.2" y="578.0" width="106" height="106" rx="23"/>
