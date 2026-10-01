@@ -17,6 +17,13 @@ const lookup = (name: string) =>
       : null;
 
 describe("rewriteIconImports", () => {
+  it("leaves the same words inside a string alone", () => {
+    const code = `const doc = \`import { Gear } from "${I}";\`;\n  import { X } from "${I}";`;
+    expect(rewriteIconImports(code, lookup)).toBe(
+      `const doc = \`import { Gear } from "${I}";\`;\n  import X from "phosphor-svelte/lib/X";`,
+    );
+  });
+
   it("turns named imports into one default import per icon", () => {
     expect(rewriteIconImports(`import { X, Gear } from "${I}";\nfoo();`, lookup)).toBe(
       `import X from "phosphor-svelte/lib/X"; import Gear from "phosphor-svelte/lib/Gear";\nfoo();`,

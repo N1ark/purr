@@ -1,15 +1,15 @@
+// @ts-check
 /// <reference types="node" />
-// The `purr()` Vite plugin, for an app's `vite.config`. Loaded by Node, so it imports nothing
-// but Node built-ins at runtime and uses no TypeScript beyond erasable type annotations.
+// The `purr()` Vite plugin, for an app's `vite.config`. Plain JavaScript typed by JSDoc (types for
+// apps are in `vite.d.ts`): Node loads it from `node_modules`, where it will not strip types.
 import { existsSync, readdirSync, readFileSync, realpathSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { Plugin } from "vite";
 
-export interface PurrOptions {
-  /** Phosphor weights the app uses; the others are cut from every icon before it compiles. */
-  weights?: string[];
-}
+/** @typedef {import("vite").Plugin} Plugin */
+/** @typedef {import("./vite").PurrOptions} PurrOptions */
+/** @typedef {import("./vite").PurrPlugin} PurrPlugin */
+/** @typedef {(name: string) => string | null} Lookup */
 
 export const DEFAULT_WEIGHTS = ["regular", "bold", "fill"];
 
@@ -22,11 +22,19 @@ const SHARED = ["phosphor-svelte", "@fontsource-variable/inter", "@fontsource/fi
 
 const SOURCE_RE = /\.(?:[cm]?[jt]sx?|svelte)$/;
 const PHOSPHOR_ICON_RE = /[/\\]phosphor-svelte[/\\]lib[/\\][A-Za-z0-9]+\.svelte$/;
-const ICON_IMPORT_RE = /import\s*(type\s+)?\{([^}]*)\}\s*from\s*(["'])purr\/icons\3\s*;?/g;
+// Only a statement at the start of a line: the same words inside a string are left alone.
+const ICON_IMPORT_RE =
+  /^([ \t]*)import\s*(type\s+)?\{([^}]*)\}\s*from\s*(["'])purr\/icons\4\s*;?/gm;
 
 /** Purr's own icons, as `index.ts` exports them: export name → file. */
-export function customIcons(indexSource: string, dir: string): Map<string, string> {
-  const icons = new Map<string, string>();
+/**
+ * @param {string} indexSource
+ * @param {string} dir
+ * @returns {Map<string, string>}
+ */
+export function customIcons(indexSource, dir) {
+  /** @type {Map<string, string>} */
+  const icons = new Map();
   for (const m of indexSource.matchAll(
     /export\s*\{\s*default\s+as\s+(\w+)\s*\}\s*from\s*["']\.\/([\w.-]+\.svelte)["']/g,
   ))
@@ -38,43 +46,56 @@ export function customIcons(indexSource: string, dir: string): Map<string, strin
  * Rewrites `import { A, B as C } from "purr/icons"` into one default import per icon, so dev loads
  * the icons a file uses rather than all of Phosphor. `lookup` gives an icon's module specifier, or
  * null for a name that is not an icon file (a type, `IconContext`), which stays a named import.
+ * @param {string} code
+ * @param {Lookup} lookup
+ * @returns {string | null}
  */
-export function rewriteIconImports(
-  code: string,
-  lookup: (name: string) => string | null,
-): string | null {
+export function rewriteIconImports(code, lookup) {
   if (!code.includes("purr/icons")) return null;
   let changed = false;
-  const out = code.replace(ICON_IMPORT_RE, (whole, typeOnly: string | undefined, list: string) => {
-    if (typeOnly) return whole;
-    const lines: string[] = [];
-    const kept: string[] = [];
-    for (const raw of list.split(",")) {
-      const spec = raw.trim();
-      if (!spec) continue;
-      const m = /^(type\s+)?([\w$]+)(?:\s+as\s+([\w$]+))?$/.exec(spec);
-      const target = m && !m[1] ? lookup(m[2]) : null;
-      if (!m || !target) {
-        kept.push(spec);
-        continue;
+  const out = code.replace(
+    ICON_IMPORT_RE,
+    /** @type {(whole: string, lead: string, typeOnly: string | undefined, list: string) => string} */ (
+      (whole, lead, typeOnly, list) => {
+        if (typeOnly) return whole;
+        /** @type {string[]} */
+        const lines = [];
+        /** @type {string[]} */
+        const kept = [];
+        for (const raw of list.split(",")) {
+          const spec = raw.trim();
+          if (!spec) continue;
+          const m = /^(type\s+)?([\w$]+)(?:\s+as\s+([\w$]+))?$/.exec(spec);
+          const target = m && !m[1] ? lookup(m[2]) : null;
+          if (!m || !target) {
+            kept.push(spec);
+            continue;
+          }
+          lines.push(`import ${m[3] ?? m[2]} from ${JSON.stringify(target)};`);
+        }
+        if (!lines.length) return whole;
+        changed = true;
+        if (kept.length) lines.push(`import { ${kept.join(", ")} } from "purr/icons";`);
+        return lead + lines.join(" ");
       }
-      lines.push(`import ${m[3] ?? m[2]} from ${JSON.stringify(target)};`);
-    }
-    if (!lines.length) return whole;
-    changed = true;
-    if (kept.length) lines.push(`import { ${kept.join(", ")} } from "purr/icons";`);
-    return lines.join(" ");
-  });
+    ),
+  );
   return changed ? out : null;
 }
 
-/** Every Phosphor module a file will import once its `purr/icons` imports are rewritten. */
-export function iconDepsIn(code: string, lookup: (name: string) => string | null): string[] {
-  const deps = new Set<string>();
+/**
+ * Every Phosphor module a file will import once its `purr/icons` imports are rewritten.
+ * @param {string} code
+ * @param {Lookup} lookup
+ * @returns {string[]}
+ */
+export function iconDepsIn(code, lookup) {
+  /** @type {Set<string>} */
+  const deps = new Set();
   for (const m of code.matchAll(/["'](phosphor-svelte\/lib\/\w+)["']/g)) deps.add(m[1]);
   for (const m of code.matchAll(ICON_IMPORT_RE)) {
-    if (m[1]) continue;
-    for (const raw of m[2].split(",")) {
+    if (m[2]) continue;
+    for (const raw of m[3].split(",")) {
       const name = /^([\w$]+)/.exec(raw.trim())?.[1];
       const target = name && !raw.trim().startsWith("type ") ? lookup(name) : null;
       if (target?.startsWith("phosphor-svelte/")) deps.add(target);
@@ -93,8 +114,13 @@ const SKIP_DIRS = new Set([
   ".svelte-kit",
 ]);
 
-/** Source files under `dir`, skipping dependencies and build output. */
-function sourceFiles(dir: string, out: string[] = []): string[] {
+/**
+ * Source files under `dir`, skipping dependencies and build output.
+ * @param {string} dir
+ * @param {string[]} [out]
+ * @returns {string[]}
+ */
+function sourceFiles(dir, out = []) {
   let entries;
   try {
     entries = readdirSync(dir, { withFileTypes: true });
@@ -110,19 +136,29 @@ function sourceFiles(dir: string, out: string[] = []): string[] {
   return out;
 }
 
-/** Cuts the branches of a Phosphor icon that draw weights the app never asks for. */
-export function trimWeights(code: string, weights: readonly string[]): string {
+/**
+ * Cuts the branches of a Phosphor icon that draw weights the app never asks for.
+ * @param {string} code
+ * @param {readonly string[]} weights
+ * @returns {string}
+ */
+export function trimWeights(code, weights) {
   return code
-    .replace(/\{#if weight === "(\w+)"\}[\s\S]*?(?=\{:else)/, (m, w: string) =>
+    .replace(/\{#if weight === "(\w+)"\}[\s\S]*?(?=\{:else)/, (m, /** @type {string} */ w) =>
       weights.includes(w) ? m : "{#if false}",
     )
-    .replace(/\{:else if weight === "(\w+)"\}[\s\S]*?(?=\{:else)/g, (m, w: string) =>
+    .replace(/\{:else if weight === "(\w+)"\}[\s\S]*?(?=\{:else)/g, (m, /** @type {string} */ w) =>
       weights.includes(w) ? m : "",
     );
 }
 
-/** The nearest directory at or above `from` whose `node_modules` holds `pkg`. */
-function findPackage(pkg: string, from: string): string | null {
+/**
+ * The nearest directory at or above `from` whose `node_modules` holds `pkg`.
+ * @param {string} pkg
+ * @param {string} from
+ * @returns {string | null}
+ */
+function findPackage(pkg, from) {
   for (let dir = from; ; dir = dirname(dir)) {
     const candidate = join(dir, "node_modules", pkg);
     if (existsSync(join(candidate, "package.json"))) return realpathSync(candidate);
@@ -130,9 +166,14 @@ function findPackage(pkg: string, from: string): string | null {
   }
 }
 
-/** Vite's own rule for the default `server.fs.allow`, without importing Vite at config time. */
-function workspaceRoot(root: string): string {
-  let fallback: string | null = null;
+/**
+ * Vite's own rule for the default `server.fs.allow`, without importing Vite at config time.
+ * @param {string} root
+ * @returns {string}
+ */
+function workspaceRoot(root) {
+  /** @type {string | null} */
+  let fallback = null;
   for (let dir = root; ; dir = dirname(dir)) {
     const pkg = join(dir, "package.json");
     if (["pnpm-workspace.yaml", "lerna.json"].some((f) => existsSync(join(dir, f)))) return dir;
@@ -149,30 +190,27 @@ function workspaceRoot(root: string): string {
 }
 
 /**
- * What `purr()` returns, typed by shape rather than as Vite's `Plugin`: the linked package's own
- * copy of Vite (and of Rollup under it) is not the app's, and their `Plugin` types do not unify.
+ * Wires purr into an app: `plugins: [purr(), svelte()]`.
+ * @param {PurrOptions} [options]
+ * @returns {PurrPlugin[]}
  */
-export interface PurrPlugin {
-  name: string;
-  enforce?: "pre" | "post";
-  [hook: string]: unknown;
-}
-
-/** Wires purr into an app: `plugins: [purr(), svelte()]`. */
-export function purr(options: PurrOptions = {}): PurrPlugin[] {
+export function purr(options = {}) {
   const weights = options.weights ?? DEFAULT_WEIGHTS;
   const icons = customIcons(readFileSync(join(ICONS_DIR, "index.ts"), "utf8"), ICONS_DIR);
   let phosphorLib = join(PURR_ROOT, "node_modules", "phosphor-svelte", "lib");
   /** Shared packages the app lacks, resolved from purr's own `node_modules` instead. */
-  let fromPurr = new Set<string>();
+  /** @type {Set<string>} */
+  let fromPurr = new Set();
 
-  const lookup = (name: string): string | null => {
+  /** @type {Lookup} */
+  const lookup = (name) => {
     const own = icons.get(name);
     if (own) return own;
     return existsSync(join(phosphorLib, `${name}.svelte`)) ? `phosphor-svelte/lib/${name}` : null;
   };
 
-  const config: Plugin = {
+  /** @type {Plugin} */
+  const config = {
     name: "purr:config",
     config(user, env) {
       const root = resolve(user.root ?? process.cwd());
@@ -183,7 +221,8 @@ export function purr(options: PurrOptions = {}): PurrPlugin[] {
       if (phosphor) phosphorLib = join(phosphor, "lib");
       // Declared up front: the scanner reads imports before they are rewritten, and finding the
       // icons only as the page loads would re-bundle them and reload the page on a cold start.
-      const include = new Set<string>();
+      /** @type {Set<string>} */
+      const include = new Set();
       if (env.command === "serve")
         for (const file of [...sourceFiles(root), ...sourceFiles(join(PURR_ROOT, "src"))])
           for (const dep of iconDepsIn(readFileSync(file, "utf8"), lookup))
@@ -199,14 +238,16 @@ export function purr(options: PurrOptions = {}): PurrPlugin[] {
     async resolveId(id, importer, opts) {
       // The dependency scanner reads source before any transform, so it would crawl the icon
       // barrel into all of Phosphor; the rewritten per-icon imports are discovered instead.
-      if (id === "purr/icons" && (opts as { scan?: boolean }).scan) return { id, external: true };
+      if (id === "purr/icons" && /** @type {{ scan?: boolean }} */ (opts).scan)
+        return { id, external: true };
       const pkg = SHARED.find((p) => id === p || id.startsWith(`${p}/`));
       if (!pkg || !fromPurr.has(pkg)) return null;
       return this.resolve(id, join(PURR_ROOT, "src", "index.ts"), { ...opts, skipSelf: true });
     },
   };
 
-  const iconImports: Plugin = {
+  /** @type {Plugin} */
+  const iconImports = {
     name: "purr:icon-imports",
     enforce: "pre",
     transform(code, id) {
@@ -217,7 +258,8 @@ export function purr(options: PurrOptions = {}): PurrPlugin[] {
   };
 
   // A `load` rather than a transform, so it holds whichever order the svelte plugin is listed in.
-  const phosphorWeights: Plugin = {
+  /** @type {Plugin} */
+  const phosphorWeights = {
     name: "purr:phosphor-weights",
     enforce: "pre",
     load(id) {
