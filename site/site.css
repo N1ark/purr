@@ -1,0 +1,62 @@
+/* Layout helpers the site's pages and previews share; prefixed `s-` so they never read as purr's
+   own classes. Tokens only, like everything else. */
+
+.s-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap-4);
+  min-width: 0;
+}
+.s-row.top {
+  align-items: flex-start;
+}
+.s-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  min-width: 0;
+}
+.s-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--sp-5);
+  width: 100%;
+  min-width: 0;
+}
+.s-box {
+  min-width: 0;
+  padding: var(--sp-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg2);
+}
+.s-label {
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.s-out {
+  font-family: var(--mono);
+  font-size: var(--fs-sm);
+  color: var(--color2);
+  overflow-wrap: anywhere;
+}
+.s-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+.s-table th,
+.s-table td {
+  padding: var(--sp-2) var(--sp-4) var(--sp-2) 0;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: middle;
+}
+.s-table th {
+  font-weight: 600;
+  color: var(--muted);
+}

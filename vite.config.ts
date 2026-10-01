@@ -4,13 +4,16 @@ import { svelte } from "@sveltejs/vite-plugin-svelte";
 import { fileURLToPath } from "node:url";
 import { purr } from "./src/vite";
 
-const src = (path: string) => fileURLToPath(new URL(`./src/${path}`, import.meta.url));
+const here = (path: string) => fileURLToPath(new URL(path, import.meta.url));
+const src = (path: string) => here(`./src/${path}`);
 
-// The playground renders every component against the library's own source, through the same
-// plugin the apps use; the aliases stand in for the package's `exports`.
+// The catalog site renders every component against the library's own source, through the same
+// plugin the apps use; the aliases stand in for the package's `exports`. `BASE=/purr/` builds it
+// for GitHub Pages.
 export default defineConfig({
-  root: "playground",
-  plugins: [purr(), svelte()],
+  root: "site",
+  base: process.env.BASE ?? "/",
+  plugins: [purr(), svelte({ configFile: here("./svelte.config.js") })],
   resolve: {
     alias: [
       { find: /^purr\/styles\.css$/, replacement: src("styles/index.css") },
@@ -20,6 +23,7 @@ export default defineConfig({
     ],
   },
   server: { port: 1430 },
-  build: { outDir: "../dist-playground", emptyOutDir: true },
-  test: { root: ".", environment: "jsdom", include: ["src/**/*.test.ts"] },
+  preview: { port: 1431 },
+  build: { outDir: "../dist-site", emptyOutDir: true },
+  test: { root: ".", environment: "jsdom", include: ["src/**/*.test.ts", "site/**/*.test.ts"] },
 });

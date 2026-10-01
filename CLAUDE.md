@@ -7,29 +7,33 @@ Goals, in order: consistency, performance, reusability. It is opinionated on pur
 
 ## How apps consume it
 
-- Dependency: `"purr": "file:../purr"`. Purr ships **source** (`.svelte`, `.ts`, `.css`); there
-  is no build step. The app's Vite + `vite-plugin-svelte` compile it.
-- `vite.config`: add the `purr()` plugin from `purr/vite` (serves the linked source, rewrites
-  `purr/icons` imports to per-file ones, trims unused Phosphor weights).
+- Dependency: a pinned tag, `"purr": "github:N1ark/purr#v0.1.0"`. Purr ships **source**
+  (`.svelte`, `.ts`, `.css`); there is no build step. The app's Vite + `vite-plugin-svelte`
+  compile it. To work on purr inside an app, `npm link ../purr` there; `npm install` undoes it.
+- `vite.config`: add the `purr()` plugin from `purr/vite` (serves purr's source when linked,
+  rewrites `purr/icons` imports to per-file ones, trims unused Phosphor weights).
 - Entry: `import "purr/fonts.css"; import "purr/styles.css";` then the app's own CSS.
 - Imports: components/actions/utilities from `"purr"`, icons from `"purr/icons"`.
 
 ## Setup gotchas
 
-- **Two copies of Svelte's types.** purr has its own `node_modules/svelte` (a dev dependency), so
-  svelte-check can see two `Snippet` types ("Two different types with this name exist"). Fix in the
+- **Two copies of Svelte's types, when linked.** A linked purr has its own `node_modules/svelte`
+  (a dev dependency), so svelte-check can see two `Snippet` types ("Two different types with this name exist"). Fix in the
   app's `tsconfig.json`: `"paths": { "svelte": ["./node_modules/svelte"], "svelte/*":
 ["./node_modules/svelte/*"] }` and `"typeRoots": ["./node_modules", "./node_modules/@types"]`.
   At runtime `vite-plugin-svelte` dedupes Svelte, so there is only ever one.
 - **Types a type-aware linter must see live in `.ts` files** (`components/types.ts`), not in a
   `.svelte` module script; components re-export them.
-- **`purr/vite` is loaded by Node as TypeScript**, which needs Node >= 22.18.
-- **CI** must check purr out beside the app (`../purr`), since apps depend on `file:../purr`.
+- **`purr/vite` stays plain JavaScript** (`vite.js`, typed by JSDoc, with `vite.d.ts` for apps):
+  Node loads it from `node_modules`, where it refuses to strip TypeScript types.
+- **An installed purr is type-checked by the app**, under the app's compiler options: keep purr
+  clean under `strict` and an `ES2022` target.
 
 ## Commands
 
 ```sh
-npm run dev      # playground on http://localhost:1430 — every component, light and dark
+npm run dev      # the catalog site on http://localhost:1430 — every component, live props
+npm run build:site  # into dist-site/; BASE=/purr/ for GitHub Pages (site.yml does that on main)
 npm run check    # svelte-check, must be 0 errors / 0 warnings
 npm test         # vitest, colocated src/**/*.test.ts
 npm run format   # prettier
@@ -45,8 +49,17 @@ npm run format   # prettier
 | `src/actions/`    | Svelte actions (`use:tooltip`, `use:dragList`, …)                                                                                  |
 | `src/lib/`        | Plain TS utilities and `.svelte.ts` rune state (overlays, menu, theme)                                                             |
 | `src/icons/`      | `index.ts` re-exports all of `phosphor-svelte` plus purr's hand-drawn icons                                                        |
-| `src/vite.ts`     | The `purr()` Vite plugin                                                                                                           |
-| `playground/`     | A Vite app showing every component; not shipped                                                                                    |
+| `src/vite.js`     | The `purr()` Vite plugin                                                                                                           |
+| `site/`           | The catalog: one `stories/*.ts` per component (controls, events, examples), hand-written pages; not shipped                        |
+
+## Releases
+
+- Every change an app would notice gets a line under `## Unreleased` in `CHANGELOG.md`, written
+  for the app author. Anything that breaks an app on upgrade is marked **Breaking** and says what
+  to change; until 1.0 that means a minor bump, otherwise a patch.
+- `npm run release -- X.Y.Z` on a clean `main` checks, bumps, dates the section, commits
+  `Release X.Y.Z` and tags `vX.Y.Z`; `git push --follow-tags` publishes it (`release.yml` turns the
+  tag into a GitHub release). Never move or delete a tag an app may pin.
 
 ## Rules
 
@@ -79,5 +92,7 @@ npm run format   # prettier
   once from `$props()`, callbacks as `onx` props, content as snippets. Scoped styles; `:global`
   only for content the component does not own.
 - **Pure logic gets a test**, colocated (`fuzzy.ts` → `fuzzy.test.ts`).
+- **Every export shows on the site**: a new component gets a `site/stories/<name>.ts`; a new
+  action or utility a section on its `site/pages/` page.
 - **Comments: one line**, only where the reason isn't obvious from the name.
 - Formatting: prettier, `printWidth: 100`, double quotes.

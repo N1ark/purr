@@ -15,5 +15,5 @@
     "noUncheckedIndexedAccess": false,
     "types": ["svelte", "vite/client"]
   },
-  "include": ["src/**/*.ts", "src/**/*.svelte", "playground/**/*.ts", "playground/**/*.svelte"]
+  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte", "site/**/*.ts", "site/**/*.svelte"]
 }
