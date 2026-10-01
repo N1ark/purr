@@ -7,6 +7,8 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+## 0.2.1 — 2026-10-01
+
 ### Added
 
 - `purr-icon --favicon` writes the glyph alone as `favicon.svg`, purple in a light tab bar and
