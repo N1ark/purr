@@ -7,6 +7,13 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+### Added
+
+- Inline code with a language: `inlineCodeLang(text)` splits a code span ending in `{:lang}`
+  (`` `Vec<u8>{:rust}` ``, rehype-pretty-code's spelling) into `{ code, lang }`, or `null` when it
+  names none. Highlight `code` with the app's highlighter in the renderer's code span hook and
+  `code.css` colours it as it does a block; the Markdown page has a marked example.
+
 ## 0.3.0 — 2026-10-01
 
 ### Changed

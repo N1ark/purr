@@ -1,8 +1,28 @@
 <script lang="ts">
   // Rendered markdown in `.md`, and the four highlighter markups `code.css` colours.
-  import { Checkbox } from "purr";
+  import { Checkbox, inlineCodeLang } from "purr";
   import PageHeader from "../components/PageHeader.svelte";
   import Section from "../components/Section.svelte";
+  import { highlight } from "../lib/highlight";
+
+  const INLINE_DESCRIPTION =
+    "A code span names its language at the end, `Vec<u8>{:rust}`. `inlineCodeLang(text)` splits it into `{ code, lang }` (or `null`); the app highlights `code` with its own highlighter and `code.css` colours the span as it would a block. An unknown language should render the span as written.";
+
+  const INLINE_CODE = `import { inlineCodeLang } from "purr";
+
+// marked: a codespan's text is raw, so escape whatever is not highlighted.
+const inlineHighlight: MarkedExtension = {
+  renderer: {
+    codespan({ text }) {
+      const m = inlineCodeLang(text);
+      if (!m || !hljs.getLanguage(m.lang)) return false; // marked's own <code>
+      const html = hljs.highlight(m.code, { language: m.lang }).value;
+      return \`<code class="hljs language-\${m.lang}">\${html}</code>\`;
+    },
+  },
+};`;
+
+  const inline = (text: string) => highlight(inlineCodeLang(text)?.code ?? text);
 
   const PICTURE =
     "data:image/svg+xml," +
@@ -152,6 +172,36 @@
           >  <span class="c1"># ok</span>
 </code></pre>
     </div>
+  </div>
+</Section>
+
+<Section
+  title="Inline code with a language"
+  description={INLINE_DESCRIPTION}
+  code={INLINE_CODE}
+  block
+>
+  <div class="md">
+    <p>
+      Rank the hits with <code class="hljs language-ts"
+        >{@html inline("rank(items, query){:ts}")}</code
+      >, or match one with
+      <code class="hljs language-ts"
+        >{@html inline("fuzzyMatch(query, text)?.indices ?? []{:ts}")}</code
+      >. In Rust that is a
+      <code class="language-rust"
+        ><span class="t-builtin">Vec</span><span class="t-operator">&lt;</span><span
+          class="t-builtin">u8</span
+        ><span class="t-operator">&gt;</span></code
+      >, and Python spells it
+      <code class="highlight"
+        ><span class="n">sorted</span><span class="p">(</span><span class="n">xs</span><span
+          class="p">,</span
+        > <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span
+          class="p">)</span
+        ></code
+      >. A span that names no language is plain: <code>{"{ a: 1 }"}</code>.
+    </p>
   </div>
 </Section>
 

@@ -122,6 +122,7 @@ export {
   type Run,
   type Tier,
 } from "./lib/fuzzy";
+export { inlineCodeLang, type InlineCode } from "./lib/inlineCode";
 export {
   accelerator,
   createKeymap,

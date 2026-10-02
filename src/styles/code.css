@@ -1,6 +1,7 @@
 /* Syntax colours for the three highlighters the apps use, all mapped onto `--code-*`:
    highlight.js (`.hljs-*`), Prism (`.token.*`, or the flattened `.t-*` runs legit's worker
-   emits) and Pygments (`.codehilite` / `.highlight` short classes, as Zulip renders them).
+   emits) and Pygments (`.codehilite` / `.highlight` short classes, as Zulip renders them), in a
+   block or a code span alike (`inlineCodeLang` reads a span's language).
    Plain selector lists, no `:is()`: Blink cannot bucket a rule ending in `:is()` by class, so it
    would test every element of the page against it; in legit's diff that is a third of the style time. */
 
