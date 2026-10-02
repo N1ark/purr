@@ -7,6 +7,8 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+## 0.4.0 — 2026-10-02
+
 ### Added
 
 - Inline code with a language: `inlineCodeLang(text)` splits a code span ending in `{:lang}`
