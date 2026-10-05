@@ -7,6 +7,11 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+### Changed
+
+- Toasts lose their coloured left border: each is washed in its tone instead, as a callout is
+  (`--toast-tint`, 9%), and an error or a success leads with a filled icon in its colour.
+
 ## 0.5.2 — 2026-10-05
 
 ### Fixed

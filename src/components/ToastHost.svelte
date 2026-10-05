@@ -1,5 +1,7 @@
 <script lang="ts">
   // Mount once: shows what `toast(...)` says, newest last, above everything but tooltips.
+  import CheckCircleIcon from "phosphor-svelte/lib/CheckCircleIcon";
+  import WarningCircleIcon from "phosphor-svelte/lib/WarningCircleIcon";
   import XIcon from "phosphor-svelte/lib/XIcon";
 
   import { toasts } from "../lib/toast.svelte";
@@ -17,6 +19,11 @@
 <div class="toasts {position}" aria-live="polite">
   {#each toasts.list as t (t.id)}
     <div class="toast surface {t.kind}" role={t.kind === "error" ? "alert" : "status"}>
+      {#if t.kind === "error"}
+        <span class="icon"><WarningCircleIcon weight="fill" /></span>
+      {:else if t.kind === "success"}
+        <span class="icon"><CheckCircleIcon weight="fill" /></span>
+      {/if}
       <span class="text">{t.text}</span>
       {#if t.action}
         {@const action = t.action}
@@ -66,7 +73,10 @@
     gap: var(--gap-3);
     max-width: 100%;
     padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-4);
-    border-left: 3px solid var(--theme);
+    /* Washed in its tone, as a callout is; tuned with `--toast-tint`. */
+    --toast-c: var(--theme);
+    background: color-mix(in oklab, var(--toast-c) var(--toast-tint, 9%), var(--surface));
+    border-color: color-mix(in oklab, var(--toast-c) 30%, var(--border));
     box-shadow: var(--shadow-lg);
     font-size: var(--fs-sm);
     color: var(--color2);
@@ -74,10 +84,17 @@
     animation: toast-in var(--dur-slow) var(--ease-sheet);
   }
   .toast.error {
-    border-left-color: var(--danger);
+    --toast-c: var(--danger);
   }
   .toast.success {
-    border-left-color: var(--success);
+    --toast-c: var(--success);
+  }
+  .icon {
+    display: inline-flex;
+    flex: none;
+    margin-left: calc(var(--gap-2) * -1);
+    font-size: var(--icon-md);
+    color: var(--toast-c);
   }
   .text {
     flex: 1;
