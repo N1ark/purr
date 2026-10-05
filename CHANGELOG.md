@@ -7,6 +7,22 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+### Added
+
+- `MonthGrid`: a month as six weeks of days, from the reader's first weekday, today marked with
+  `aria-current="date"`. A `day` snippet fills each day and an `actions` snippet sits beside its
+  number on hover; every day carries `data-day` for drag and drop, and `target` draws the one
+  under a drag.
+- Day keys, `YYYY-MM-DD` in local time: `dayKey`, `addDays`, `daysBetween`; and `monthGrid`,
+  `firstWeekday`, `formatWeekday`, `formatMonth`.
+- `formatDay` names the coming days too: `Tomorrow` (a new `tomorrow` label), then the weekday
+  for the rest of the week. Past days read as before.
+
+### Fixed
+
+- `formatDay` reads a date-only string (`"2026-10-05"`) as that local day, not a UTC midnight
+  that is the day before west of Greenwich.
+
 ## 0.5.0 — 2026-10-05
 
 ### Changed

@@ -144,25 +144,69 @@ export function isSameDay(a: TimeInput, b: TimeInput): boolean {
 export interface DayLabels {
   today?: string;
   yesterday?: string;
+  tomorrow?: string;
 }
 
-/** A date separator: Today / Yesterday / `Fri 12 Sep` (with the year when it is not this one). */
+/**
+ * A day as people say it: Today / Yesterday / Tomorrow, the weekday for the rest of the coming
+ * week (`Friday`), else `Fri 12 Sep` (with the year when it is not this one).
+ */
 export function formatDay(
   input: TimeInput,
   labels: DayLabels = {},
   now: TimeInput = Date.now(),
 ): string {
-  const day = startOfDay(input);
-  const today = startOfDay(now);
-  if (day === today) return labels.today ?? "Today";
-  const d = new Date(today);
-  d.setDate(d.getDate() - 1);
-  if (day === d.getTime()) return labels.yesterday ?? "Yesterday";
-  const date = toDate(input);
-  const sameYear = date.getFullYear() === toDate(now).getFullYear();
+  const date = localDay(input);
+  const ahead = daysBetween(now, date);
+  if (ahead === 0) return labels.today ?? "Today";
+  if (ahead === -1) return labels.yesterday ?? "Yesterday";
+  if (ahead === 1) return labels.tomorrow ?? "Tomorrow";
+  if (ahead > 1 && ahead < 7) return formatWeekday(date, "long");
+  const sameYear = date.getFullYear() === localDay(now).getFullYear();
   return sameYear
     ? dateFormat("day", { weekday: "short", day: "numeric", month: "short" }).format(date)
     : dateFormat("dayYear", { day: "numeric", month: "short", year: "numeric" }).format(date);
+}
+
+const DAY_KEY = /^(\d{4})-(\d{2})-(\d{2})$/;
+
+/** `"2026-10-05"` is that day where the reader is, not a UTC midnight that is the 4th in America. */
+function localDay(input: TimeInput): Date {
+  const m = typeof input === "string" ? DAY_KEY.exec(input.trim()) : null;
+  return m ? new Date(+m[1], +m[2] - 1, +m[3]) : toDate(input);
+}
+
+const pad = (n: number) => String(n).padStart(2, "0");
+
+/** The local day as `YYYY-MM-DD`: a key that sorts, compares and survives a time-zone change. */
+export function dayKey(input: TimeInput): string {
+  const d = localDay(input);
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+/** The day `n` days after `input` (before, when negative), as a `dayKey`. */
+export function addDays(input: TimeInput, n: number): string {
+  const d = localDay(input);
+  return dayKey(new Date(d.getFullYear(), d.getMonth(), d.getDate() + n));
+}
+
+/** Calendar days from `a` to `b`, whatever daylight saving does in between. */
+export function daysBetween(a: TimeInput, b: TimeInput): number {
+  const utc = (x: TimeInput) => {
+    const d = localDay(x);
+    return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
+  };
+  return Math.round((utc(b) - utc(a)) / 86_400_000);
+}
+
+/** `Fri`, or `Friday` with `long`. */
+export function formatWeekday(input: TimeInput, style: "short" | "long" = "short"): string {
+  return dateFormat(`weekday:${style}`, { weekday: style }).format(localDay(input));
+}
+
+/** `October 2026`. */
+export function formatMonth(input: TimeInput): string {
+  return dateFormat("month", { month: "long", year: "numeric" }).format(localDay(input));
 }
 
 const relativeFormats = new Map<string, Intl.RelativeTimeFormat>();

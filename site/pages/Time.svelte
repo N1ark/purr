@@ -13,6 +13,13 @@
     isoDate,
     setTwentyFourHourClock,
     startOfDay,
+    addDays,
+    dayKey,
+    daysBetween,
+    firstWeekday,
+    formatMonth,
+    formatWeekday,
+    monthGrid,
   } from "purr";
   import PageHeader from "../components/PageHeader.svelte";
   import Section from "../components/Section.svelte";
@@ -39,6 +46,11 @@
     clock = next;
   }
   $effect(() => () => setTwentyFourHourClock(undefined));
+
+  let weekStart = $state(1);
+  $effect(() => {
+    weekStart = firstWeekday();
+  });
 
   const toLocal = (ms: number) => {
     const d = new Date(ms);
@@ -69,7 +81,7 @@
 <PageHeader
   title="Time"
   description="Dates as people read them, in the platform's locale. Each `Intl` formatter is built once and kept, so these are safe in a row rendered thousands of times. Inputs are a `Date`, epoch milliseconds or an ISO string."
-  importLine={`import { formatRelative, formatDay, formatClock } from "purr";`}
+  importLine={`import { formatRelative, formatDay, formatClock, dayKey, monthGrid } from "purr";`}
   source="src/lib/time.ts"
 />
 
@@ -110,11 +122,11 @@
 
 <Section
   title="Absolute formats"
-  description="Pick a date. `formatDay` is a date separator: Today, Yesterday, a weekday, the year when it is not this one."
+  description="Pick a date. `formatDay` says a day as people do: Today, Yesterday, Tomorrow, the weekday for the rest of the coming week, else the date, with the year when it is not this one."
   code={`formatClock(date)     // the time
 formatAbsolute(date)  // date and time, medium
 formatFull(date)      // the long form, for a tooltip
-formatDay(date)       // Today / Yesterday / Fri 12 Sep
+formatDay(date)       // Today / Tomorrow / Friday / Fri 12 Sep
 isSameDay(date, Date.now())
 startOfDay(date)      // local midnight, in ms`}
   block
@@ -147,7 +159,9 @@ startOfDay(date)      // local midnight, in ms`}
           <tr><th>formatDay</th><td class="s-out">{formatDay(date)}</td></tr>
           <tr>
             <th>formatDay, own labels</th>
-            <td class="s-out">{formatDay(date, { today: "Idag", yesterday: "Igår" })}</td>
+            <td class="s-out"
+              >{formatDay(date, { today: "Idag", yesterday: "Igår", tomorrow: "Imorgon" })}</td
+            >
           </tr>
           <tr><th>formatRelative</th><td class="s-out">{formatRelative(date)}</td></tr>
           <tr><th>isSameDay(date, now)</th><td class="s-out">{isSameDay(date, Date.now())}</td></tr>
@@ -162,6 +176,21 @@ startOfDay(date)      // local midnight, in ms`}
       </table>
     {/key}
   </div>
+</Section>
+
+<Section
+  title="Days"
+  description="A day as a key, `YYYY-MM-DD` in local time: it sorts and compares as text, and a stored one never moves when the reader changes time zone (a date-only string is read as that local day everywhere here). `monthGrid` lays out the six weeks `MonthGrid` draws, from `firstWeekday()`, the reader's locale's first day (0 = Sunday)."
+  code={`dayKey(date)               // ${JSON.stringify(dayKey(date))}
+addDays(dayKey(date), 7)   // ${JSON.stringify(addDays(date, 7))}
+daysBetween(Date.now(), date) // ${daysBetween(now, date)}
+formatWeekday(date, "long") // ${JSON.stringify(formatWeekday(date, "long"))}
+formatMonth(date)          // ${JSON.stringify(formatMonth(date))}
+firstWeekday()             // ${weekStart}
+monthGrid(2026, 9, ${weekStart})[0] // ${JSON.stringify(monthGrid(2026, 9, weekStart)[0])}`}
+  block
+>
+  <span class="muted">Uses the date picked above.</span>
 </Section>
 
 <Section

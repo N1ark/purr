@@ -41,6 +41,7 @@ export { default as Highlight } from "./components/Highlight.svelte";
 export { default as Kbd } from "./components/Kbd.svelte";
 export { default as Lightbox } from "./components/Lightbox.svelte";
 export { default as Masonry } from "./components/Masonry.svelte";
+export { default as MonthGrid } from "./components/MonthGrid.svelte";
 export { default as Menu } from "./components/Menu.svelte";
 export { default as Modal } from "./components/Modal.svelte";
 export { default as Popover } from "./components/Popover.svelte";
@@ -169,6 +170,7 @@ export {
 } from "./lib/overlays.svelte";
 export { liveTheme } from "./lib/liveTheme.svelte";
 export { columnCount, packColumns } from "./lib/masonry";
+export { firstWeekday, monthGrid, type CalendarDay } from "./lib/calendar";
 export { persisted, persistedFlag } from "./lib/persisted.svelte";
 export { usingKeyboard } from "./lib/modality";
 export {
@@ -217,13 +219,18 @@ export {
   type ThemeOptions,
 } from "./lib/theme";
 export {
+  addDays,
+  dayKey,
+  daysBetween,
   formatAbsolute,
   formatClock,
   formatClockIn,
   formatDate,
   formatDay,
   formatFull,
+  formatMonth,
   formatRelative,
+  formatWeekday,
   isSameDay,
   isoDate,
   setTwentyFourHourClock,
@@ -231,6 +238,7 @@ export {
   toDate,
   type DateOptions,
   type DateStyle,
+  type DayLabels,
   type TimeInput,
 } from "./lib/time";
 export {
