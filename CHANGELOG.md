@@ -7,6 +7,8 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+## 0.5.3 — 2026-10-05
+
 ### Changed
 
 - Toasts lose their coloured left border: each is washed in its tone instead, as a callout is
