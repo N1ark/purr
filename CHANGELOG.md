@@ -7,6 +7,8 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+## 0.5.2 — 2026-10-05
+
 ### Fixed
 
 - `MonthGrid` no longer squashes a full day's items to fit, cutting off their text: they keep
