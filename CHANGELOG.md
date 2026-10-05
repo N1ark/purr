@@ -7,6 +7,12 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+### Fixed
+
+- `MonthGrid` no longer squashes a full day's items to fit, cutting off their text: they keep
+  their height and the day clips the last ones. Cap what a day shows (a "+2 more" item, as the
+  catalog does) when the grid can be short.
+
 ## 0.5.1 — 2026-10-05
 
 ### Added

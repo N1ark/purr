@@ -100,6 +100,10 @@
     background: var(--bg2);
     overflow: hidden;
   }
+  /* A full day clips its last items rather than squashing every one. */
+  .day > :global(*) {
+    flex-shrink: 0;
+  }
   .day.out {
     background: var(--bg);
   }

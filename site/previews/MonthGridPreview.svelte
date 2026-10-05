@@ -34,9 +34,11 @@
     target={args.target ? addDays(today, 2) : null}
   >
     {#snippet day(d)}
-      {#each events[d.key] ?? [] as e (e)}
+      {@const list = events[d.key] ?? []}
+      {#each list.length > 2 ? list.slice(0, 1) : list as e (e)}
         <span class="event">{e}</span>
       {/each}
+      {#if list.length > 2}<span class="more">+{list.length - 1} more</span>{/if}
     {/snippet}
     {#snippet actions(d)}
       <IconButton label="New event on {d.key}" size="sm"><Plus /></IconButton>
@@ -56,6 +58,11 @@
     display: flex;
     align-items: center;
     gap: var(--gap-3);
+  }
+  .more {
+    padding: 0 var(--gap-3);
+    font-size: var(--fs-micro);
+    color: var(--muted);
   }
   .event {
     padding: 1px var(--gap-3);
