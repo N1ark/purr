@@ -7,6 +7,11 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+### Changed
+
+- `MonthGrid` halves a day's side padding on a phone (`body.mobile`), leaving more of the
+  narrow column to what is on the day.
+
 ## 0.5.3 — 2026-10-05
 
 ### Changed

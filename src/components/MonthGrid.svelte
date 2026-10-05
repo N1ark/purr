@@ -100,6 +100,10 @@
     background: var(--bg2);
     overflow: hidden;
   }
+  /* A phone's seven columns are narrow: every pixel goes to what is on the day. */
+  :global(body.mobile) .day {
+    padding-inline: var(--gap-1);
+  }
   /* A full day clips its last items rather than squashing every one. */
   .day > :global(*) {
     flex-shrink: 0;
