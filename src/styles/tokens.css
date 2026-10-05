@@ -6,17 +6,17 @@
 
   --bg: oklch(1 0 0);
   --bg2: oklch(0.985 0 0);
-  --bg3: oklch(0.961 0 0);
-  --bg4: oklch(0.934 0 0);
-  --border: oklch(0.898 0 0);
-  --border-strong: oklch(0.833 0 0);
-  --color: oklch(0.321 0 0);
-  --color2: oklch(0.178 0 0);
-  --muted: oklch(0.538 0 0);
-  --faint: oklch(0.686 0 0);
-  --code-bg: oklch(0.973 0 0);
+  --bg3: oklch(0.96 0 0);
+  --bg4: oklch(0.935 0 0);
+  --border: oklch(0.9 0 0);
+  --border-strong: oklch(0.835 0 0);
+  --color: oklch(0.32 0 0);
+  --color2: oklch(0.18 0 0);
+  --muted: oklch(0.53 0 0);
+  --faint: oklch(0.69 0 0);
+  --code-bg: oklch(0.975 0 0);
   /* Code inside a sentence: a shade off the page, not a block's depth. */
-  --code-inline-bg: oklch(0.952 0 0);
+  --code-inline-bg: oklch(0.95 0 0);
   /* Text in a picked colour (`.tag`, `.ink`) keeps its hue and chroma, its OKLCH lightness held
      inside these bounds: AA on its own tint over any surface, for every sRGB colour. */
   --ink-min: 0;
@@ -32,31 +32,31 @@
   --field-bg: var(--bg2);
   --field-border: var(--border);
 
-  --theme: oklch(0.484 0.193 318.7);
-  --theme2: oklch(0.545 0.196 323.1);
-  --theme-soft: oklch(0.484 0.193 318.7 / 0.08);
-  --theme-mid: oklch(0.484 0.193 318.7 / 0.2);
-  --selection: oklch(0.484 0.193 318.7 / 0.18);
-  --mention: oklch(0.484 0.193 318.7 / 0.12);
+  --theme: oklch(0.46 0.19 319);
+  --theme2: oklch(0.52 0.19 319);
+  --theme-soft: oklch(0.46 0.19 319 / 0.08);
+  --theme-mid: oklch(0.46 0.19 319 / 0.2);
+  --selection: oklch(0.46 0.19 319 / 0.18);
+  --mention: oklch(0.46 0.19 319 / 0.12);
   --on-accent: oklch(1 0 0);
   /* Text on the lighter hover fills (`--theme2`, `--danger`); dark text in the dark theme. */
   --on-accent2: oklch(1 0 0);
   --on-danger: oklch(1 0 0);
 
-  --danger: oklch(0.543 0.174 29.7);
-  --success: oklch(0.521 0.135 146.6);
-  --warn: oklch(0.54 0.106 71.9);
-  --star: oklch(0.633 0.116 83.8);
-  --info: oklch(0.516 0.17 258.5);
+  --danger: oklch(0.52 0.17 28);
+  --success: oklch(0.52 0.13 147);
+  --warn: oklch(0.52 0.105 70);
+  --star: oklch(0.62 0.125 85);
+  --info: oklch(0.52 0.15 258);
   --chip: oklch(0 0 0 / 0.05);
 
   /* Diffs: the line colour, its wash, and the wash of a selected line. */
-  --add: oklch(0.521 0.135 146.6);
-  --add-bg: oklch(0.521 0.135 146.6 / 0.12);
-  --add-sel: oklch(0.521 0.135 146.6 / 0.28);
-  --del: oklch(0.543 0.174 29.7);
-  --del-bg: oklch(0.543 0.174 29.7 / 0.11);
-  --del-sel: oklch(0.543 0.174 29.7 / 0.26);
+  --add: oklch(0.52 0.13 147);
+  --add-bg: oklch(0.52 0.13 147 / 0.12);
+  --add-sel: oklch(0.52 0.13 147 / 0.28);
+  --del: oklch(0.52 0.17 28);
+  --del-bg: oklch(0.52 0.17 28 / 0.12);
+  --del-sel: oklch(0.52 0.17 28 / 0.28);
 
   --box-shadow: 0 0 0 1px oklch(0 0 0 / 0.1), 0 2px 6px oklch(0 0 0 / 0.08);
   --shadow-lg: 0 0 0 1px oklch(0 0 0 / 0.1), 0 8px 24px oklch(0 0 0 / 0.15);
@@ -65,16 +65,16 @@
   --scrim-strong: oklch(0 0 0 / 0.8);
 
   /* Syntax colours; `code.css` maps highlight.js, Prism and Pygments classes onto them. */
-  --code-kw: oklch(0.494 0.193 316.8);
-  --code-str: oklch(0.524 0.134 144);
-  --code-num: oklch(0.5553 0.1455 49);
-  --code-com: oklch(0.633 0 0);
-  --code-fn: oklch(0.516 0.17 258.5);
-  --code-type: oklch(0.511 0.086 186.4);
-  --code-op: oklch(0.528 0 0);
-  --code-var: oklch(0.509 0.137 40.9);
-  --code-tag: oklch(0.543 0.174 29.7);
-  --code-meta: oklch(0.5198 0.0936 223.13);
+  --code-kw: oklch(0.52 0.19 317);
+  --code-str: oklch(0.52 0.13 145);
+  --code-num: oklch(0.55 0.13 60);
+  --code-com: oklch(0.63 0 0);
+  --code-fn: oklch(0.52 0.15 258);
+  --code-type: oklch(0.52 0.09 185);
+  --code-op: oklch(0.53 0 0);
+  --code-var: oklch(0.52 0.13 42);
+  --code-tag: oklch(0.52 0.17 25);
+  --code-meta: oklch(0.52 0.09 222);
 
   --radius: 4px;
   --radius-sm: 3px;
@@ -154,18 +154,18 @@
 html.dark {
   color-scheme: dark;
 
-  --bg: oklch(0.178 0 0);
+  --bg: oklch(0.18 0 0);
   --bg2: oklch(0.2 0 0);
-  --bg3: oklch(0.231 0 0);
+  --bg3: oklch(0.23 0 0);
   --bg4: oklch(0.26 0 0);
-  --border: oklch(0.252 0 0);
-  --border-strong: oklch(0.321 0 0);
-  --color: oklch(0.882 0 0);
+  --border: oklch(0.25 0 0);
+  --border-strong: oklch(0.32 0 0);
+  --color: oklch(0.88 0 0);
   --color2: oklch(0.955 0 0);
-  --muted: oklch(0.627 0 0);
+  --muted: oklch(0.63 0 0);
   --faint: oklch(0.475 0 0);
-  --code-bg: oklch(0.15 0.002 286.1);
-  --code-inline-bg: oklch(0.252 0 0);
+  --code-bg: oklch(0.15 0 0);
+  --code-inline-bg: oklch(0.25 0 0);
   --ink-min: 0.78;
   --ink-max: 1;
   --mark-min: 0.62;
@@ -177,29 +177,29 @@ html.dark {
   --field-bg: var(--bg);
   --field-border: var(--border-strong);
 
-  --theme: oklch(0.484 0.193 318.7);
-  --theme2: oklch(0.653 0.18 322.6);
-  --theme-soft: oklch(0.484 0.193 318.7 / 0.18);
-  --theme-mid: oklch(0.484 0.193 318.7 / 0.4);
-  --selection: oklch(0.484 0.193 318.7 / 0.4);
-  --mention: oklch(0.484 0.193 318.7 / 0.27);
+  --theme: oklch(0.52 0.19 319);
+  --theme2: oklch(0.7 0.162 319);
+  --theme-soft: oklch(0.52 0.19 319 / 0.18);
+  --theme-mid: oklch(0.52 0.19 319 / 0.4);
+  --selection: oklch(0.52 0.19 319 / 0.4);
+  --mention: oklch(0.52 0.19 319 / 0.27);
   --on-accent: oklch(1 0 0);
-  --on-accent2: oklch(0.178 0 0);
-  --on-danger: oklch(0.178 0 0);
+  --on-accent2: oklch(0.18 0 0);
+  --on-danger: oklch(0.18 0 0);
 
-  --danger: oklch(0.671 0.145 17);
-  --success: oklch(0.768 0.11 133);
-  --warn: oklch(0.727 0.095 63.8);
-  --star: oklch(0.7874 0.1376 86.67);
-  --info: oklch(0.73 0.121 245.3);
+  --danger: oklch(0.72 0.15 22);
+  --success: oklch(0.76 0.13 145);
+  --warn: oklch(0.76 0.11 70);
+  --star: oklch(0.82 0.14 87);
+  --info: oklch(0.74 0.12 248);
   --chip: oklch(1 0 0 / 0.05);
 
-  --add: oklch(0.842 0.164 145.8);
-  --add-bg: oklch(0.622 0.166 146.2 / 0.15);
-  --add-sel: oklch(0.622 0.166 146.2 / 0.36);
-  --del: oklch(0.734 0.163 25.8);
-  --del-bg: oklch(0.665 0.205 27 / 0.15);
-  --del-sel: oklch(0.665 0.205 27 / 0.36);
+  --add: oklch(0.8 0.15 147);
+  --add-bg: oklch(0.62 0.15 147 / 0.15);
+  --add-sel: oklch(0.62 0.15 147 / 0.36);
+  --del: oklch(0.74 0.15 25);
+  --del-bg: oklch(0.64 0.19 25 / 0.15);
+  --del-sel: oklch(0.64 0.19 25 / 0.36);
 
   --box-shadow: 0 0 0 1px oklch(1 0 0 / 0.08), 0 2px 6px oklch(0 0 0 / 0.35);
   --shadow-lg: 0 0 0 1px oklch(1 0 0 / 0.08), 0 8px 24px 4px oklch(0 0 0 / 0.4);
@@ -207,16 +207,16 @@ html.dark {
   --scrim: oklch(0 0 0 / 0.65);
   --scrim-strong: oklch(0 0 0 / 0.85);
 
-  --code-kw: oklch(0.694 0.164 318.2);
-  --code-str: oklch(0.768 0.11 133);
-  --code-num: oklch(0.727 0.095 63.8);
-  --code-com: oklch(0.528 0 0);
-  --code-fn: oklch(0.73 0.121 245.3);
-  --code-type: oklch(0.825 0.097 82.3);
-  --code-op: oklch(0.686 0 0);
-  --code-var: oklch(0.671 0.145 17);
-  --code-tag: oklch(0.671 0.145 17);
-  --code-meta: oklch(0.7231 0.0916 206.31);
+  --code-kw: oklch(0.72 0.15 315);
+  --code-str: oklch(0.78 0.12 135);
+  --code-num: oklch(0.76 0.1 62);
+  --code-com: oklch(0.53 0 0);
+  --code-fn: oklch(0.74 0.12 245);
+  --code-type: oklch(0.82 0.1 84);
+  --code-op: oklch(0.69 0 0);
+  --code-var: oklch(0.7 0.14 20);
+  --code-tag: oklch(0.7 0.14 20);
+  --code-meta: oklch(0.74 0.09 205);
 }
 
 html.density-cozy {

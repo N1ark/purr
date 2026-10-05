@@ -12,9 +12,16 @@ turns the Unreleased section into a dated one and tags it.
 ### Changed
 
 - **Breaking**: the palette is written in OKLCH. Every colour token in `tokens.css` and every
-  `ACCENTS` pair (so `accentSwatch`) is now an `oklch()` string; they paint exactly the sRGB
-  colours they did. Code that read a token or an accent as hex (an `<input type="color">`, its
-  own parser) runs it through `toHex(parseColor(value))` instead.
+  `ACCENTS` pair (so `accentSwatch`) is now an `oklch()` string. Code that read a token or an
+  accent as hex (an `<input type="color">`, its own parser) runs it through
+  `toHex(parseColor(value))` instead.
+- The palette is rebalanced in OKLCH, so colours shift slightly. Every accent shares one
+  lightness per role (fill, hover, and the same in dark), so no accent reads heavier than
+  another. The status, diff and syntax colours each sit at one lightness per theme, and the
+  greys are rounded to even steps. Every pairing the tests check is still AA.
+- `Callout` drops its all-round tint for a title band: the title sits on a stronger tint
+  (`--callout-head-tint`, 14%) above a paler body (`--callout-tint`, now 5%). `--callout-pad`
+  now pads the body only.
 - **Breaking**: `colorFromSeed(seed, chroma = 0.08, lightness = 0.5)` returns `oklch()` at one
   lightness for every hue, so no avatar reads heavier than its neighbour, white initials still
   AA. Its optional arguments were `saturation` and `lightness` in HSL percentages; a call that

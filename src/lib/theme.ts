@@ -15,54 +15,55 @@ export interface Accent {
 
 /** Checked against the palette in `theme.test.ts`: every pair keeps AA in its theme. */
 export const ACCENTS: readonly Accent[] = [
+  // One lightness per role, so every accent weighs the same; chroma is what each hue holds in sRGB.
   // The default, n1ark.com's purple; `tokens.css` carries the same four values.
   {
     id: "purple",
     label: "Purple",
-    light: ["oklch(0.484 0.193 318.7)", "oklch(0.545 0.196 323.1)"],
-    dark: ["oklch(0.484 0.193 318.7)", "oklch(0.653 0.18 322.6)"],
+    light: ["oklch(0.46 0.19 319)", "oklch(0.52 0.19 319)"],
+    dark: ["oklch(0.52 0.19 319)", "oklch(0.7 0.162 319)"],
   },
   {
     id: "magenta",
     label: "Magenta",
-    light: ["oklch(0.446 0.144 355.8)", "oklch(0.553 0.168 355.7)"],
-    dark: ["oklch(0.578 0.17 354.8)", "oklch(0.678 0.143 353.1)"],
+    light: ["oklch(0.46 0.16 356)", "oklch(0.52 0.16 356)"],
+    dark: ["oklch(0.52 0.16 356)", "oklch(0.7 0.136 356)"],
   },
   {
     id: "red",
     label: "Red",
-    light: ["oklch(0.447 0.131 26.7)", "oklch(0.55 0.136 25.8)"],
-    dark: ["oklch(0.576 0.146 25.7)", "oklch(0.683 0.119 24.5)"],
+    light: ["oklch(0.46 0.15 26)", "oklch(0.52 0.15 26)"],
+    dark: ["oklch(0.52 0.15 26)", "oklch(0.7 0.128 26)"],
   },
   {
     id: "amber",
     label: "Amber",
-    light: ["oklch(0.5085 0.1025 70.83)", "oklch(0.54 0.097 73.8)"],
-    dark: ["oklch(0.566 0.111 72)", "oklch(0.7224 0.1246 76.81)"],
+    light: ["oklch(0.46 0.105 70)", "oklch(0.52 0.105 70)"],
+    dark: ["oklch(0.52 0.105 70)", "oklch(0.7 0.089 70)"],
   },
   {
     id: "green",
     label: "Green",
-    light: ["oklch(0.474 0.102 146.8)", "oklch(0.523 0.105 147.3)"],
-    dark: ["oklch(0.55 0.107 146.7)", "oklch(0.701 0.107 147.6)"],
+    light: ["oklch(0.46 0.12 147)", "oklch(0.52 0.12 147)"],
+    dark: ["oklch(0.52 0.12 147)", "oklch(0.7 0.102 147)"],
   },
   {
     id: "teal",
     label: "Teal",
-    light: ["oklch(0.456 0.068 190.9)", "oklch(0.524 0.076 190.3)"],
-    dark: ["oklch(0.5511 0.0814 189.6)", "oklch(0.69 0.089 190.6)"],
+    light: ["oklch(0.46 0.085 190)", "oklch(0.52 0.085 190)"],
+    dark: ["oklch(0.52 0.085 190)", "oklch(0.7 0.072 190)"],
   },
   {
     id: "blue",
     label: "Blue",
-    light: ["oklch(0.436 0.114 258.8)", "oklch(0.54 0.124 256.2)"],
-    dark: ["oklch(0.558 0.139 257.8)", "oklch(0.661 0.12 256.5)"],
+    light: ["oklch(0.46 0.14 258)", "oklch(0.52 0.14 258)"],
+    dark: ["oklch(0.52 0.14 258)", "oklch(0.7 0.119 258)"],
   },
   {
     id: "slate",
     label: "Slate",
-    light: ["oklch(0.436 0.022 258.4)", "oklch(0.535 0.023 257.5)"],
-    dark: ["oklch(0.551 0.023 264.4)", "oklch(0.706 0.02 255.6)"],
+    light: ["oklch(0.46 0.025 258)", "oklch(0.52 0.025 258)"],
+    dark: ["oklch(0.52 0.025 258)", "oklch(0.7 0.021 258)"],
   },
 ];
 
