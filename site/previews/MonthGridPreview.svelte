@@ -67,9 +67,9 @@
   .event {
     padding: 1px var(--gap-3);
     font-size: var(--fs-micro);
-    border-left: 2px solid var(--theme2);
     border-radius: var(--radius-sm);
-    background: var(--chip);
+    color: var(--color2);
+    background: color-mix(in oklab, var(--theme2) 16%, transparent);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

@@ -90,6 +90,8 @@ npm run format   # prettier
 - **Hot paths**: a component that can render once per row (Icon, Avatar, Badge, rows) carries no
   `svelte:window` listener, `ResizeObserver`, `getComputedStyle` or `Intl` construction. Lists
   longer than a screenful use `VirtualList`. Large collections are `$state.raw`.
+- **No coloured left border on a rounded box** (a stripe down a chip, card, callout or row):
+  never. Show an accent with a tinted fill, a dot or the text colour instead.
 - **Motion is decoration**: animate `transform`/`opacity`, never layout; `prefers-reduced-motion`
   is flattened globally in `base.css`.
 - **Accessibility**: state shown by colour is also stated (`aria-current`, `aria-pressed`,
