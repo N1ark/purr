@@ -7,6 +7,8 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+## 0.5.0 — 2026-10-05
+
 ### Changed
 
 - **Breaking**: the palette is written in OKLCH. Every colour token in `tokens.css` and every
