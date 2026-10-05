@@ -1,10 +1,19 @@
 name: Release
 
 # A pushed `vX.Y.Z` tag (from `npm run release`) becomes a GitHub release, its notes the
-# changelog section of that version.
+# changelog section of that version. Run by hand, it tags the `Release X.Y.Z` commit itself,
+# for when the tag can't be pushed.
 on:
   push:
     tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release, without the v (0.5.2)"
+        required: true
+      commit:
+        description: "Its `Release X.Y.Z` commit (full SHA)"
+        required: true
 
 permissions:
   contents: write
@@ -12,12 +21,22 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      TAG: ${{ inputs.version && format('v{0}', inputs.version) || github.ref_name }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit || github.ref }}
+
+      - name: The commit is that version
+        if: inputs.version
+        run: |
+          test "$(node -p 'require("./package.json").version')" = "${TAG#v}" \
+            || { echo "package.json at ${{ inputs.commit }} is not ${TAG#v}"; exit 1; }
 
       - name: Notes from the changelog
         run: |
-          version="${GITHUB_REF_NAME#v}"
+          version="${TAG#v}"
           awk -v v="$version" '
             $0 ~ "^## " v "( |$)" { on = 1; next }
             on && /^## / { exit }
@@ -28,4 +47,4 @@ jobs:
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" --title "purr ${GITHUB_REF_NAME#v}" --notes-file notes.md
+        run: gh release create "$TAG" --target "$(git rev-parse HEAD)" --title "purr ${TAG#v}" --notes-file notes.md

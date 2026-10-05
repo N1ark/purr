@@ -61,7 +61,9 @@ npm run format   # prettier
   to change; until 1.0 that means a minor bump, otherwise a patch.
 - `npm run release -- X.Y.Z` on a clean `main` checks, bumps, dates the section, commits
   `Release X.Y.Z` and tags `vX.Y.Z`; `git push --follow-tags` publishes it (`release.yml` turns the
-  tag into a GitHub release). Never move or delete a tag an app may pin.
+  tag into a GitHub release). Where tags can't be pushed, push `main` and run the Release
+  workflow by hand with the version and the `Release X.Y.Z` commit: it tags that commit itself.
+  Never move or delete a tag an app may pin.
 
 ## Rules
 
