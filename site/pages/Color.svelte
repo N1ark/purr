@@ -12,6 +12,7 @@
     readableOn,
     relativeLuminance,
     toHex,
+    toOklch,
     tooltip,
   } from "purr";
   import PageHeader from "../components/PageHeader.svelte";
@@ -33,11 +34,13 @@
   const bgLum = $derived(safe(() => relativeLuminance(bg)));
   const ink = $derived(safe(() => readableOn(bg)) ?? "#111");
 
-  let parseInput = $state("hsl(280 60% 40%)");
+  let parseInput = $state("oklch(0.484 0.193 318.7)");
   const parsed = $derived.by(() => {
     try {
       const rgb = parseColor(parseInput);
-      return { rgb, hex: toHex(rgb) };
+      const [l, c, h] = toOklch(rgb);
+      const oklch = `oklch(${+l.toFixed(3)} ${+c.toFixed(3)} ${+h.toFixed(1)})`;
+      return { rgb, hex: toHex(rgb), oklch };
     } catch (e) {
       return e instanceof Error ? e.message : String(e);
     }
@@ -107,23 +110,24 @@ relativeLuminance("${fg}")        // ${fgLum?.toFixed(3) ?? "throws"}`}
 </Section>
 
 <Section
-  title="parseColor and toHex"
-  description="Reads `#rgb`, `#rrggbb`, `#rrggbbaa` (alpha ignored) and `hsl()`; throws on anything else."
+  title="parseColor, toHex and toOklch"
+  description="Reads `#rgb`, `#rrggbb`, `#rrggbbaa`, `hsl()` and `oklch()` (alpha ignored, out-of-gamut clipped); throws on anything else. `toOklch` gives `[lightness, chroma, hue]`, the space the tokens are written in."
   code={`parseColor("${parseInput}") // ${typeof parsed === "string" ? "throws" : JSON.stringify(parsed.rgb)}
-toHex(rgb)                       // ${typeof parsed === "string" ? "—" : JSON.stringify(parsed.hex)}`}
+toHex(rgb)   // ${typeof parsed === "string" ? "—" : JSON.stringify(parsed.hex)}
+toOklch(rgb) // ${typeof parsed === "string" ? "—" : parsed.oklch}`}
 >
   <input class="field-input wide" aria-label="Colour to parse" bind:value={parseInput} />
   {#if typeof parsed === "string"}
     <span class="s-out danger">{parsed}</span>
   {:else}
     <span class="swatch" style:--c={parsed.hex}></span>
-    <span class="s-out">[{parsed.rgb.join(", ")}] → {parsed.hex}</span>
+    <span class="s-out">[{parsed.rgb.join(", ")}] → {parsed.hex} → {parsed.oklch}</span>
   {/if}
 </Section>
 
 <Section
   title="colorFromSeed, hashString and initials"
-  description="A stable hue from a user id (or a hashed name), spaced by the golden angle so neighbouring seeds look different; `Avatar` uses exactly this when there is no picture."
+  description="A stable hue from a user id (or a hashed name), spaced by the golden angle so neighbouring seeds look different, at one OKLCH lightness so none reads heavier than another; `Avatar` uses exactly this when there is no picture."
   code={`colorFromSeed(hashString("${name}")) // ${JSON.stringify(colorFromSeed(seed))}
 initials("${name}")                   // ${JSON.stringify(initials(name))}`}
   block

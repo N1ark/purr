@@ -7,7 +7,7 @@ export default defineStory({
   group: "Display",
   component: Callout,
   description:
-    "An aside in running text: a note, a tip, a warning. `tone` (or any `color`) tints it; an `icon` leads the `title`, or sits in the top corner when there is none. Inside `.md` it keeps the prose's rhythm; `--callout-tint` (up to 22% keeps the title AA), `--callout-pad`, `--callout-border` and `--callout-shadow` tune it from outside.",
+    "An aside in running text: a note, a tip, a warning. `tone` (or any `color`) tints it, and a `title` sits on a stronger band of the same colour; an `icon` leads the `title`, or sits in the top corner when there is none. Inside `.md` it keeps the prose's rhythm; `--callout-tint` (the body), `--callout-head-tint` (the band, up to 22% keeps the title AA), `--callout-pad`, `--callout-border` and `--callout-shadow` tune it from outside.",
   controls: {
     tone: {
       type: "select",

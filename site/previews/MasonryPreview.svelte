@@ -36,7 +36,7 @@
     display: grid;
     place-items: center;
     border-radius: var(--radius);
-    background: color-mix(in srgb, var(--c) 35%, var(--bg));
+    background: color-mix(in oklab, var(--c) 35%, var(--bg));
     font-weight: 650;
     color: var(--color2);
   }

@@ -1,6 +1,6 @@
 <script lang="ts">
-  // An aside in running text: a note, a tip, a warning. Tinted by its tone (or any colour); an
-  // icon leads the title, or sits in the top corner when there is no title.
+  // An aside in running text: a note, a tip, a warning. Tinted by its tone (or any colour); a title
+  // sits on a stronger band of it, an icon leads the title or sits in the top corner without one.
   import type { Snippet } from "svelte";
 
   type Tone = "accent" | "info" | "success" | "warn" | "danger" | "neutral";
@@ -46,22 +46,18 @@
 </div>
 
 <style>
-  /* Tuned from outside through `--callout-tint` (how much colour), `--callout-pad`,
-     `--callout-border` and `--callout-shadow`. */
+  /* Tuned from outside through `--callout-tint` (the body's colour), `--callout-head-tint` (the
+     title band's), `--callout-pad`, `--callout-border` and `--callout-shadow`. */
   .callout {
     position: relative;
     margin: var(--md-block, var(--sp-4)) 0;
-    padding: var(--callout-pad, var(--sp-4) var(--sp-5));
-    border: var(--callout-border, 1px solid color-mix(in srgb, var(--callout-c) 28%, transparent));
+    border: var(--callout-border, 1px solid color-mix(in oklab, var(--callout-c) 24%, transparent));
     border-radius: var(--radius);
-    background: color-mix(in srgb, var(--callout-c) var(--callout-tint, 10%), var(--bg));
+    background: color-mix(in oklab, var(--callout-c) var(--callout-tint, 5%), var(--bg));
     box-shadow: var(--callout-shadow, none);
     transition:
       background-color var(--dur-slow),
       color var(--dur-slow);
-  }
-  .callout.has-corner {
-    padding-right: var(--callout-corner, 3.5em);
   }
   /* The tone's own hue, held to a readable lightness the way `.ink` is. */
   .title,
@@ -73,7 +69,10 @@
     display: flex;
     align-items: center;
     gap: var(--gap-3);
-    margin: 0 0 var(--gap-3);
+    margin: 0;
+    padding: var(--sp-2) var(--sp-5);
+    border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+    background: color-mix(in oklab, var(--callout-c) var(--callout-head-tint, 14%), var(--bg));
     font-weight: 650;
   }
   .icon {
@@ -86,6 +85,12 @@
     right: var(--sp-3);
     display: flex;
     align-items: flex-start;
+  }
+  .body {
+    padding: var(--callout-pad, var(--sp-4) var(--sp-5));
+  }
+  .has-corner .body {
+    padding-right: var(--callout-corner, 3.5em);
   }
   .body > :global(:first-child) {
     margin-top: 0;

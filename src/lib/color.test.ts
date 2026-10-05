@@ -9,6 +9,7 @@ import {
   parseColor,
   readableOn,
   toHex,
+  toOklch,
 } from "./color";
 
 describe("contrastRatio", () => {
@@ -24,8 +25,34 @@ describe("contrastRatio", () => {
     expect(toHex(parseColor("hsl(120, 100%, 25%)"))).toBe("#008000");
   });
 
+  it("reads oklch(), in either lightness unit and with or without alpha", () => {
+    expect(toHex(parseColor("oklch(0.484 0.193 318.7)"))).toBe("#8a2aa2");
+    expect(toHex(parseColor("oklch(48.4% 0.193 318.7deg / 0.5)"))).toBe("#8a2aa2");
+    expect(parseColor("oklch(1 0 0)")).toEqual([255, 255, 255]);
+  });
+
+  it("clips a colour outside sRGB rather than wrapping it", () => {
+    expect(parseColor("oklch(0.9 0.4 140)").every((c) => c >= 0 && c <= 255)).toBe(true);
+  });
+
   it("refuses a colour it cannot read rather than scoring it", () => {
     expect(() => parseColor("rebeccapurple")).toThrow();
+  });
+});
+
+describe("toOklch", () => {
+  it("round-trips through oklch()", () => {
+    for (const hex of ["#8a2aa2", "#c0392b", "#61afef", "#0b0b0c"]) {
+      const [l, c, h] = toOklch(parseColor(hex));
+      expect(toHex(parseColor(`oklch(${l} ${c} ${h})`))).toBe(hex);
+    }
+  });
+
+  it("gives a grey no hue", () => {
+    const [l, c, h] = toOklch([255, 255, 255]);
+    expect(l).toBeCloseTo(1, 4);
+    expect(c).toBeLessThan(1e-4);
+    expect(h).toBe(0);
   });
 });
 
@@ -45,6 +72,14 @@ describe("colorFromSeed", () => {
   it("carries white initials at AA on every hue", () => {
     for (let seed = 0; seed < 360; seed++) {
       expect(contrastRatio("#fff", colorFromSeed(seed))).toBeGreaterThanOrEqual(AA_TEXT);
+    }
+  });
+
+  it("holds one lightness and stays inside sRGB on every hue", () => {
+    for (let seed = 0; seed < 360; seed++) {
+      const [l, c] = toOklch(parseColor(colorFromSeed(seed)));
+      expect(l).toBeCloseTo(0.5, 2);
+      expect(c).toBeCloseTo(0.08, 2);
     }
   });
 });

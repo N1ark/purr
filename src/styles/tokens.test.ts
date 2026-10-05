@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
 
-import { AA_NON_TEXT, AA_TEXT, contrastRatio } from "../lib/color";
+import { AA_NON_TEXT, AA_TEXT, contrastRatio, parseColor } from "../lib/color";
 import { ACCENTS, type ResolvedTheme } from "../lib/theme";
 
 // Read rather than imported: Vite hands a stylesheet to a test as an empty module, and the
@@ -121,10 +121,7 @@ const hex = (rgb: Rgb) =>
         .padStart(2, "0"),
     )
     .join("")}`;
-const rgbOf = (colour: string): Rgb =>
-  [1, 3, 5].map((i) => parseInt(colour.slice(i, i + 2), 16) / 255) as Rgb;
-const expand = (colour: string) =>
-  colour.length === 4 ? `#${[...colour.slice(1)].map((c) => c + c).join("")}` : colour;
+const rgbOf = (colour: string) => parseColor(colour).map((c) => c / 255) as Rgb;
 
 describe.each(THEMES)("text in any picked colour on %s", (theme) => {
   const palette = PALETTE[theme];
@@ -140,7 +137,7 @@ describe.each(THEMES)("text in any picked colour on %s", (theme) => {
           const pick: Rgb = [r, g, b];
           const ink = hex(clampLightness(pick, min, max));
           for (const page of ["--bg", "--bg2", "--bg3"]) {
-            const under = rgbOf(expand(palette[page]));
+            const under = rgbOf(palette[page]);
             const tint = hex(under.map((c, i) => 0.22 * pick[i] + 0.78 * c) as Rgb);
             worst = Math.min(worst, contrastRatio(ink, tint));
           }
@@ -157,7 +154,7 @@ describe.each(THEMES)("text in any picked colour on %s", (theme) => {
         for (const b of steps) {
           const mark = hex(clampLightness([r, g, b], markMin, markMax));
           for (const page of ["--bg", "--bg2", "--bg3", "--bg4"])
-            worst = Math.min(worst, contrastRatio(mark, expand(palette[page])));
+            worst = Math.min(worst, contrastRatio(mark, palette[page]));
         }
     expect(worst).toBeGreaterThanOrEqual(AA_NON_TEXT);
   });

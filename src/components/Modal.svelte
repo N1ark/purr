@@ -160,7 +160,7 @@
     background: var(--scrim-strong);
   }
   .scrim.frosted {
-    background: color-mix(in srgb, var(--bg) 55%, transparent);
+    background: color-mix(in oklab, var(--bg) 55%, transparent);
     backdrop-filter: blur(2px);
   }
   .panel {

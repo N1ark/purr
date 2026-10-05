@@ -2,7 +2,7 @@ import { readString, writeJson } from "./storage";
 
 /**
  * Only the accent group is overridden here; the palette is `styles/tokens.css`. Each accent
- * carries a light and a dark pair: a hue that reads on `#111` is too dark on white.
+ * carries a light and a dark pair: a hue that reads on `oklch(0.178 0 0)` is too dark on white.
  */
 
 export interface Accent {
@@ -15,15 +15,56 @@ export interface Accent {
 
 /** Checked against the palette in `theme.test.ts`: every pair keeps AA in its theme. */
 export const ACCENTS: readonly Accent[] = [
+  // One lightness per role, so every accent weighs the same; chroma is what each hue holds in sRGB.
   // The default, n1ark.com's purple; `tokens.css` carries the same four values.
-  { id: "purple", label: "Purple", light: ["#8a2aa2", "#a33bb0"], dark: ["#8a2aa2", "#c264cf"] },
-  { id: "magenta", label: "Magenta", light: ["#8d2757", "#b93d76"], dark: ["#c2447f", "#d96f9f"] },
-  { id: "red", label: "Red", light: ["#8f2f2a", "#b34c46"], dark: ["#c0504a", "#d97a74"] },
-  { id: "amber", label: "Amber", light: ["#8a5a12", "#906524"], dark: ["#9e6a1b", "#d19a3f"] },
-  { id: "green", label: "Green", light: ["#2f6b38", "#3b7a45"], dark: ["#43824b", "#6fb178"] },
-  { id: "teal", label: "Teal", light: ["#1d6360", "#297874"], dark: ["#2a817c", "#4fada8"] },
-  { id: "blue", label: "Blue", light: ["#27508f", "#3a6fb5"], dark: ["#3b73c4", "#6094db"] },
-  { id: "slate", label: "Slate", light: ["#4a525e", "#656e7b"], dark: ["#6b7280", "#98a1ad"] },
+  {
+    id: "purple",
+    label: "Purple",
+    light: ["oklch(0.46 0.19 319)", "oklch(0.52 0.19 319)"],
+    dark: ["oklch(0.52 0.19 319)", "oklch(0.7 0.162 319)"],
+  },
+  {
+    id: "magenta",
+    label: "Magenta",
+    light: ["oklch(0.46 0.16 356)", "oklch(0.52 0.16 356)"],
+    dark: ["oklch(0.52 0.16 356)", "oklch(0.7 0.136 356)"],
+  },
+  {
+    id: "red",
+    label: "Red",
+    light: ["oklch(0.46 0.15 26)", "oklch(0.52 0.15 26)"],
+    dark: ["oklch(0.52 0.15 26)", "oklch(0.7 0.128 26)"],
+  },
+  {
+    id: "amber",
+    label: "Amber",
+    light: ["oklch(0.46 0.105 70)", "oklch(0.52 0.105 70)"],
+    dark: ["oklch(0.52 0.105 70)", "oklch(0.7 0.089 70)"],
+  },
+  {
+    id: "green",
+    label: "Green",
+    light: ["oklch(0.46 0.12 147)", "oklch(0.52 0.12 147)"],
+    dark: ["oklch(0.52 0.12 147)", "oklch(0.7 0.102 147)"],
+  },
+  {
+    id: "teal",
+    label: "Teal",
+    light: ["oklch(0.46 0.085 190)", "oklch(0.52 0.085 190)"],
+    dark: ["oklch(0.52 0.085 190)", "oklch(0.7 0.072 190)"],
+  },
+  {
+    id: "blue",
+    label: "Blue",
+    light: ["oklch(0.46 0.14 258)", "oklch(0.52 0.14 258)"],
+    dark: ["oklch(0.52 0.14 258)", "oklch(0.7 0.119 258)"],
+  },
+  {
+    id: "slate",
+    label: "Slate",
+    light: ["oklch(0.46 0.025 258)", "oklch(0.52 0.025 258)"],
+    dark: ["oklch(0.52 0.025 258)", "oklch(0.7 0.021 258)"],
+  },
 ];
 
 export const DEFAULT_ACCENT = "purple";
@@ -72,7 +113,7 @@ export function currentTheme(): ResolvedTheme {
 /** The tints every accent derives from its two base colours, mirroring the ratios in `tokens.css`. */
 export function accentVars(accent: Accent, theme: ResolvedTheme): Record<string, string> {
   const [primary, secondary] = accent[theme];
-  const mix = (pct: number) => `color-mix(in srgb, ${primary} ${pct}%, transparent)`;
+  const mix = (pct: number) => `color-mix(in oklab, ${primary} ${pct}%, transparent)`;
   const dark = theme === "dark";
   return {
     "--theme": primary,

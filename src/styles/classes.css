@@ -145,7 +145,7 @@
 }
 /* A shortcut hint on the accent fill ("Save ⌘↩"): a grey key cap would read as a hole in it. */
 .btn--primary kbd {
-  background: color-mix(in srgb, currentColor 18%, transparent);
+  background: color-mix(in oklab, currentColor 18%, transparent);
   box-shadow: none;
   color: inherit;
 }
@@ -360,7 +360,7 @@ select.field-input {
   max-width: 100%;
   padding: 0 var(--sp-2);
   border-radius: var(--radius-pill);
-  background: color-mix(in srgb, var(--tag, var(--muted)) 22%, transparent);
+  background: color-mix(in oklab, var(--tag, var(--muted)) 22%, transparent);
   font-size: var(--fs-micro);
   font-weight: 550;
   line-height: 1.5;
