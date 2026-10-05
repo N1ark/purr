@@ -7,6 +7,8 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+## 0.5.1 — 2026-10-05
+
 ### Added
 
 - `MonthGrid`: a month as six weeks of days, from the reader's first weekday, today marked with
