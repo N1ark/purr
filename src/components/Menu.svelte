@@ -445,7 +445,7 @@
   }
   .item.danger:focus:not([aria-disabled="true"]),
   .item.armed {
-    background: color-mix(in srgb, var(--danger) 14%, transparent);
+    background: color-mix(in oklab, var(--danger) 14%, transparent);
     color: var(--danger);
   }
   .icon {

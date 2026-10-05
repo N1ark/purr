@@ -7,6 +7,24 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+### Changed
+
+- **Breaking**: the palette is written in OKLCH. Every colour token in `tokens.css` and every
+  `ACCENTS` pair (so `accentSwatch`) is now an `oklch()` string; they paint exactly the sRGB
+  colours they did. Code that read a token or an accent as hex (an `<input type="color">`, its
+  own parser) runs it through `toHex(parseColor(value))` instead.
+- **Breaking**: `colorFromSeed(seed, chroma = 0.08, lightness = 0.5)` returns `oklch()` at one
+  lightness for every hue, so no avatar reads heavier than its neighbour, white initials still
+  AA. Its optional arguments were `saturation` and `lightness` in HSL percentages; a call that
+  passed them passes OKLCH chroma and lightness (0–1). Avatars without a picture change colour.
+- Tints (`color-mix()` in `accentVars`, `.tag`, `Callout`, `Menu`, `Modal`) mix in `oklab`.
+
+### Added
+
+- `parseColor` reads `oklch()` (lightness as a number or a percentage, alpha ignored, colours
+  outside sRGB clipped), so `contrastRatio` and `readableOn` take the tokens as they are.
+- `toOklch(rgb)`: `[lightness, chroma, hue]` for an sRGB triple.
+
 ## 0.4.0 — 2026-10-02
 
 ### Added

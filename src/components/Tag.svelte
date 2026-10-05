@@ -74,7 +74,7 @@
     }
     .remove:hover {
       opacity: 1;
-      background: color-mix(in srgb, currentColor 18%, transparent);
+      background: color-mix(in oklab, currentColor 18%, transparent);
     }
   }
 </style>

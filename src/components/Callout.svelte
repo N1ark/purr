@@ -52,9 +52,9 @@
     position: relative;
     margin: var(--md-block, var(--sp-4)) 0;
     padding: var(--callout-pad, var(--sp-4) var(--sp-5));
-    border: var(--callout-border, 1px solid color-mix(in srgb, var(--callout-c) 28%, transparent));
+    border: var(--callout-border, 1px solid color-mix(in oklab, var(--callout-c) 28%, transparent));
     border-radius: var(--radius);
-    background: color-mix(in srgb, var(--callout-c) var(--callout-tint, 10%), var(--bg));
+    background: color-mix(in oklab, var(--callout-c) var(--callout-tint, 10%), var(--bg));
     box-shadow: var(--callout-shadow, none);
     transition:
       background-color var(--dur-slow),

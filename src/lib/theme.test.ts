@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { memoryStorage } from "./storage";
 import {
   ACCENTS,
+  accentById,
   accentVars,
   applyTheme,
   bootTheme,
@@ -44,7 +45,9 @@ describe("applyTheme", () => {
     applyTheme({ mode: "light", accent: "purple" });
     expect(document.documentElement.style.getPropertyValue("--theme")).toBe("");
     applyTheme({ mode: "light", accent: "teal" });
-    expect(document.documentElement.style.getPropertyValue("--theme")).toBe("#1d6360");
+    expect(document.documentElement.style.getPropertyValue("--theme")).toBe(
+      accentById("teal").light[0],
+    );
     applyTheme({ mode: "light" });
     expect(document.documentElement.style.getPropertyValue("--theme")).toBe("");
   });
@@ -53,7 +56,9 @@ describe("applyTheme", () => {
     applyTheme({ mode: "dark", accent: "green", storageKey: "t" });
     document.documentElement.className = "";
     expect(bootTheme("t")).toBe("dark");
-    expect(document.documentElement.style.getPropertyValue("--theme")).toBe("#43824b");
+    expect(document.documentElement.style.getPropertyValue("--theme")).toBe(
+      accentById("green").dark[0],
+    );
   });
 });
 

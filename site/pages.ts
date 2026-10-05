@@ -195,8 +195,8 @@ const WRITTEN: Page[] = [
     slug: "color",
     title: "Colour",
     group: "Utilities",
-    description: "contrastRatio, readableOn, colorFromSeed, initials and parseColor.",
-    keywords: ["contrast", "wcag", "color", "seed", "hash", "luminance"],
+    description: "contrastRatio, readableOn, colorFromSeed, initials, parseColor and toOklch.",
+    keywords: ["contrast", "wcag", "color", "seed", "hash", "luminance", "oklch"],
     ...page("Color"),
   },
   {
