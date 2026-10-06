@@ -21,14 +21,14 @@
 
 <PageHeader
   title="dragList"
-  description="`use:dragList` makes a container's rows draggable with native drag and drop, delegated from the container. Rows carry `data-dnd-index`; the action draws an insertion line and calls `onreorder(from, to)` with `to` already adjusted for the removal, ready for `moveItem`."
+  description="Rows marked `data-dnd-index` become draggable; `onreorder(from, to)` gets indices ready for `moveItem`."
   importLine={`import { dragList, dropIndex, moveItem } from "purr";`}
   source="src/actions/dragList.ts"
 />
 
 <Section
   title="Reorder"
-  description="Drag a row above or below another. The `group` keeps lists apart: a row only lands in a list of its own group."
+  description="A row only lands in a list of its own `group`."
   code={`<div
   use:dragList={{
     group: "sections",
@@ -65,7 +65,7 @@
 
 <Section
   title="Drop onto a target"
-  description="An element marked `data-dnd-target` inside the list takes a drop instead of an insertion: `ondropon(from, target)` gets the row's index and the target's name."
+  description="A `data-dnd-target` element takes the drop instead: `ondropon(from, target)`."
   code={`<div use:dragList={{ group: "notes", ondropon: (from, folder) => file(from, folder) }}>
   <div class="row-item" data-dnd-target="Archive"><Folder /> Archive</div>
   {#each notes as note, i (note)}
@@ -113,7 +113,7 @@
 
 <Section
   title="With a handle"
-  description="`handle: true` starts a drag only from an element marked `data-dnd-handle`, so text in the row stays selectable and nested lists don't pick up their section."
+  description="`handle: true` drags only from a `data-dnd-handle`, so row text stays selectable."
   code={`<div use:dragList={{ group: "stages", handle: true, onreorder }}>
   {#each stages as stage, i (stage)}
     <div class="row-item" data-dnd-index={i}>
@@ -141,7 +141,7 @@
 
 <Section
   title="dropIndex"
-  description="The arithmetic behind `to`: dropping before or after row `over` while row `from` is lifted out. Splicing removes the source first, so a destination after it shifts down one."
+  description="The arithmetic behind `to`: a destination after the source shifts down one."
   code={`dropIndex(${from}, ${over}, ${after}) // ${landed}`}
 >
   <div class="s-row">

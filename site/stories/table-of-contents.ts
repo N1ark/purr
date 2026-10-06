@@ -16,7 +16,7 @@ export default defineStory({
   group: "Layout",
   component: TableOfContents,
   description:
-    "A document's headings as a rail of links, nested by level from the shallowest present. Where it sits (a sticky column, a panel) is the page's. `headingsIn(root)` reads the entries off rendered HTML and names unnamed headings (`uniqueSlug`); `tocRows` is the layout it draws. `onselect` for a page that scrolls something other than the window.",
+    "A document's headings as a nested rail of links. `headingsIn(root)` reads them off rendered HTML; `onselect` when something other than the window scrolls.",
   controls: {
     title: { type: "text", optional: true, value: "Contents" },
     label: { type: "text", default: "Table of contents" },

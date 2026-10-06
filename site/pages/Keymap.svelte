@@ -5,7 +5,6 @@
     ShortcutList,
     ShortcutsOverlay,
     createKeymap,
-    helpGroups,
     resolveKey,
     toast,
     type Binding,
@@ -77,20 +76,18 @@
     // The site's own keys (t, /, ?) stay out of the demo.
     if (e.key !== "Tab") e.stopPropagation();
   }
-
-  const TABLE = BINDINGS.filter((b) => !b.hidden);
 </script>
 
 <PageHeader
   title="createKeymap"
-  description="One table of bindings drives the keys, the chords and the `?` overlay. `keymap.handle(event, run)` resolves a keydown (plain keys stand aside while typing or under an overlay; `⌘` ones do not), waits for a chord's second key, and prevents the default of what it handled."
+  description="One table of bindings drives keys, chords and the `?` overlay. Plain keys stand aside while typing or under an overlay; `⌘` ones don't."
   importLine={`import { createKeymap, helpGroups, ShortcutList, ShortcutsOverlay } from "purr";`}
   source="src/lib/keys.ts"
 />
 
 <Section
   title="Try it"
-  description="Click the list, then press j / k (or the arrows), g then i, g then l, ⇧D, ⌘E or h. The log shows what `resolveKey` made of each press."
+  description="Click the list and press j, k, g then i, ⇧D or h; the log shows what `resolveKey` made of each."
   code={`type Action = "down" | "up" | "inbox" | "delete" | "help";
 const keymap = createKeymap<Action>([
   { keys: "j", action: "down", label: "Next item", group: "Moving" },
@@ -141,7 +138,7 @@ const keymap = createKeymap<Action>([
 
 <Section
   title="The bindings"
-  description="`keys` is a hint; `group` heads it in the help; `hidden` keeps an alias out of it. `typing` and `overlay` let a plain key fire while a field has focus or a dialog is open."
+  description="`hidden` keeps an alias out of the help; `typing` and `overlay` let a plain key fire in a field or under a dialog."
   block
 >
   <table class="s-table">
@@ -157,15 +154,12 @@ const keymap = createKeymap<Action>([
       {/each}
     </tbody>
   </table>
-  <p class="muted note">
-    {TABLE.length} visible bindings fold into {groups.reduce((n, g) => n + g.entries.length, 0)} help
-    rows: bindings sharing an action and a label are one row.
-  </p>
+  <p class="muted note">Bindings sharing an action and a label make one help row.</p>
 </Section>
 
 <Section
   title="The help"
-  description="`keymap.help()` (or `helpGroups(bindings)`) folds the table into groups for `ShortcutList`, which `ShortcutsOverlay` puts in a modal. `extra` adds rows for keys handled elsewhere."
+  description="`keymap.help()` (or `helpGroups`) groups the table for `ShortcutList` and `ShortcutsOverlay`; `extra` adds keys handled elsewhere."
   code={`const groups = keymap.help({
   groups: ["Moving", "Going", "Editing"],
   extra: [{ label: "Close what's open", hints: ["Esc"], group: "Going" }],
@@ -180,11 +174,6 @@ const keymap = createKeymap<Action>([
     <div>
       <Button onclick={() => (help = true)}><Keyboard /> Open the overlay</Button>
     </div>
-    <span class="muted"
-      >Same rows from <code>helpGroups</code>: {helpGroups(BINDINGS)
-        .map((g) => g.title)
-        .join(", ")}</span
-    >
   </div>
 </Section>
 
@@ -216,8 +205,5 @@ const keymap = createKeymap<Action>([
   .note {
     margin: var(--sp-4) 0 0;
     font-size: var(--fs-sm);
-  }
-  code {
-    font-family: var(--mono);
   }
 </style>

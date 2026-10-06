@@ -6,7 +6,7 @@ export default defineStory({
   group: "Display",
   component: Kbd,
   description:
-    "A shortcut hint as key caps, from the one notation `lib/keys.ts` matches on: `⇧⌘K`, `⌥↓`, `j`, or a chord `g i`. `⌘` reads as Ctrl off a Mac.",
+    "A shortcut hint as key caps: `⇧⌘K`, `j`, or a chord `g i`. `⌘` reads as Ctrl off a Mac.",
   controls: {
     hint: { type: "text", value: "⇧⌘K" },
     then: { type: "text", default: "then", note: "Between a chord's steps" },

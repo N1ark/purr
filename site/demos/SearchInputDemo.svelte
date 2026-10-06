@@ -14,7 +14,6 @@
       </IconButton>
     {/snippet}
   </SearchInput>
-  <p class="muted">A trailing filter toggle, as Tulip's channel list has.</p>
 </div>
 
 <style>
@@ -22,10 +21,5 @@
     width: 360px;
     max-width: 100%;
     box-shadow: none;
-  }
-  p {
-    margin: 0;
-    padding: var(--sp-4);
-    font-size: var(--fs-sm);
   }
 </style>

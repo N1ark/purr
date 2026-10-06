@@ -6,7 +6,7 @@ export default defineStory({
   group: "Display",
   component: PresenceDot,
   description:
-    "Green when active, amber when idle, nothing when offline. Set `--ring-bg` on the surface behind it so its cut-out ring matches.",
+    "Green when active, amber when idle, nothing when offline. Set `--ring-bg` to the surface behind it.",
   controls: {
     state: { type: "select", options: ["active", "idle", "offline"], value: "active" },
     size: { type: "number", default: 7, min: 4, max: 24 },

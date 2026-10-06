@@ -5,8 +5,7 @@ export default defineStory({
   title: "TextArea",
   group: "Forms",
   component: TextArea,
-  description:
-    "A labelled multi-line `.field-input`, resizable vertically; `mono` for code, templates and commit messages.",
+  description: "A labelled multi-line `.field-input`, resizable vertically; `mono` for code.",
   width: "380px",
   controls: {
     value: { type: "text", multiline: true, value: "Fix the thing\n\nIt was broken." },

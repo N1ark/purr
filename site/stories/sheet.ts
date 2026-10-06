@@ -7,10 +7,10 @@ export default defineStory({
   group: "Overlays & menus",
   component: Sheet,
   description:
-    "The one panel a phone shows at a time: a bottom sheet with two stops, peeking and full, dragged by its grabber or its contents, flung to the next stop or off the bottom. A field taking focus opens it fully. Moved by a transform, so the drag stays on the compositor.",
+    "A phone's bottom sheet with two stops, peeking and full, dragged by its grabber or contents. A focused field opens it fully.",
   controls: {
     label: { type: "text", value: "A sheet" },
-    full: { type: "boolean", default: false, note: "At the top stop rather than peeking" },
+    full: { type: "boolean", default: false, note: "Open fully" },
     expandLabel: { type: "text", default: "Expand" },
     collapseLabel: { type: "text", default: "Collapse" },
   },

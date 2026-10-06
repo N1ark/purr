@@ -61,14 +61,14 @@
 
 <PageHeader
   title="createUpdater"
-  description="Self-updating, the same in every app: check quietly now and then, download what was found, restart only when the person says so. The native calls come in as arguments, so nothing imports Tauri; the state is runes a banner and a settings row read."
+  description="The self-update cycle as runes: check quietly, download, restart when asked. Native calls are passed in, so nothing imports Tauri."
   importLine={`import { createUpdater, noteSummary, Banner } from "purr";`}
   source="src/lib/updater.svelte.ts"
 />
 
 <Section
   title="The cycle"
-  description="`check(true)` is a check somebody asked for: it always runs and records its error. Once downloaded the stage is `ready` and the banner offers a restart."
+  description="`check(true)` is a manual check: it always runs and records its error. Once downloaded, the stage is `ready`."
   code={`const updater = createUpdater({
   check: () => invoke("check_update"),     // UpdateInfo | null
   download: (info) => invoke("download_update"),
@@ -121,14 +121,14 @@ $effect(() => updater.start());           // automatic checks, every 6 hours
         {/snippet}
       </Banner>
     {:else if updater.ready && updater.dismissed}
-      <span class="muted">Dismissed: settings still knows, and so does the next start.</span>
+      <span class="muted">Dismissed: the update still waits in settings.</span>
     {/if}
   </div>
 </Section>
 
 <Section
   title="noteLines and noteSummary"
-  description="A changelog section flattened, not rendered: a banner has no room for markdown. `noteSummary` drops the headings and keeps the first few lines."
+  description="Release notes flattened to plain lines; `noteSummary` drops headings and keeps the first few."
   code={`noteSummary(notes)    // ${JSON.stringify(noteSummary(NOTES))}`}
   block
 >
@@ -147,7 +147,7 @@ $effect(() => updater.start());           // automatic checks, every 6 hours
 
 <Section
   title="dueForCheck"
-  description="Whether enough time has passed since the last check; a clock that went backwards means check now."
+  description="Whether enough time has passed since the last check (a clock that went backwards counts as yes)."
   code={`dueForCheck(last, Date.now(), CHECK_INTERVAL) // CHECK_INTERVAL = ${CHECK_INTERVAL} (6 hours)`}
 >
   <label class="s-row field"

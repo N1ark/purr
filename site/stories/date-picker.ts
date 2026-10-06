@@ -7,7 +7,7 @@ export default defineStory({
   group: "Forms",
   component: DatePicker,
   description:
-    "A small month to pick a day from, made to sit in a `Popover`: the arrows walk the days and Page Up/Down the months, Enter or a click picks one. `value` and `onpick` are `dayKey`s; today is marked, the picked day filled.",
+    "A month to pick a day from, made for a `Popover`. Arrows walk the days, Page Up/Down the months; `value` and `onpick` are `dayKey`s.",
   controls: {},
   code: () => `<Popover {anchor} label="Due" onclose={close} autofocus>
   <DatePicker value={due} onpick={(day) => { due = day; close(); }} />

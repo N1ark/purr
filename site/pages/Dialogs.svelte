@@ -55,7 +55,7 @@
 
 <PageHeader
   title="confirmAction & promptText"
-  description="A promise, not a callback tree: `await` a yes/no question, a line of text or a small form. One `DialogHost` renders them; Enter confirms from anywhere but a textarea, Escape cancels. For anything richer than a few fields, write a `Modal`."
+  description="`await` a yes/no question, a line of text or a small form, rendered by one `DialogHost`. Anything richer is a `Modal`."
   importLine={`import { confirmAction, promptText, dialog, DialogHost } from "purr";`}
   source="src/lib/dialog.svelte.ts"
 />
@@ -75,7 +75,7 @@
 
 <Section
   title="promptText"
-  description="One required line of text: the trimmed value, or null when cancelled or left empty."
+  description="A line of text: the trimmed value, or null if cancelled or empty."
   code={`const name = await promptText("Rename topic", { label: "New name", value: "Menus" });`}
 >
   <Button onclick={rename}>Rename…</Button>
@@ -83,7 +83,7 @@
 
 <Section
   title="dialog.ask"
-  description="A few fields of any kind: text, textarea, select, checkbox, password. `required` blocks confirming while empty. Resolves the values by name, or null."
+  description="A few fields; resolves the values by name, or null. `required` blocks confirming while empty."
   code={`const values = await dialog.ask({
   title: "New repository",
   confirmLabel: "Create",
@@ -105,7 +105,7 @@
     {#each log as entry (entry.id)}
       <span class="s-out"><span class="muted">{entry.call} →</span> {entry.result}</span>
     {:else}
-      <span class="muted">Open a dialog above; what it resolves to shows here.</span>
+      <span class="muted">Results show here.</span>
     {/each}
   </div>
 </section>

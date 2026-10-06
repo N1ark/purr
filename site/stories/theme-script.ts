@@ -7,7 +7,7 @@ export default defineStory({
   group: "Layout",
   component: ThemeScript,
   description:
-    "For a server-rendered page (SvelteKit): `bootTheme` as an inline script in the `<head>`, so the first paint is already in the stored theme, or the system's when nothing is stored. It reads what `applyTheme({ storageKey })` writes; on mount, call `applyTheme({ mode: storedThemeMode(key), storageKey: key })` and read `liveTheme` for the rest. `themeScript(key)` is the same source as a string.",
+    "For a server-rendered page: `bootTheme` inlined in the `<head>`, so the first paint is already in the stored theme. On mount, call `applyTheme({ mode: storedThemeMode(key), storageKey: key })`.",
   controls: {
     storageKey: { type: "text", value: "theme", required: true },
     nonce: { type: "text", optional: true, value: "" },

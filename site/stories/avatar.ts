@@ -7,7 +7,7 @@ export default defineStory({
   group: "Display",
   component: Avatar,
   description:
-    "A picture, or initials on a colour derived from `seed` (a user id or an email). A picture that fails to load falls back to the initials. Rendered once per row: no listeners, no measuring.",
+    "A picture, or initials on a colour derived from `seed`; a picture that fails to load falls back to the initials.",
   controls: {
     name: { type: "text", value: "Ada Lovelace" },
     src: {
@@ -23,7 +23,7 @@ export default defineStory({
       type: "text",
       optional: true,
       value: "",
-      note: "What the colour derives from; name by default",
+      note: "Colour source; name by default",
     },
     size: {
       type: "number",

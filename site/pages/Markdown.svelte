@@ -1,12 +1,12 @@
 <script lang="ts">
-  // Rendered markdown in `.md`, and the four highlighter markups `code.css` colours.
+  // Rendered markdown in `.md`, and the highlighter markups `code.css` colours.
   import { Checkbox, inlineCodeLang } from "purr";
   import PageHeader from "../components/PageHeader.svelte";
   import Section from "../components/Section.svelte";
   import { highlight } from "../lib/highlight";
 
   const INLINE_DESCRIPTION =
-    "A code span names its language at the end, `Vec<u8>{:rust}`. `inlineCodeLang(text)` splits it into `{ code, lang }` (or `null`); the app highlights `code` with its own highlighter and `code.css` colours the span as it would a block. An unknown language should render the span as written.";
+    "A code span can end with its language, `Vec<u8>{:rust}`. `inlineCodeLang(text)` splits it into `{ code, lang }` (or `null`) for your highlighter; render an unknown language as written.";
 
   const INLINE_CODE = `import { inlineCodeLang } from "purr";
 
@@ -35,14 +35,14 @@ const inlineHighlight: MarkedExtension = {
 
 <PageHeader
   title="Markdown & code"
-  description="Wrap rendered markdown in `.md` and it is styled: headings, lists, task lists, quotes, tables, media, mentions. `.md--compact` tightens it for a chat message. `code.css` colours highlight.js, Prism (and legit's flattened Prism) and Pygments markup from the same `--code-*` tokens."
+  description="Wrap rendered markdown in `.md`; `.md--compact` tightens it. `code.css` colours highlight.js, Prism and Pygments markup alike."
   importLine={`import "purr/styles.css";`}
   source="src/styles/markdown.css"
 />
 
 <Section
   title="Prose"
-  description="Everything a renderer emits, in .md. Apps add their own pieces (mentions, wikilinks, embeds) as .md .their-class."
+  description="Everything a renderer emits. Style your own pieces as .md .your-class."
   code={`<div class="md">{@html html}</div>
 <div class="md md--compact">{@html message}</div>`}
   block
@@ -60,7 +60,7 @@ const inlineHighlight: MarkedExtension = {
       <mark>a highlight</mark>
       and a
       <time>Tue 14:30</time>. A long URL wraps anywhere:
-      https://example.com/user_uploads/2/ab/cdefghijklmnopqrstuvwxyz0123456789/a-very-long-file-name.png
+      https://example.com/files/abcdefghijklmnopqrstuvwxyz0123456789/a-very-long-file-name.png
     </p>
     <h2>Heading two</h2>
     <ul>
@@ -99,7 +99,7 @@ const inlineHighlight: MarkedExtension = {
 
 <Section
   title="Code"
-  description="The same token colours whichever highlighter produced the markup: highlight.js (.hljs-*), Prism (.token.*), the .t-* runs legit's worker emits, and Pygments' short classes inside .codehilite, as Zulip renders them."
+  description="Same colours from highlight.js (.hljs-*), Prism (.token.*), flattened .t-* runs and Pygments (.codehilite)."
   block
 >
   <div class="md">
@@ -135,7 +135,7 @@ const inlineHighlight: MarkedExtension = {
         ><span class="token punctuation">;</span> <span class="token punctuation">{"}"}</span>
 <span class="token punctuation">{"}"}</span></code
       ></pre>
-    <h3>Prism, as legit's worker flattens it</h3>
+    <h3>Prism, flattened to .t-* runs</h3>
     <pre><code
         ><span class="t-keyword">fn</span> <span class="t-function">main</span><span
           class="t-punctuation">()</span
@@ -150,7 +150,7 @@ const inlineHighlight: MarkedExtension = {
         ><span class="t-punctuation">);</span>
 <span class="t-punctuation">{"}"}</span></code
       ></pre>
-    <h3>Pygments, as Zulip renders it</h3>
+    <h3>Pygments</h3>
     <div class="codehilite" data-code-language="Python">
       <div class="code-head">
         <span class="code-lang">python</span><button class="code-copy">Copy</button>

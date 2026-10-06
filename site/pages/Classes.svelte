@@ -15,8 +15,7 @@
   const BUTTONS: Demo[] = [
     {
       title: ".btn",
-      description:
-        "A bare button is reset; one that looks like a button is .btn plus a variant. Hover styling is under (hover: hover), so a tap does not leave it lit.",
+      description: "A bare button is reset; .btn plus a variant makes it look like one.",
       code: `<button class="btn">Default</button>
 <button class="btn btn--primary">Primary</button>
 <button class="btn btn--ghost">Ghost</button>
@@ -27,8 +26,7 @@
     },
     {
       title: "Sizes and states",
-      description:
-        "--sm and --lg; engaged is aria-pressed, aria-expanded (its popover is open) or .is-on. A kbd on the accent fill drops its key cap.",
+      description: "Engaged is aria-pressed, aria-expanded or .is-on.",
       code: `<button class="btn btn--sm">Small</button>
 <button class="btn btn--lg">Large</button>
 <button class="btn" aria-pressed="true">Pressed</button>
@@ -40,8 +38,7 @@
 
   const FIELDS: Demo = {
     title: ".field-input",
-    description:
-      "Inputs, selects and textareas that look like fields. aria-invalid or .is-invalid paints the border in the danger colour.",
+    description: "Inputs, selects and textareas; aria-invalid or .is-invalid marks an error.",
     code: `<input class="field-input" placeholder="A field" />
 <input class="field-input is-invalid" aria-invalid="true" value="not-an-email" />
 <input class="field-input" value="Disabled" disabled />
@@ -54,8 +51,7 @@
 
   const CHECKBOXES: Demo = {
     title: ".checkbox",
-    description:
-      "A drawn box with Phosphor's bold tick, on a real checkbox or on anything with aria-checked or .is-on.",
+    description: "On a real checkbox, or anything with aria-checked or .is-on.",
     code: `<input type="checkbox" class="checkbox" checked aria-label="Checked" />
 <input type="checkbox" class="checkbox" aria-label="Unchecked" />
 <input type="checkbox" class="checkbox" checked disabled aria-label="Disabled" />
@@ -67,8 +63,7 @@
   const LABELS: Demo[] = [
     {
       title: ".tag",
-      description:
-        "A small capsule; --tag tints it with the tag's own colour, unset it is neutral. .tag--caps is furniture: BOT, you, built-in.",
+      description: "--tag tints it; unset it is neutral. .tag--caps for labels like BOT.",
       code: `<span class="tag">neutral</span>
 <span class="tag tag--caps">bot</span>
 <span class="tag tag--caps" style="--tag: var(--theme2)">you</span>
@@ -78,8 +73,7 @@
     },
     {
       title: ".swatch",
-      description:
-        "A colour to pick, from --c: a rounded square, or a dot with .swatch--round. Pressed (or aria-checked, .is-on) rings it.",
+      description: "A colour from --c; .swatch--round for a dot. Pressed rings it.",
       code: `<button class="swatch" style="--c: #e06c75" aria-label="Red"></button>
 <button class="swatch" style="--c: #98c379" aria-label="Green" aria-pressed="true"></button>
 <button class="swatch" style="--c: #61afef" aria-label="Blue"></button>
@@ -92,7 +86,7 @@
   const TEXT: Demo = {
     title: "Layout and text",
     description:
-      ".truncate (with the min-width a flex item needs), .rule (the hairline beside a heading), .sr-only (read, never seen), .selectable (text a user may select in a shell that otherwise is not) and .hoverable.",
+      ".truncate, .rule (a hairline beside a heading), .sr-only, .selectable and .hoverable.",
     code: `<div style="display: flex; align-items: center; gap: var(--gap-4); width: 100%">
   <span class="faint">Section</span>
   <span class="rule"></span>
@@ -105,8 +99,7 @@
 
   const SURFACE: Demo = {
     title: ".surface",
-    description:
-      "A raised sheet: popovers, cards, menus. --surface background, a border, the radius and --box-shadow.",
+    description: "A raised sheet for popovers, cards and menus.",
     code: `<div class="surface" style="padding: var(--sp-4) var(--sp-5)">A raised sheet</div>
 <div class="surface" style="padding: var(--sp-4) var(--sp-5)">
   <span class="muted">.muted</span> · <span class="faint">.faint</span> ·
@@ -116,8 +109,7 @@
 
   const FOCUS: Demo = {
     title: ".focus-frame",
-    description:
-      "A focusable scroller's own rows paint over its focus ring. Wrap it in .focus-frame and the ring is drawn on top instead. Tab into both lists to compare.",
+    description: "Draws a scroller's focus ring above its rows. Tab into both to compare.",
     code: `<div class="surface scroller" tabindex="0" role="region" aria-label="Without a frame">
   <div class="row-item is-current">Without a frame</div>
   <div class="row-item">Inbox</div>
@@ -143,7 +135,7 @@
 
 <PageHeader
   title="Classes"
-  description="The global classes in `classes.css` and `base.css`, used by name from markup. Bare elements are reset, not styled; state is `.is-current` (selected in navigation), `.is-on` (an engaged toggle) and `.is-cursor` (the keyboard cursor)."
+  description="Global classes from `classes.css`. Bare elements are reset; state is `.is-current` (selected), `.is-on` (engaged) and `.is-cursor` (keyboard cursor)."
   importLine={`import "purr/styles.css";`}
   source="src/styles/classes.css"
 />
@@ -152,7 +144,7 @@
 
 <Section
   title=".btn--icon"
-  description="Square, holding one icon; the glyph is 1em, so a Phosphor icon needs no size. IconButton adds the tooltip and the label."
+  description="Square, for one icon. IconButton adds the tooltip and label."
   code={`<button class="btn btn--icon btn--ghost btn--sm" aria-label="Edit"><PencilSimple /></button>
 <button class="btn btn--icon btn--ghost" aria-label="Settings"><Gear /></button>
 <button class="btn btn--icon btn--ghost btn--lg" aria-label="Refresh"><ArrowsClockwise /></button>
@@ -168,7 +160,7 @@
 
 <Section
   title=".row-item"
-  description="One clickable line in a list, --row-h tall. .is-current marks the selected one (with aria-current), .is-cursor the keyboard cursor; .fills lets a row share its line."
+  description="One clickable line in a list. .fills lets a row share its line."
   code={`<button class="row-item"><Hash /> <span class="truncate">general</span></button>
 <button class="row-item is-current" aria-current="page">
   <Hash /> <span class="truncate fills">design</span> <Badge count={3} />
@@ -203,7 +195,7 @@
 
 <Section
   title=".pill"
-  description="A capsule toggle; aria-pressed (or .is-on) fills it with the accent wash. Chip is the component."
+  description="A capsule toggle, on with aria-pressed or .is-on. Chip is the component."
   code={`<button class="pill" aria-pressed={unread} onclick={() => (unread = !unread)}>Unread</button>`}
 >
   {#each Object.keys(pills) as key (key)}
@@ -223,7 +215,7 @@
 
 <Section
   title=".spin"
-  description="Always turning: on the icon while something is busy, never on the button itself."
+  description="Spins an icon while busy; put it on the icon, not the button."
   code={`<span class="spin"><ArrowsClockwise /></span>`}
 >
   <span class="spin"><ArrowsClockwise /></span>
@@ -236,7 +228,7 @@
 
 <Section
   title="Overlay classes"
-  description="overlays.css styles what the behaviour layer paints outside any one component: the tooltip bubble and the drag-to-reorder marks (.dnd-before, .dnd-after, .dnd-dragging, .dnd-target-over, [data-dnd-handle])."
+  description="overlays.css styles the tooltip bubble and the drag-to-reorder marks (.dnd-*)."
 >
   <a class="btn" href={href("tooltip")}>tooltip</a>
   <a class="btn" href={href("drag-list")}>dragList</a>

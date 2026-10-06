@@ -12,7 +12,7 @@ export default defineStory({
   group: "Display",
   component: Banner,
   description:
-    "A notice that stays until acted on: an update ready to install, a lost connection. Floats in the bottom corner, or sits `inline` in the page; `actions` holds its buttons.",
+    "A notice that stays until acted on, like an update or a lost connection. It floats in the bottom corner, or sits `inline`.",
   controls: {
     title: { type: "text", value: "Purr 0.2.0 is ready — restart to apply" },
     lines: {

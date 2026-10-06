@@ -9,8 +9,8 @@
 
 <div class="s-stack frame">
   <span class="muted">
-    It renders nothing visible: this is the script it writes into the head ({source.length} bytes). The
-    page is painted <strong>{liveTheme.current}</strong> right now.
+    The script it writes into the head ({source.length} bytes); this page is
+    <strong>{liveTheme.current}</strong>.
   </span>
   <pre class="s-out">{source}</pre>
 </div>

@@ -7,12 +7,12 @@ export default defineStory({
   group: "Layout",
   component: PanelHeader,
   description:
-    "A pane's first line: an icon, a title, a count, then `children` (a filter, a status), `actions` and a close button when `onclose` is given.",
+    "A pane's first line: icon, title, count, then `children`, `actions` and a close button when `onclose` is set.",
   controls: {
     title: { type: "text", value: "Pull requests" },
     icon: { type: "icon", optional: true, value: "GitPullRequest" },
     count: { type: "number", optional: true, value: 12, min: 0 },
-    level: { type: "select", options: [2, 3, 4], default: 2, note: "The title's heading level" },
+    level: { type: "select", options: [2, 3, 4], default: 2 },
     closeLabel: { type: "text", default: "Close" },
     actions: { type: "boolean", pseudo: true, value: true, note: "A refresh button" },
   },

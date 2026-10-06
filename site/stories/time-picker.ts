@@ -7,7 +7,7 @@ export default defineStory({
   group: "Forms",
   component: TimePicker,
   description:
-    "A time of day, made to sit in a `Popover`: a field for an exact time over a list every `step` minutes, scrolled to the picked one (or the morning). `noneLabel` adds a first entry that picks no time (`null`).",
+    "A time of day for a `Popover`: a field for an exact time over a list every `step` minutes. `noneLabel` adds an entry for no time (`null`).",
   controls: {
     step: { type: "select", value: "30", options: ["15", "30", "60"] },
   },

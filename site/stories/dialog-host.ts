@@ -7,7 +7,7 @@ export default defineStory({
   group: "Overlays & menus",
   component: DialogHost,
   description:
-    "Mount once; it renders what `await dialog.ask(spec)`, `confirmAction` and `promptText` ask: a title, a description, a few fields, and two buttons. The promise resolves to the values, or null when cancelled. Enter confirms from anywhere but a textarea.",
+    "Mount once; it renders `dialog.ask`, `confirmAction` and `promptText`. The promise resolves to the values, or null when cancelled.",
   keywords: ["dialog", "confirm", "prompt", "ask", "alert"],
   controls: {
     title: { type: "text", pseudo: true, value: "Rename topic" },

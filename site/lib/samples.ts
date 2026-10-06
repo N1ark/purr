@@ -2,9 +2,9 @@
 import { helpGroups, type Binding, type LightboxItem, type PaletteItem } from "purr";
 import { Gear, GitBranch, Keyboard, Note, Plus } from "purr/icons";
 
-/** Dagobert's tag palette. */
+/** A tag palette. */
 export const TAGS = ["#b045ab", "#c678dd", "#61afef", "#56b6c2", "#98c379", "#e5c07b", "#d19a66"];
-/** A slice of Tulip's channel colours. */
+/** Softer channel colours. */
 export const CHANNELS = [
   "#76ce90",
   "#fae589",

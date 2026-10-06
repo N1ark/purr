@@ -6,8 +6,7 @@ export default defineStory({
   title: "SettingGroup",
   group: "Layout",
   component: SettingGroup,
-  description:
-    "A titled run of `SettingRow`s, with a description before the rows and a note after them; the rows draw the rules between themselves.",
+  description: "A titled run of `SettingRow`s, with an optional description and note.",
   controls: {
     title: { type: "text", optional: true, value: "Notifications" },
     description: { type: "text", optional: true, value: "" },

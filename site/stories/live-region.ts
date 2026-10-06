@@ -7,7 +7,7 @@ export default defineStory({
   group: "Display",
   component: LiveRegion,
   description:
-    "Says something to a screen reader without showing it: after whatever it is reading, or at once with `assertive` (errors only). Pass a rising `seq`, so the same text said twice is still news.",
+    "Says something to a screen reader without showing it. Pass a rising `seq` so the same text said twice is still announced.",
   controls: {
     text: { type: "text", value: "3 results" },
     assertive: { type: "boolean", default: false },

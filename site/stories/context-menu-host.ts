@@ -7,7 +7,7 @@ export default defineStory({
   group: "Overlays & menus",
   component: ContextMenuHost,
   description:
-    "Mount once; it shows whatever `menu.show(event, entries, title)`, `menu.showFor(button, entries)` or `menu.showAt(x, y, entries)` opens, one menu at a time. The entries may be a function, re-read while open, so a `keepOpen` toggle shows its new state.",
+    "Mount once; it shows what `menu.show`, `menu.showFor` or `menu.showAt` opens. Entries may be a function, re-read while open, so toggles update in place.",
   keywords: ["menu", "right-click", "contextmenu", "menu.show"],
   controls: {
     title: { type: "text", pseudo: true, optional: true, value: "Design the schema" },

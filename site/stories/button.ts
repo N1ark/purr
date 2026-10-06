@@ -7,10 +7,10 @@ export default defineStory({
   group: "Controls",
   component: Button,
   description:
-    "A `.btn` as a component: five variants, three sizes, a loading state that blocks clicks, and a pressed state for toggles. Any other button attribute passes through.",
+    "A `.btn` as a component, with a loading state that blocks clicks and a pressed state for toggles.",
   controls: {
     children: { type: "text", value: "Save" },
-    icon: { type: "icon", optional: true, note: "An icon before the text, as a child" },
+    icon: { type: "icon", optional: true },
     variant: {
       type: "select",
       options: ["default", "primary", "ghost", "danger", "link"],
@@ -29,7 +29,7 @@ export default defineStory({
         { label: "true", value: true, code: "true" },
       ],
       default: "unset",
-      note: "A toggle's state: aria-pressed and the engaged look",
+      note: "A toggle's state",
     },
   },
   children: { text: "children", icon: "icon" },

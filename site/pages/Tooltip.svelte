@@ -30,14 +30,14 @@
 
 <PageHeader
   title="tooltip"
-  description="`use:tooltip` shows an instant tooltip on hover and on keyboard focus, unlike `title`, which waits a second. One shared bubble on `<body>`, placed above the target or below it when there is no room. Nothing on a phone: there is no hover."
+  description="An instant tooltip on hover and keyboard focus, above the target or below when there is no room. None on a phone."
   importLine={`import { tooltip } from "purr";`}
   source="src/actions/tooltip.ts"
 />
 
 <Section
   title="Try it"
-  description="Text, an optional shortcut hint (written in purr's glyph form, shown the platform's way) and a preferred side. `false`, `null` or an empty string turns it off."
+  description="Text, an optional shortcut hint and a preferred side; `false`, `null` or an empty string turns it off."
   code={live}
 >
   <div class="s-stack fill">
@@ -68,7 +68,7 @@
 
 <Section
   title="Kinds of content"
-  description="A string; text with a hint; sanitised HTML; or a function, evaluated on each hover (only when a label overflows, say)."
+  description="A string, text with a hint, sanitised HTML, or a function evaluated on each hover."
   code={`<button class="btn" use:tooltip={"Instant, unlike title"}>Text</button>
 <button class="btn" use:tooltip={{ text: "Undo", hint: "⌘Z" }}>With a shortcut</button>
 <button class="btn" use:tooltip={{ html: "<b>Bold</b> and <code>code</code>" }}>HTML</button>
@@ -94,7 +94,7 @@
 
 <Section
   title="On icon buttons"
-  description={"`IconButton` wires its `label` (and `shortcut`) into the tooltip by itself; `tip` overrides it, `tip={false}` drops it."}
+  description={"`IconButton` shows its `label` and `shortcut` itself; `tip` overrides it, `tip={false}` drops it."}
   code={`<IconButton label="Copy"><Copy /></IconButton>
 <IconButton label="Settings" shortcut="⌘,"><Gear /></IconButton>
 <IconButton label="Delete" tip={{ text: "Delete", hint: "⌫" }} danger><Trash /></IconButton>`}

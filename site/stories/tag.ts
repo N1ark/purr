@@ -7,7 +7,7 @@ export default defineStory({
   group: "Display",
   component: Tag,
   description:
-    'A small capsule label, tinted by any CSS colour or neutral without one. `caps` for furniture ("BOT", "you"); `onclick` makes the name a button, `onremove` adds a remove button.',
+    "A small capsule label, tinted by any colour. `onclick` makes it a button, `onremove` adds a remove button.",
   controls: {
     label: { type: "text", value: "design" },
     color: { type: "color", optional: true, value: "#61afef" },

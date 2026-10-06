@@ -6,7 +6,7 @@ export default defineStory({
   group: "Display",
   component: Spinner,
   description:
-    "Something is being waited for. `1em` sits in a line of text or a button; the label is announced, never drawn.",
+    "Something is being waited for. It sizes to `1em`; its label is announced, never drawn.",
   controls: {
     size: {
       type: "select",

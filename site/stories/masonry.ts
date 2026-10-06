@@ -7,7 +7,7 @@ export default defineStory({
   group: "Lists",
   component: Masonry,
   description:
-    "Items of different heights in columns that end level: each goes to the shortest column so far (`packColumns`), so reading across stays close to the list's order. Columns are added as `minWidth` fits; until it has measured itself (on a server, in the first frame) the browser's CSS columns stand in.",
+    "Items of different heights in columns that end level, each placed in the shortest column so reading order stays close. Columns are added as `minWidth` fits.",
   controls: {
     count: { type: "number", pseudo: true, value: 14, min: 0, max: 60 },
     minWidth: { type: "number", default: 160, min: 60, max: 400, step: 10 },

@@ -7,7 +7,7 @@ export default defineStory({
   group: "Overlays & menus",
   component: Popover,
   description:
-    'A card hung off an element, a rect or a point: placed on the side with room, flipped when there is none, closed by Escape or a click outside, and focus given back. `role="menu"` walks its entries with the arrows.',
+    'A card hung off an element, a rect or a point, flipped when there is no room and closed by Escape or a click outside. `role="menu"` walks its entries with the arrows.',
   controls: {
     label: { type: "text", value: "Switch branch" },
     placement: {

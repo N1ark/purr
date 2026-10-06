@@ -51,14 +51,14 @@
 
 <PageHeader
   title="Shortcuts"
-  description="One string per shortcut, written the way a Mac menu writes it: `⇧⌘K`, `⌥↓`, `↩`, `j`, a chord as `g i`. `⌘` is the platform modifier (Ctrl off a Mac), `⌃` a literal Control. The same hint drives `matches`, `formatShortcut`, `Kbd` and the help overlay."
+  description="One hint string per shortcut, as a Mac menu writes it (`⇧⌘K`, `g i`), drives matching and display. `⌘` is Ctrl off a Mac; `⌃` is always Control."
   importLine={`import { formatShortcut, matches, shortcutParts, Kbd } from "purr";`}
   source="src/lib/keys.ts"
 />
 
 <Section
   title="matches"
-  description="Focus the box and press keys: every sample hint the keypress `matches` lights up. `⌘` accepts Ctrl as well as ⌘, and a key that is already shifted (`?`) does not need `⇧`."
+  description="Focus the box and press keys; matching hints light up. An already-shifted key (`?`) needs no `⇧`."
   code={`function onkeydown(e: KeyboardEvent) {
   if (matches("⇧⌘K", e)) openCommands();
   else if (matches("?", e)) showHelp();
@@ -92,7 +92,7 @@
 
 <Section
   title="Formatting"
-  description="Type a hint: `formatShortcut` writes it for a Mac or for everyone else, `shortcutParts` gives one string per chord step (what `Kbd` draws), `parseShortcut` reads one step and `accelerator` turns it into Tauri's menu syntax."
+  description="Type a hint to see it formatted, split into chord steps, parsed, and as a Tauri menu accelerator."
   code={`formatShortcut("${hint}", { mac: true })  // ${JSON.stringify(formatShortcut(hint, { mac: true }))}
 formatShortcut("${hint}", { mac: false }) // ${JSON.stringify(formatShortcut(hint, { mac: false }))}
 shortcutParts("${hint}")                  // ${JSON.stringify(shortcutParts(hint))}
@@ -128,7 +128,7 @@ accelerator("${hint}")                    // ${JSON.stringify(accel)}`}
 
 <Section
   title="This platform"
-  description="`os` comes from the user agent, so a browser build and a screenshot behave like the app. `MOD` is the modifier as words would write it."
+  description="`os` comes from the user agent; `MOD` is the modifier spelled out."
   code={`import { MOD, isMac, os } from "purr";`}
 >
   <span class="s-out">os = "{os}"</span>

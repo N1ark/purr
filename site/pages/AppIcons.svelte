@@ -1,35 +1,19 @@
 <script lang="ts">
-  import { Button, Segmented, copyText, toast } from "purr";
+  import { Button, copyText, toast } from "purr";
   import { GLYPH_CLASSES, PURPLE, composeIcon, composeTray, type IconColors } from "purr/app-icon";
-  import dagobert from "../../src/app-icons/dagobert.svg?raw";
-  import legit from "../../src/app-icons/legit.svg?raw";
   import purr from "../../src/app-icons/purr.svg?raw";
-  import tulip from "../../src/app-icons/tulip.svg?raw";
   import PageHeader from "../components/PageHeader.svelte";
   import Section from "../components/Section.svelte";
 
-  const FAMILY = { legit, dagobert, tulip, purr } as const;
-  type Name = keyof typeof FAMILY;
-  const NAMES = Object.keys(FAMILY) as Name[];
-
-  let name = $state<Name>("dagobert");
-  let glyph = $state(FAMILY.dagobert);
+  let glyph = $state(purr);
   let colors = $state<IconColors>({ ...PURPLE });
-
-  function pick(next: Name) {
-    name = next;
-    glyph = FAMILY[next];
-  }
 
   // Images rather than inline SVG: the style rules inside an icon would otherwise reach the whole page.
   const url = (svg: string) => `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
   const icon = $derived(composeIcon(glyph, { colors }));
   const iconUrl = $derived(url(icon));
   const trayUrl = $derived(url(composeTray(glyph)));
-  const family = $derived(
-    NAMES.map((n) => ({ name: n, src: n === name ? iconUrl : url(composeIcon(FAMILY[n])) })),
-  );
-  const edited = $derived(glyph !== FAMILY[name]);
+  const edited = $derived(glyph !== purr);
 
   function download(blob: Blob, file: string) {
     const a = document.createElement("a");
@@ -46,7 +30,7 @@
     const canvas = document.createElement("canvas");
     canvas.width = canvas.height = 1024;
     canvas.getContext("2d")?.drawImage(img, 0, 0, 1024, 1024);
-    canvas.toBlob((blob) => blob && download(blob, `${name}.png`), "image/png");
+    canvas.toBlob((blob) => blob && download(blob, "icon.png"), "image/png");
   }
 
   async function copyGlyph() {
@@ -58,45 +42,17 @@
 
 <PageHeader
   title="App icons"
-  description="One look for every app's icon, lifted from legit's: a rounded tile on Apple's grid, the purple diagonal with a glow, grain and a rim, and a white mark drawn with a few shared strokes. An app supplies only the mark; `purr-icon` builds the rest, and the menu-bar template from the same glyph."
-  importLine={`npx purr-icon dagobert --out src-tauri/icons`}
+  description="One icon style: a rounded tile with a purple diagonal, glow and rim around a white mark. An app supplies the mark; `purr-icon` builds the rest."
+  importLine={`npx purr-icon path/to/glyph.svg --out src-tauri/icons`}
   source="src/app-icon.js"
 />
 
 <Section
-  title="The family"
-  description="Side by side, the way a dock shows them. Each glyph lives in `src/app-icons/`; the one being edited below stands in for its own."
->
-  <div class="docks">
-    {#each ["light", "dark"] as tone (tone)}
-      <div class="dock {tone}">
-        {#each family as app (app.name)}
-          <button
-            type="button"
-            class="dock-icon"
-            class:is-on={app.name === name}
-            aria-pressed={app.name === name}
-            title={app.name}
-            onclick={() => pick(app.name)}><img src={app.src} alt={app.name} /></button
-          >
-        {/each}
-      </div>
-    {/each}
-  </div>
-</Section>
-
-<Section
   title="Edit a glyph"
-  description="Markup in a 1024 canvas whose tile spans 100–924. Draw with the classes below rather than colours or widths of your own, and keep the mark inside about 230–800, as legit's is."
+  description="SVG markup on a 1024 canvas (tile 100–924). Draw with the classes below and keep the mark within about 230–800."
 >
   <div class="editor">
     <div class="side">
-      <Segmented
-        label="Glyph"
-        options={NAMES.map((n) => ({ id: n, label: n }))}
-        value={name}
-        onchange={(id) => pick(id)}
-      />
       <textarea
         class="field-input mono glyph"
         spellcheck="false"
@@ -114,21 +70,21 @@
       <div class="s-row">
         <Button
           size="sm"
-          onclick={() => download(new Blob([icon], { type: "image/svg+xml" }), `${name}.svg`)}
+          onclick={() => download(new Blob([icon], { type: "image/svg+xml" }), "icon.svg")}
           >SVG</Button
         >
         <Button size="sm" onclick={downloadPng}>PNG 1024</Button>
         <Button size="sm" onclick={copyGlyph}>Copy glyph</Button>
-        {#if edited}<Button size="sm" variant="ghost" onclick={() => pick(name)}>Revert</Button
+        {#if edited}<Button size="sm" variant="ghost" onclick={() => (glyph = purr)}>Revert</Button
           >{/if}
       </div>
     </div>
     <div class="previews">
-      <img class="big" src={iconUrl} alt="{name} icon" />
+      <img class="big" src={iconUrl} alt="The icon" />
       <div class="sizes">
         {#each SIZES as size (size)}
           <figure>
-            <img src={iconUrl} width={size} height={size} alt="{name} at {size}px" />
+            <img src={iconUrl} width={size} height={size} alt="At {size}px" />
             <figcaption>{size}</figcaption>
           </figure>
         {/each}
@@ -147,7 +103,7 @@
 
 <Section
   title="The marks"
-  description="What a glyph is drawn with. `cut` is punched back out of a white shape in the tile's middle colour; in the menu bar it becomes a hole."
+  description="`cut` punches back out of a white shape; in the menu bar it becomes a hole."
 >
   <dl class="marks">
     {#each Object.entries(GLYPH_CLASSES) as [cls, rule] (cls)}
@@ -159,51 +115,14 @@
 
 <Section
   title="In an app"
-  description="The CLI takes a family name or a path to a glyph, and writes `icon.svg`, `tray.svg`, a 1024 `source.png` and a 128 `tray.png`; `tauri icon` makes every platform's sizes from the PNG."
-  code={`npx purr-icon dagobert --out src-tauri/icons
+  description="From the app's root: writes `icon.svg`, `tray.svg`, `source.png` (1024) and `tray.png` (128); `tauri icon` makes the rest."
+  code={`npx purr-icon path/to/glyph.svg --out src-tauri/icons
 npx tauri icon src-tauri/icons/source.png -o src-tauri/icons`}
 >
-  <p class="muted">
-    From the app's root. The editor's PNG is the same file, for trying a glyph before committing it.
-  </p>
+  <span class="muted">The editor's PNG is the same file.</span>
 </Section>
 
 <style>
-  .docks {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--sp-4);
-  }
-  .dock {
-    display: flex;
-    gap: var(--gap-3);
-    padding: var(--gap-4) var(--sp-4);
-    border-radius: var(--radius-lg);
-  }
-  .dock.light {
-    background: #e8e8ec;
-  }
-  .dock.dark {
-    background: #2a2a2e;
-  }
-  .dock-icon {
-    padding: 2px;
-    border-radius: var(--radius-lg);
-    transition: transform var(--dur) var(--ease);
-  }
-  .dock-icon img {
-    display: block;
-    width: 72px;
-    height: 72px;
-  }
-  .dock-icon.is-on {
-    box-shadow: 0 0 0 2px var(--theme2);
-  }
-  @media (hover: hover) {
-    .dock-icon:hover {
-      transform: translateY(-4px);
-    }
-  }
   .editor {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;

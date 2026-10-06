@@ -7,7 +7,7 @@ export default defineStory({
   group: "Lists",
   component: VirtualList,
   description:
-    "Renders only the rows on screen. Heights are known up front — one number, or one per row — so nothing is ever measured and the scrollbar is honest. Give it a `key` when rows hold state; `scroller` windows against an ancestor that scrolls instead.",
+    "Renders only the rows on screen. Heights are given up front, one number or one per row, so nothing is measured; give rows a `key` when they hold state.",
   controls: {
     count: { type: "number", pseudo: true, value: 10000, min: 0, max: 1000000, step: 1000 },
     rowHeight: {

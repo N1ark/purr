@@ -26,14 +26,13 @@
 
 <PageHeader
   title="toast"
-  description="Brief notices, shown by the one `ToastHost` an app mounts. The same notice twice replaces itself rather than stacking; at most four show at once. Errors stay longer, and `toast.error` takes whatever was thrown."
+  description="Brief notices for the app's one `ToastHost`. A repeat replaces itself; at most four show. `toast.error` takes whatever was thrown and stays longer."
   importLine={`import { toast, toasts, ToastHost } from "purr";`}
   source="src/lib/toast.svelte.ts"
 />
 
 <Section
   title="Kinds"
-  description="Info, success and error, plus a toast with an action button."
   code={`toast("Copied path");
 toast.success("Pushed to origin");
 toast.error(new Error("Couldn't access the clipboard"));
@@ -51,7 +50,7 @@ toast("Undid: move", { action: { label: "Redo", run: redo } });`}
 
 <Section
   title="Options"
-  description="`timeout` in milliseconds; 0 keeps the toast until it is dismissed. `toast()` returns an id for `toasts.dismiss`."
+  description="`timeout` in ms, 0 to keep it; `toast()` returns an id for `toasts.dismiss`."
   {code}
 >
   <div class="s-stack">
@@ -100,7 +99,7 @@ toast("Undid: move", { action: { label: "Redo", run: redo } });`}
 
 <Section
   title="ToastHost"
-  description="Mount it once, near the root. `position` puts the stack centred along the bottom or in the bottom corner; this switches the site's own host."
+  description="Mount it once, near the root. `position` is bottom centre or the bottom corner."
   code={`<ToastHost position="${hosts.toast.position}" />`}
 >
   <Segmented

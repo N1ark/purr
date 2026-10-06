@@ -7,10 +7,10 @@ export default defineStory({
   group: "Overlays & menus",
   component: ActionSheet,
   description:
-    "A phone's menu: rises off the bottom edge over a dimmed screen and goes back down the way it came, dragged or flicked by its grabber, a tap on the scrim, or `dismiss()`. `Menu` uses it on `body.mobile`.",
+    "A phone's menu that rises from the bottom edge; a flick of its grabber, a tap on the scrim or `dismiss()` closes it. `Menu` uses it on `body.mobile`.",
   controls: {
     label: { type: "text", value: "Message actions" },
-    dismissLabel: { type: "text", default: "Dismiss", note: "The grabber's accessible name" },
+    dismissLabel: { type: "text", default: "Dismiss", note: "The grabber's name" },
     role: { type: "select", options: ["menu", "dialog"], default: "menu" },
   },
   overlay: { close: "onclose", open: "Open the sheet" },

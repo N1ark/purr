@@ -15,14 +15,14 @@
 
 <PageHeader
   title="resizer"
-  description="`use:resizer` turns any element into the drag handle of a pane: pointer capture so the drag survives leaving the strip, arrow keys (Shift for five steps), Home and End for the bounds, and a double-click or Enter back to `preset`. `ResizeEdge` is the usual way in; the action is for a handle of your own."
+  description="Makes any element a pane's drag handle, with arrow keys (Shift for 5 steps), Home/End, and double-click or Enter back to `preset`. Prefer `ResizeEdge` unless the handle is your own."
   importLine={`import { resizer, draggedSize } from "purr";`}
   source="src/actions/resize.ts"
 />
 
 <Section
   title="A sidebar's edge"
-  description="`side` says where the pane sits: a pane on the left grows as its right edge moves right. `onresize` fires through the drag, `oncommit` when it settles."
+  description="`side` is where the pane sits. `onresize` fires during the drag, `oncommit` when it settles."
   code={`<aside style:width="{width}px">…</aside>
 <div
   class="handle"
@@ -73,7 +73,7 @@
 
 <Section
   title="A bottom panel"
-  description={'`side: "bottom"` for a panel docked below: it grows as its top edge moves up.'}
+  description={'`side: "bottom"`: the panel grows as its top edge moves up.'}
   code={`<div
   class="handle"
   use:resizer={{ side: "bottom", size: height, min: 60, max: 220, onresize: (h) => (height = h) }}
@@ -108,7 +108,7 @@
 
 <Section
   title="ResizeEdge"
-  description="The component wraps the action in a strip on the pane's edge, with the separator role and values already set."
+  description="The action in a strip on the pane's edge, with the separator role set."
   code={`<aside style:width="{width}px" style:position="relative">
   <ResizeEdge
     size={width}
@@ -139,7 +139,7 @@
 
 <Section
   title="draggedSize"
-  description="The pure part: the new size from the start size, the pointer's travel and the bounds."
+  description="The pure part: start size + pointer travel, within the bounds."
   code={`draggedSize(220, 40, { side: "left" })   // ${draggedSize(220, 40, { side: "left" })}
 draggedSize(220, 40, { side: "right" })  // ${draggedSize(220, 40, { side: "right" })}
 draggedSize(220, 900, { side: "left" })  // ${draggedSize(220, 900, { side: "left" })} (DEFAULT_MAX)

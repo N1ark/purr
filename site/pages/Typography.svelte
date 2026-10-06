@@ -22,7 +22,7 @@
 
 <PageHeader
   title="Typography"
-  description="Inter for the interface and Fira Code for code, loaded by `purr/fonts.css`. Every size steps from `--font-size`, so a density class rescales the whole interface; pick a density in the bar to see it."
+  description="Inter and Fira Code, from `purr/fonts.css`. Every size derives from `--font-size`, so density rescales everything."
   importLine={`import "purr/fonts.css";`}
   source="src/styles/tokens.css"
 />
@@ -53,7 +53,7 @@
 
 <Section
   title="Families"
-  description="--font is Inter Variable with three character variants on (single-storey a, open digits, curved r), set on body; --mono is Fira Code, with ligatures."
+  description="--font is Inter Variable with a few character variants on; --mono is Fira Code, with ligatures."
   block
 >
   <div class="s-grid families">
@@ -77,13 +77,12 @@
 
 <Section
   title="Line height"
-  description="--line-height is 1.45 in compact, 1.55 in cozy and 1.35 in dense; the body sets it once."
+  description="--line-height: 1.45 compact, 1.55 cozy, 1.35 dense."
   block
 >
   <p class="para">
-    A paragraph of body text sits at the base size and the base line height. Long enough to wrap
-    onto a second and a third line at most widths, so the rhythm between lines shows: comfortable
-    for reading a note, tight enough for a list of a thousand messages.
+    Body text at the base size and line height, long enough to wrap onto a second and a third line
+    at most widths so the rhythm between lines shows.
   </p>
 </Section>
 
@@ -106,9 +105,7 @@
     <code class="mono util">.tabular</code>
     <span class="tabular nums">1,111.11<br />9,999.99</span>
     <code class="mono util">.truncate</code>
-    <span class="truncate narrow"
-      >A channel with a name long enough to be cut off at the end of its box</span
-    >
+    <span class="truncate narrow">A label long enough to be cut off at the end of its box</span>
     <code class="mono util">kbd</code><span
       ><kbd>⌘</kbd><kbd>⇧</kbd><kbd>K</kbd> · <kbd>Esc</kbd></span
     >
@@ -117,11 +114,7 @@
   </div>
 </Section>
 
-<Section
-  title="Headings in prose"
-  description="Inside .md, headings step down from --fs-xl; see Markdown & code for the rest."
-  block
->
+<Section title="Headings in prose" description="Inside .md, headings step down from --fs-xl." block>
   <div class="md">
     <h1>Heading one</h1>
     <h2>Heading two</h2>

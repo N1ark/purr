@@ -80,14 +80,14 @@
 
 <PageHeader
   title="Time"
-  description="Dates as people read them, in the platform's locale. Each `Intl` formatter is built once and kept, so these are safe in a row rendered thousands of times. Inputs are a `Date`, epoch milliseconds or an ISO string."
+  description="Dates as people read them, in the user's locale. Formatters are cached, so they are cheap per row. Inputs: a `Date`, epoch ms or an ISO string."
   importLine={`import { formatRelative, formatDay, formatClock, dayKey, monthGrid } from "purr";`}
   source="src/lib/time.ts"
 />
 
 <Section
   title="formatRelative"
-  description="`5m ago`, `in 2 days`, `just now`: the largest unit that fits, rounded. Anything under a minute is `justNow`."
+  description="The largest unit that fits, rounded; under a minute is `justNow`."
   code={`formatRelative(date, { style: "${style}" }) // ${JSON.stringify(formatRelative(at, { now, style }))}`}
 >
   <div class="s-stack fill">
@@ -122,7 +122,7 @@
 
 <Section
   title="Absolute formats"
-  description="Pick a date. `formatDay` says a day as people do: Today, Yesterday, Tomorrow, the weekday for the rest of the coming week, else the date, with the year when it is not this one."
+  description="`formatDay` says Today, Yesterday, Tomorrow or a weekday when it can, else the date (with the year if not this one)."
   code={`formatClock(date)     // the time
 formatAbsolute(date)  // date and time, medium
 formatFull(date)      // the long form, for a tooltip
@@ -180,7 +180,7 @@ startOfDay(date)      // local midnight, in ms`}
 
 <Section
   title="Days"
-  description="A day as a key, `YYYY-MM-DD` in local time: it sorts and compares as text, and a stored one never moves when the reader changes time zone (a date-only string is read as that local day everywhere here). `monthGrid` lays out the six weeks `MonthGrid` draws, from `firstWeekday()`, the reader's locale's first day (0 = Sunday)."
+  description="`YYYY-MM-DD` in local time: sorts as text and never shifts across time zones. `monthGrid` lays out six weeks from `firstWeekday()` (0 = Sunday)."
   code={`dayKey(date)               // ${JSON.stringify(dayKey(date))}
 addDays(dayKey(date), 7)   // ${JSON.stringify(addDays(date, 7))}
 daysBetween(Date.now(), date) // ${daysBetween(now, date)}
@@ -190,12 +190,12 @@ firstWeekday()             // ${weekStart}
 monthGrid(2026, 9, ${weekStart})[0] // ${JSON.stringify(monthGrid(2026, 9, weekStart)[0])}`}
   block
 >
-  <span class="muted">Uses the date picked above.</span>
+  <span class="muted">For the date picked above.</span>
 </Section>
 
 <Section
   title="setTwentyFourHourClock"
-  description="An app's preference over the locale's habit: `true` for 14:30, `false` for 2:30 pm, `undefined` for the locale's. It clears the cached formatters; the toggle above calls it."
+  description="Overrides the locale: `true` for 14:30, `false` for 2:30 pm, `undefined` for the locale's."
   code={`setTwentyFourHourClock(${clock === "locale" ? "undefined" : clock === "24"});`}
 >
   <Switch
@@ -208,7 +208,7 @@ monthGrid(2026, 9, ${weekStart})[0] // ${JSON.stringify(monthGrid(2026, 9, weekS
 
 <Section
   title="formatClockIn"
-  description="Someone else's local time, for a profile card; null when the platform does not know the zone."
+  description="The time in another zone; `null` when the zone is unknown."
   code={`formatClockIn(Date.now(), "${zone}") // ${JSON.stringify(formatClockIn(now, zone))}`}
 >
   <select class="field-input short" aria-label="Time zone" bind:value={zone}>
@@ -219,7 +219,7 @@ monthGrid(2026, 9, ${weekStart})[0] // ${JSON.stringify(monthGrid(2026, 9, weekS
 
 <Section
   title="formatDate"
-  description="A calendar date at the precision it was written with: a year, a month or a day, and a day stays that day in every time zone. Text it cannot read comes back as it was. A server-rendered page passes a `locale`, or the server's and the reader's disagree."
+  description="A date at its written precision (year, month or day), the same in every zone; unreadable text comes back as is. Pass `locale` when rendering on a server."
   code={`formatDate(${JSON.stringify(written)}, { style: "${dateStyle}", locale: "${dateLocale}" }) // ${JSON.stringify(formatDate(written, { style: dateStyle, locale: dateLocale || undefined }))}
 isoDate(${JSON.stringify(written)}) // ${JSON.stringify(isoDate(written))}`}
 >

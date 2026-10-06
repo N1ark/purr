@@ -6,7 +6,7 @@ export default defineStory({
   title: "AvatarStack",
   group: "Display",
   component: AvatarStack,
-  description: 'A few overlapping avatars and a "+N" for the rest; the first sits on top.',
+  description: 'A few overlapping avatars and a "+N" for the rest.',
   controls: {
     people: {
       type: "number",

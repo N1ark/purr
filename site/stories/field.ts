@@ -14,7 +14,7 @@ export default defineStory({
   group: "Forms",
   component: Field,
   description:
-    "Labels any control: the label, the control (`children`), then a hint or an error. `TextField` and `TextArea` are built on it; use it directly for a `<select>` or your own control. `inline` puts a checkbox beside its label.",
+    "Labels any control, with a hint or an error under it. `TextField` and `TextArea` are built on it; use it directly for a `<select>` or your own control.",
   controls: {
     label: { type: "text", optional: true, value: "Visibility" },
     hint: { type: "text", optional: true, value: "Who can see this note." },

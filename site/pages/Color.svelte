@@ -54,14 +54,14 @@
 
 <PageHeader
   title="Colour"
-  description="The small amount of colour maths the apps need: WCAG contrast for a user's tag colours, black-or-white text on them, and a stable colour from a name for avatars without a picture."
+  description="Small colour maths: WCAG contrast, readable text on a colour, and a stable colour from a seed."
   importLine={`import { contrastRatio, readableOn, colorFromSeed, initials } from "purr";`}
   source="src/lib/color.ts"
 />
 
 <Section
   title="contrastRatio"
-  description="Between 1 (identical) and 21 (black on white), whichever way round. `AA_TEXT` (4.5) is the floor for body text, `AA_NON_TEXT` (3) for icons and rules."
+  description="From 1 to 21, either way round. `AA_TEXT` (4.5) for text, `AA_NON_TEXT` (3) for icons."
   code={`contrastRatio("${fg}", "${bg}") // ${ratio?.toFixed(2) ?? "throws"}
 relativeLuminance("${fg}")        // ${fgLum?.toFixed(3) ?? "throws"}`}
 >
@@ -100,7 +100,7 @@ relativeLuminance("${fg}")        // ${fgLum?.toFixed(3) ?? "throws"}`}
 
 <Section
   title="readableOn"
-  description="Black or white, whichever reads better on a background: a tag chip in a colour the user picked."
+  description="Black or white, whichever reads better on a background."
   code={`<span style:background={color} style:color={readableOn(color)}>{name}</span>`}
 >
   <span class="chip" style:background={bg} style:color={ink}>on your background</span>
@@ -111,7 +111,7 @@ relativeLuminance("${fg}")        // ${fgLum?.toFixed(3) ?? "throws"}`}
 
 <Section
   title="parseColor, toHex and toOklch"
-  description="Reads `#rgb`, `#rrggbb`, `#rrggbbaa`, `hsl()` and `oklch()` (alpha ignored, out-of-gamut clipped); throws on anything else. `toOklch` gives `[lightness, chroma, hue]`, the space the tokens are written in."
+  description="Reads hex, `hsl()` and `oklch()` (alpha ignored) and throws on anything else. `toOklch` gives `[l, c, h]`."
   code={`parseColor("${parseInput}") // ${typeof parsed === "string" ? "throws" : JSON.stringify(parsed.rgb)}
 toHex(rgb)   // ${typeof parsed === "string" ? "—" : JSON.stringify(parsed.hex)}
 toOklch(rgb) // ${typeof parsed === "string" ? "—" : parsed.oklch}`}
@@ -127,7 +127,7 @@ toOklch(rgb) // ${typeof parsed === "string" ? "—" : parsed.oklch}`}
 
 <Section
   title="colorFromSeed, hashString and initials"
-  description="A stable hue from a user id (or a hashed name), spaced by the golden angle so neighbouring seeds look different, at one OKLCH lightness so none reads heavier than another; `Avatar` uses exactly this when there is no picture."
+  description="A stable hue from an id or a hashed name, at one lightness; what `Avatar` shows without a picture."
   code={`colorFromSeed(hashString("${name}")) // ${JSON.stringify(colorFromSeed(seed))}
 initials("${name}")                   // ${JSON.stringify(initials(name))}`}
   block

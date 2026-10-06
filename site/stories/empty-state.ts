@@ -7,7 +7,7 @@ export default defineStory({
   group: "Display",
   component: EmptyState,
   description:
-    "What an empty list or a failed search says: an icon, a line, a hint, and optionally a way out (`action`). `inline` for a short line inside a list.",
+    "What an empty list or a failed search says, with an optional `action`; `inline` for a line inside a list.",
   controls: {
     text: { type: "text", optional: true, value: "Nothing matches" },
     hint: { type: "text", optional: true, value: "Try a shorter filter." },

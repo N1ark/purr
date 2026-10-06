@@ -7,7 +7,7 @@ export default defineStory({
   group: "Forms",
   component: SearchInput,
   description:
-    "The filter at the top of a list: `bar` is a full-width row with a rule under it (a panel's first line), `field` a rounded box among other controls. `trailing` holds a filter toggle or a count.",
+    "The filter at the top of a list: `bar` is a full-width row, `field` a rounded box. `trailing` holds a toggle or a count.",
   width: "360px",
   controls: {
     value: { type: "text", value: "" },

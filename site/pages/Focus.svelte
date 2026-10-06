@@ -31,14 +31,14 @@
 
 <PageHeader
   title="focusTrap & autofocus"
-  description="The focus plumbing behind every dialog: `focusTrap` keeps Tab inside a region, `autofocus` puts focus somewhere useful once a node is on screen, `rememberFocus` gives it back afterwards, and `focusables` lists what Tab can reach."
+  description="Keep Tab inside a region, focus a node on mount, give focus back afterwards, and list what Tab can reach."
   importLine={`import { autofocus, focusTrap, focusables, rememberFocus } from "purr";`}
   source="src/actions/focus.ts"
 />
 
 <Section
   title="focusTrap"
-  description="Tab and Shift+Tab wrap around inside the region while it is on. Click a field below, then Tab past the last button."
+  description="Tab wraps inside the region while it is on. Try tabbing past the last button."
   code={`<div use:focusTrap={trapped}>
   <input class="field-input" />
   <button class="btn">Cancel</button>
@@ -67,7 +67,7 @@
 
 <Section
   title="autofocus"
-  description="Focuses the node on the next frame, without scrolling; `select: true` selects a field's text for a rename, `enabled: false` skips it (a phone, where focus raises the keyboard)."
+  description="Focuses the node on the next frame, without scrolling. `select: true` selects the text; `enabled: false` skips it (e.g. on a phone)."
   code={`{#if renaming}
   <input class="field-input" bind:value={draft} use:autofocus={{ select: true }} />
 {/if}`}
@@ -98,13 +98,13 @@
 
 <Section
   title="rememberFocus"
-  description="Call it before moving focus away; the function it returns puts focus back, unless something else has claimed it meanwhile."
+  description="Call it before moving focus away; the returned function gives it back, unless something else took it."
   code={`const restore = rememberFocus();
 await doSomethingThatStealsFocus();
 restore();`}
 >
   <Button loading={busy} onclick={borrowFocus}>Borrow focus for a second</Button>
-  <span class="muted">Press it from the keyboard and watch the ring come back.</span>
+  <span class="muted">Press it with the keyboard.</span>
 </Section>
 
 <style>

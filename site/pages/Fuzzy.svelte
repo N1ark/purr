@@ -79,14 +79,14 @@
 
 <PageHeader
   title="Fuzzy matching"
-  description="One matcher for every quick switcher and filter. A match falls in a tier — exact, prefix, word start, substring, subsequence — and scores within it; `rank` orders a list by it in one pass, demoting each secondary field by a whole tier, and returns the indices to highlight."
+  description="One matcher for switchers and filters: tiered (exact, prefix, word start, substring, subsequence), with indices to highlight."
   importLine={`import { fuzzyMatch, rank, Highlight } from "purr";`}
   source="src/lib/fuzzy.ts"
 />
 
 <Section
   title="rank"
-  description="Type against the component names, with their paths as a second field. An empty query keeps the input order."
+  description="Component names, with paths as a second field, demoted a tier. An empty query keeps the order."
   code={`const hits = rank(items, query, {
   keys: [(i) => i.name, (i) => i.path],
   limit: 12,
@@ -133,7 +133,7 @@
 
 <Section
   title="fuzzyMatch"
-  description="One string against one query: null for a miss, else a score and the matched indices. Word starts and camel humps count as starts."
+  description="One string: null for a miss, else a score and indices. Camel humps count as word starts."
   code={`const m = fuzzyMatch("${needle}", "Design the Schema");
 // ${JSON.stringify(fuzzyMatch(needle, "Design the Schema"))}`}
 >
@@ -146,7 +146,7 @@
 
 <Section
   title="highlightRuns and matchesAny"
-  description="`highlightRuns` is what `Highlight` renders: the text cut into matched and plain runs. `matchesAny` is the plain substring test for a box that narrows a list rather than ranking it."
+  description="`highlightRuns` splits text into matched runs for `Highlight`; `matchesAny` is a plain substring test."
   code={`highlightRuns("Schema", [0, 1, 2])
 // ${JSON.stringify(highlightRuns("Schema", [0, 1, 2]))}
 matchesAny("${needle}", "Design", "the Schema")  // ${matchesAny(needle, "Design", "the Schema")}`}

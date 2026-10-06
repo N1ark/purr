@@ -7,7 +7,7 @@ export default defineStory({
   group: "Overlays & menus",
   component: ToastHost,
   description:
-    "Mount once; it shows what `toast()`, `toast.success()` and `toast.error()` say, at most four at a time, errors for longer. These controls change this site's own host.",
+    "Mount once; it shows `toast()`, `toast.success()` and `toast.error()`, four at most. These controls change this site's host.",
   keywords: ["toast", "notification", "snackbar"],
   controls: {
     position: { type: "select", options: ["bottom", "bottom-end"], default: "bottom" },

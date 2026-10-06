@@ -83,7 +83,7 @@
 
 <PageHeader
   title="Icons"
-  description={`All of Phosphor plus ${OWN_COUNT} of purr's own, drawn in the same style and taking the same props (\`size\`, \`weight\`, \`color\`, \`mirrored\`). Each is exported with and without the \`Icon\` suffix; the \`purr()\` plugin turns the import into a per-file one and cuts the weights an app does not use. Click an icon to copy it.`}
+  description={`All of Phosphor plus ${OWN_COUNT} of purr's own, with the same props. The \`purr()\` plugin imports them per file. Click one to copy it.`}
   importLine={importOf("Gear")}
   source="src/icons/index.ts"
 />
@@ -180,7 +180,7 @@ purr({ weights: ["regular", "bold", "fill"] })`}
         <EmptyState
           icon={MagnifyingGlass}
           text="No icon matches “{query.trim()}”"
-          hint="Phosphor names things plainly: try “arrow”, “chat” or “git”."
+          hint="Try “arrow”, “chat” or “git”."
         />
       {/snippet}
     </VirtualList>

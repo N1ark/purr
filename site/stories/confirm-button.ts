@@ -5,8 +5,7 @@ export default defineStory({
   title: "ConfirmButton",
   group: "Controls",
   component: ConfirmButton,
-  description:
-    "A destructive action that takes two presses: the first arms it and relabels it, the second runs `onconfirm`. It disarms itself after `timeout`.",
+  description: "A destructive action that takes two presses; it disarms itself after `timeout`.",
   controls: {
     children: { type: "text", value: "Delete" },
     icon: { type: "icon", optional: true, value: "Trash" },
@@ -18,7 +17,7 @@ export default defineStory({
       default: 4000,
       min: 500,
       step: 500,
-      note: "Milliseconds before it disarms",
+      note: "ms",
     },
     disabled: { type: "boolean", default: false },
   },

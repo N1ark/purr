@@ -6,15 +6,15 @@ export default defineStory({
   group: "Controls",
   component: IconButton,
   description:
-    "A square button holding one icon. The label is its accessible name and its tooltip; `shortcut` adds a key hint to that tooltip. `ghost` until hovered, or a bordered `default`.",
+    "A square button holding one icon; `label` is its accessible name and tooltip, `shortcut` adds a key hint.",
   controls: {
-    icon: { type: "icon", value: "Gear", note: "The child icon" },
+    icon: { type: "icon", value: "Gear" },
     label: { type: "text", value: "Settings" },
     size: {
       type: "select",
       options: ["sm", "md", "lg"],
       default: "md",
-      note: "sm inline in a row, md panel chrome, lg toolbars (44px on touch)",
+      note: "sm rows, md panels, lg toolbars",
     },
     variant: { type: "select", options: ["ghost", "default"], default: "ghost" },
     danger: { type: "boolean", default: false, note: "Hover turns it red" },
@@ -26,7 +26,7 @@ export default defineStory({
         { label: "true", value: true, code: "true" },
       ],
       default: "unset",
-      note: "A toggle's state, as aria-pressed",
+      note: "A toggle's state",
     },
     shortcut: { type: "text", optional: true, value: "Mod+,", note: "Shown in the tooltip" },
     disabled: { type: "boolean", default: false },

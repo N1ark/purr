@@ -6,10 +6,10 @@ export default defineStory({
   group: "Forms",
   component: TextField,
   description:
-    "A labelled `.field-input`: the label, the input, then a hint or an error under it, wired with `aria-describedby` and `aria-invalid`. Any input attribute passes through.",
+    "A labelled `.field-input` with a hint or an error under it. Any input attribute passes through.",
   width: "320px",
   controls: {
-    value: { type: "text", value: "Dagobert" },
+    value: { type: "text", value: "Atlas" },
     label: { type: "text", optional: true, value: "Name" },
     hint: { type: "text", optional: true, value: "What the window title shows." },
     error: { type: "text", optional: true, value: "", note: "Replaces the hint" },

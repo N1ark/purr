@@ -4,12 +4,14 @@
 
 <div class="md demo">
   <p>
-    Purr's palette came from a website<FootnoteRef id="1" prefix="demo" />, and its prose class grew
-    out of a chat client<FootnoteRef id="2" prefix="demo" />.
+    Footnotes pair by id<FootnoteRef id="1" prefix="demo" />, and a prefix keeps documents apart<FootnoteRef
+      id="2"
+      prefix="demo"
+    />.
   </p>
   <hr />
-  <Footnote id="1" prefix="demo"><p>n1ark.com, which now uses purr in turn.</p></Footnote>
-  <Footnote id="2" prefix="demo"><p>Tulip, a Zulip client.</p></Footnote>
+  <Footnote id="1" prefix="demo"><p>The mark links here, and back.</p></Footnote>
+  <Footnote id="2" prefix="demo"><p>Two documents can each have a note 1.</p></Footnote>
 </div>
 
 <style>

@@ -6,7 +6,7 @@ export default defineStory({
   group: "Controls",
   component: Switch,
   description:
-    "An on/off toggle that applies at once, for settings. The label is its accessible name; put a visible one beside it (a `SettingRow`).",
+    "An on/off toggle that applies at once. `label` is its accessible name; show a visible one beside it (a `SettingRow`).",
   controls: {
     checked: { type: "boolean", value: true },
     label: { type: "text", value: "Notifications" },

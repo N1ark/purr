@@ -7,7 +7,7 @@ export default defineStory({
   group: "Layout",
   component: SettingsLayout,
   description:
-    "A settings window: the sections down the side in groups, the current one in a pane a shade apart, with an optional `header`. On a phone the nav sits on top, groups side by side.",
+    "A settings window: sections down the side in groups, the current one in a pane. On a phone the nav sits on top.",
   controls: {
     current: { type: "select", options: ["appearance", "git", "shortcuts"], value: "appearance" },
     label: { type: "text", default: "Settings" },

@@ -6,7 +6,7 @@ export default defineStory({
   group: "Display",
   component: Highlight,
   description:
-    "Text with the characters a fuzzy match hit marked, from `fuzzyMatch(query, text).indices` or a `rank` result.",
+    "Text with a fuzzy match's characters marked, from `fuzzyMatch(query, text).indices` or a `rank` result.",
   controls: {
     text: { type: "text", value: "QuickSwitcher.svelte" },
     query: { type: "text", pseudo: true, value: "qsw", note: "Matched with fuzzyMatch" },

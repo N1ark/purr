@@ -32,7 +32,7 @@
 <Button variant="primary" onclick={() => (open = true)}>
   {#if commands}<Terminal />{/if} Open the palette <Kbd hint="⌘K" />
 </Button>
-<p class="muted">Bind <code>query</code> to keep what was typed across openings.</p>
+<p class="muted">Bind <code>query</code> to keep it across openings.</p>
 
 {#if open}
   <CommandPalette

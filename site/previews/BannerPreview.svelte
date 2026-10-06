@@ -28,7 +28,7 @@
   <Button onclick={() => (shown = true)}>Show it again</Button>
 {:else if args.placement === "corner"}
   {@render banner()}
-  <p class="muted">In the bottom corner of the window, over everything but toasts.</p>
+  <p class="muted">In the window's bottom corner.</p>
 {:else}
   <div class="stage">{@render banner()}</div>
 {/if}

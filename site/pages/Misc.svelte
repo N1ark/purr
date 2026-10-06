@@ -15,7 +15,7 @@
   import PageHeader from "../components/PageHeader.svelte";
   import Section from "../components/Section.svelte";
 
-  let toCopy = $state("npm install github:N1ark/purr");
+  let toCopy = $state("Hello, clipboard");
 
   let heading = $state("Où est passé l'été ?");
 
@@ -87,14 +87,14 @@
 
 <PageHeader
   title="Clipboard & lists"
-  description="Small helpers that belong to no module in particular: copying text, moving an item, clamping, the best few of many, a weighted LRU cache, and the message of whatever was thrown."
+  description="Small helpers that belong to no module in particular."
   importLine={`import { copyText, moveItem, clamp, topK, lruCache, errorMessage } from "purr";`}
   source="src/lib/util.ts"
 />
 
 <Section
   title="copyText"
-  description="Resolves false rather than rejecting: every caller only wants to say whether it worked."
+  description="Resolves `false` rather than rejecting."
   code={`if (await copyText(path)) toast("Copied");`}
 >
   <input class="field-input wide" aria-label="Text to copy" bind:value={toCopy} />
@@ -103,7 +103,7 @@
 
 <Section
   title="moveItem"
-  description="A copy with the item at `from` moved to `to`, a position in the list without it: what `dragList`'s `onreorder` hands over."
+  description="A copy with `from` moved to `to` (an index in the list without it), as `dragList`'s `onreorder` reports."
   code={`moveItem(${JSON.stringify(list)}, ${from}, ${to}) // ${JSON.stringify(moveItem(list, from, to))}`}
 >
   <label class="s-row field"
@@ -130,7 +130,7 @@
 
 <Section
   title="topK"
-  description="The best `limit` items in order, in one pass: sorting twenty thousand to show eight is the cost it avoids."
+  description="The best `limit` items in order, in one pass, without sorting the rest."
   code={`topK(numbers, ${k}, (a, b) => b - a) // ${JSON.stringify(topK(NUMBERS, k, (a, b) => b - a))}`}
 >
   <span class="s-out muted">[{NUMBERS.join(", ")}]</span>
@@ -142,7 +142,7 @@
 
 <Section
   title="lruCache"
-  description="A budget, each entry weighing 1 unless told otherwise; reading refreshes an entry, so what is on screen stays cached. Set a few keys, read an old one, then set another."
+  description="A weighted budget (1 per entry by default); reading an entry refreshes it."
   code={`const cache = lruCache<string, Image>(${budget});
 cache.set(key, image, weight);
 cache.get(key); // refreshes it`}
@@ -178,7 +178,7 @@ cache.get(key); // refreshes it`}
 
 <Section
   title="errorMessage"
-  description="Tauri rejects with strings, `fetch` with `Error`s, some libraries with plain objects: one way to a message for a toast."
+  description="A message from whatever was thrown: an `Error`, a string, an object."
   code={`try { await save(); } catch (e) { toast.error(errorMessage(e)); }`}
   block
 >
@@ -196,7 +196,7 @@ cache.get(key); // refreshes it`}
 
 <Section
   title="slugify"
-  description="A heading's anchor: accents folded, anything that is not a letter or a digit one hyphen. `uniqueSlug` adds `-2`, `-3` past ids the document already uses."
+  description="A heading's anchor, accents folded; `uniqueSlug` adds `-2`, `-3` past ids already used."
   code={`slugify(${JSON.stringify(heading)}) // ${JSON.stringify(slugify(heading))}`}
 >
   <input class="field-input" aria-label="Heading" bind:value={heading} />
@@ -205,7 +205,7 @@ cache.get(key); // refreshes it`}
 
 <Section
   title="lockScroll"
-  description="Holds a page that scrolls still while a modal is open (`Modal` takes it itself); counted, so stacked modals release it with the last. In an app's shell it changes nothing."
+  description="Holds a scrolling page still under a modal (`Modal` does it itself); stacked locks release with the last."
   code={`$effect(() => lockScroll());`}
 >
   <Button onclick={toggleLock}>{release ? "Release" : "Lock"} the page</Button>

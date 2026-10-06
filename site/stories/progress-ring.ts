@@ -5,8 +5,7 @@ export default defineStory({
   title: "ProgressRing",
   group: "Display",
   component: ProgressRing,
-  description:
-    "How far along: a ring that fills, e.g. a task list's done count. `max` of 0 draws an empty ring.",
+  description: "A ring that fills to show progress; a `max` of 0 draws an empty ring.",
   controls: {
     value: { type: "number", value: 3, min: 0 },
     max: { type: "number", value: 5, min: 0 },

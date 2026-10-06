@@ -7,7 +7,7 @@ export default defineStory({
   group: "Display",
   component: MonthGrid,
   description:
-    "A month as six weeks of days, from the reader's first weekday (`firstWeekday`); today is marked and named with `aria-current=\"date\"`. Each day carries `data-day` (its `dayKey`) for an app's drag and drop, `target` draws one as the drop target, the `day` snippet fills it and `actions` sits beside its number on hover. It fills its container's height.",
+    "A month as six weeks from `firstWeekday`, today marked. Each day carries `data-day` (its `dayKey`) for drag and drop; it fills its container's height.",
   controls: {
     weekStart: {
       type: "select",

@@ -81,7 +81,7 @@ export function noteMenu(
         "separator",
         {
           label: "Project",
-          items: ["Dagobert", "Legit", "Tulip"].map((p) => ({
+          items: ["Atlas", "Beacon", "Comet"].map((p) => ({
             label: p,
             run: () => ran(`Move to ${p}`),
           })),

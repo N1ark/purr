@@ -7,13 +7,13 @@ export default defineStory({
   group: "Overlays & menus",
   component: Menu,
   description:
-    "The menu every menu renders from: items with icons, hints, checks and notes, headings, separators, submenus, a colour grid, custom rows, and two-press confirms. Arrows walk it, → opens a submenu, letters jump. As an action sheet on a phone. Most apps open it through `menu` and a `ContextMenuHost` instead.",
+    "The menu every menu renders from: icons, hints, checks, submenus, a colour grid and confirms, walked with the arrows. Apps usually open it through `menu` and a `ContextMenuHost`.",
   controls: {
     title: {
       type: "text",
       optional: true,
       value: "Design the schema",
-      note: "A small heading over the entries",
+      note: "A heading over the entries",
     },
     label: { type: "text", default: "Menu", note: "Announced when there is no title" },
     placement: {

@@ -7,7 +7,7 @@ export default defineStory({
   group: "Controls",
   component: ColorGrid,
   description:
-    'A grid of swatches to pick from, walked with the arrows, optionally with "automatic" (`null`) and any colour through the native picker.',
+    'A grid of swatches walked with the arrows, optionally with "automatic" (`null`) and a custom colour.',
   controls: {
     value: { type: "color", optional: true, value: "#61afef", note: "null is automatic" },
     palette: {

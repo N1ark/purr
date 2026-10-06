@@ -21,7 +21,6 @@
     onclose={close}
   >
     <div class="body">
-      <p>Drag the grabber or the contents; flick it to the next stop or off the bottom.</p>
       <p class="muted">{args.full ? "Full" : "Peeking"}</p>
       <input class="field-input" placeholder="Focusing a field opens it fully" />
     </div>

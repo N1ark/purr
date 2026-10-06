@@ -7,7 +7,7 @@ export default defineStory({
   group: "Display",
   component: MonthScroller,
   description:
-    "`MonthGrid`'s days as one continuous scroll of weeks, as in macOS Calendar: six weeks fill the view and a scroll stops at each month's first week. Bind `year` and `month` to follow the month in view (the days of the others fade), or set them to glide there. The `day` and `actions` snippets, `target` and `data-day` work as in `MonthGrid`; only the months around the one in view are rendered.",
+    "`MonthGrid`'s weeks in one scroll that stops at each month. Bind `year` and `month` to follow the month in view, or set them to glide there.",
   controls: {
     weekStart: {
       type: "select",

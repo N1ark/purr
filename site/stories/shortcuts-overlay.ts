@@ -6,8 +6,7 @@ export default defineStory({
   title: "ShortcutsOverlay",
   group: "Overlays & menus",
   component: ShortcutsOverlay,
-  description:
-    "The `?` overlay: a `ShortcutList` in a modal, from `keymap.help()`. This site has one too: press ?.",
+  description: "The `?` overlay: a `ShortcutList` in a modal. Press ? to see this site's.",
   controls: {
     title: { type: "text", default: "Keyboard shortcuts" },
     or: { type: "text", optional: true, value: "" },

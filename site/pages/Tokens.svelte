@@ -85,7 +85,7 @@
 
 <PageHeader
   title="Tokens"
-  description="Every custom property in `tokens.css`, the contract every component paints with. Light is `:root`, dark is `html.dark`; the densities and `body.mobile` override a few. Values shown live, in the look picked in the bar. Click a name to copy its `var()`."
+  description="Every custom property in `tokens.css`, live in the current look. Click a name to copy its `var()`."
   importLine={`import "purr/styles.css";`}
   source="src/styles/tokens.css"
 />

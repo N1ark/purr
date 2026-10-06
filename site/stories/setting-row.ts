@@ -7,7 +7,7 @@ export default defineStory({
   group: "Layout",
   component: SettingRow,
   description:
-    "One setting: a label and a line of explanation, the control at the end, or under it with `stack` for controls that need the width.",
+    "One setting: a label, a line of explanation and the control, at the end or under it with `stack`.",
   controls: {
     label: { type: "text", value: "Notify me" },
     sub: { type: "text", optional: true, value: "For direct messages and mentions." },

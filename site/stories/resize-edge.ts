@@ -7,13 +7,13 @@ export default defineStory({
   group: "Layout",
   component: ResizeEdge,
   description:
-    "The draggable edge of a pane: drag it, or focus it and use the arrows (Shift for bigger steps); double-click or Enter returns to `preset`. `oncommit` fires when a drag settles, for saving.",
+    "A pane's draggable edge, also moved with the arrows; double-click or Enter returns to `preset`. `oncommit` fires when a drag settles.",
   controls: {
     side: {
       type: "select",
       options: ["left", "right", "top", "bottom"],
       value: "left",
-      note: "Which side the pane is on; the edge is opposite",
+      note: "The pane's side",
     },
     label: { type: "text", value: "Resize the sidebar" },
     min: { type: "number", optional: true, value: 120, min: 0 },

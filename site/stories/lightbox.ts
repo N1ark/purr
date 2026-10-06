@@ -7,7 +7,7 @@ export default defineStory({
   group: "Overlays & menus",
   component: Lightbox,
   description:
-    "Pictures, videos and sounds full-size over a dimmed app: ← and → step through them, Escape or a click beside the picture closes it. `actions` adds buttons beside the counter; `media` replaces how an item is drawn.",
+    "Pictures, videos and sounds full-size over a dimmed app; ← and → step through them. `media` replaces how an item is drawn.",
   controls: {
     index: { type: "number", default: 0, min: 0, max: MEDIA.length - 1 },
     label: { type: "text", default: "Media viewer" },

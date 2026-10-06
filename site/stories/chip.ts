@@ -5,8 +5,7 @@ export default defineStory({
   title: "Chip",
   group: "Controls",
   component: Chip,
-  description:
-    'A capsule toggle for filters ("Unread", "Archived"), styled by `.pill`; `on` is stated as `aria-pressed`.',
+  description: "A capsule toggle for filters, styled by `.pill`; `on` is stated as `aria-pressed`.",
   controls: {
     label: { type: "text", value: "Unread" },
     on: { type: "boolean", default: false, value: true },

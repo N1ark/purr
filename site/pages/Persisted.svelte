@@ -65,14 +65,14 @@
 
 <PageHeader
   title="persisted"
-  description={'A rune that survives a reload: `persisted(key, initial)` reads storage once and writes on every assignment to `.value`. `persistedFlag` keeps a toggle as `"1"` or `"0"`. Underneath, the storage helpers never throw: a private window or a full quota reads back the fallback.'}
+  description="A rune that survives a reload: it reads storage once and writes on every assignment to `.value`. The helpers never throw; failures read back the fallback."
   importLine={`import { persisted, persistedFlag, readJson, writeJson } from "purr";`}
   source="src/lib/persisted.svelte.ts"
 />
 
 <Section
   title="persisted"
-  description="Change these, then reload the page. A nested change needs a fresh value assigned: `.value` is the only write."
+  description="Change these, then reload. Only assigning `.value` writes, so replace nested objects."
   code={`const count = persisted("app:count", 0);
 const note = persisted("app:note", { text: "Remember me", tags: ["demo"] });
 
@@ -94,7 +94,7 @@ note.value = { ...note.value, text };`}
 
 <Section
   title="persistedFlag"
-  description="For toggles stored the way apps stored them before: a `1` or a `0`."
+  description="A toggle stored as `1` or `0`."
   code={`const minimap = persistedFlag("app:minimap", true);
 <Switch label="Minimap" bind:checked={minimap.value} />`}
 >
@@ -102,11 +102,7 @@ note.value = { ...note.value, text };`}
   <span class="muted">Panel {open.value ? "open" : "closed"}</span>
 </Section>
 
-<Section
-  title="What is stored"
-  description="`readString` shows the raw values behind the runes above."
-  block
->
+<Section title="What is stored" description="The raw values, through `readString`." block>
   <div class="s-stack">
     <table class="s-table">
       <tbody>
@@ -124,7 +120,7 @@ note.value = { ...note.value, text };`}
 
 <Section
   title="The storage helpers"
-  description="`readJson` takes a fallback and an optional type guard that rejects a stale shape; `memoryStorage` is a `Storage` in memory, for tests and where the real one is unavailable."
+  description="`readJson` takes a fallback and an optional guard against a stale shape; `memoryStorage` stands in for `localStorage`."
   code={`writeString(key, "text");        // null removes it
 readJson(key, [], Array.isArray); // fallback when missing, unreadable or the wrong shape
 writeJson(key, { a: 1 });

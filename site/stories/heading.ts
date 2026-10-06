@@ -6,7 +6,7 @@ export default defineStory({
   group: "Display",
   component: Heading,
   description:
-    "A heading that links to itself: hovering shows a `#` in the margin, and the heading is the link to copy. Without an `id` it names itself from its text once mounted, after any table of contents that already did.",
+    "A heading that links to itself, with a `#` in the margin on hover. Without an `id` it names itself from its text.",
   controls: {
     level: { type: "select", options: [1, 2, 3, 4, 5, 6], value: 2, required: true },
     text: { type: "text", pseudo: true, value: "Where it all started" },

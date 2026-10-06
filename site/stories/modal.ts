@@ -7,7 +7,7 @@ export default defineStory({
   group: "Overlays & menus",
   component: Modal,
   description:
-    "A panel over a scrim that keeps focus inside and gives it back when it closes; Escape and a click outside go through the overlay stack, so only the topmost closes. `title` adds a header with a close button, `footer` a row of buttons. On a phone it fills the screen.",
+    "A panel over a scrim that keeps focus inside; Escape and a click outside close only the topmost. On a phone it fills the screen.",
   controls: {
     children: { type: "text", value: "Tab stays inside; Escape closes." },
     label: {
@@ -23,7 +23,7 @@ export default defineStory({
     scrim: { type: "select", options: ["normal", "strong", "frosted", "none"], default: "normal" },
     layer: { type: "select", options: ["modal", "dialog", "lightbox"], default: "modal" },
     padded: { type: "boolean", default: false, value: true },
-    bare: { type: "boolean", default: false, note: "Opaque, edge to edge: a pane as a page" },
+    bare: { type: "boolean", default: false, note: "Opaque, edge to edge" },
     mobile: { type: "select", options: ["fullscreen", "sheet", "keep"], default: "fullscreen" },
     initialFocus: { type: "select", options: ["auto", "panel", "none"], default: "auto" },
     closeLabel: { type: "text", default: "Close" },

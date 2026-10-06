@@ -7,7 +7,7 @@ export default defineStory({
   group: "Overlays & menus",
   component: CommandPalette,
   description:
-    "The quick switcher and the command palette: a field over a fuzzy-ranked, windowed list, walked with the arrows, chosen with ↩ (⌘↩ passes the modifier on). `create` offers a new item after the matches. On a phone it docks to the bottom edge, field last.",
+    "A field over a fuzzy-ranked list, walked with the arrows and picked with ↩ (⌘↩ passes the modifier on). `create` offers a new item after the matches.",
   keywords: ["quick switcher", "search", "omnibox", "cmd k"],
   controls: {
     source: {

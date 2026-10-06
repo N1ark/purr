@@ -12,13 +12,12 @@ export default defineStory({
   title: "Segmented",
   group: "Controls",
   component: Segmented,
-  description:
-    "Mutually exclusive options sharing one border, each with an optional icon and its own `disabled`. Each option states whether it is on with `aria-pressed`.",
+  description: "Mutually exclusive options sharing one border, each stated with `aria-pressed`.",
   controls: {
     value: { type: "select", options: ["list", "grid", "board"], value: "list" },
     label: { type: "text", value: "View" },
     size: { type: "select", options: ["sm", "md"], default: "md" },
-    icons: { type: "boolean", pseudo: true, value: false, note: "Give the options icons" },
+    icons: { type: "boolean", pseudo: true, value: false },
     boardDisabled: {
       type: "boolean",
       pseudo: true,

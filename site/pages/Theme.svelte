@@ -48,16 +48,12 @@
 
 <PageHeader
   title="Theme & platform"
-  description={"`applyTheme` sets `html.dark`, the density class and the accent's custom properties; `mode: \"system\"` follows the OS until the next call, and `storageKey` lets `bootTheme` paint the right theme before the app's preferences load. The platform helpers say what the app is running on."}
+  description={'`applyTheme` sets `html.dark`, the density and the accent; `mode: "system"` follows the OS, and `storageKey` lets `bootTheme` paint before preferences load.'}
   importLine={`import { applyTheme, ACCENTS, applyPlatform } from "purr";`}
   source="src/lib/theme.ts"
 />
 
-<Section
-  title="applyTheme"
-  description="These drive the same state as the bar at the top: this site calls `applyTheme` whenever they change."
-  code={call}
->
+<Section title="applyTheme" description="The same state as the top bar." code={call}>
   <Segmented
     label="Theme"
     size="sm"
@@ -82,7 +78,7 @@
 
 <Section
   title="Accents"
-  description="Each accent is a pair per theme, primary and hover. `--theme2` colours text (links, highlights), so its contrast against the theme's background is what has to hold. Click one to apply it."
+  description="A primary and hover colour per theme; `--theme2` colours text, so its contrast is what must hold. Click one to apply it."
   code={`ACCENTS.map((a) => accentSwatch(a.id, currentTheme()));`}
   block
 >
@@ -123,7 +119,7 @@
 
 <Section
   title="accentVars"
-  description="What an accent sets on `:root`: the two base colours and the tints derived from them, mirroring the ratios in `tokens.css`. The default purple sets nothing inline; the stylesheet already carries it."
+  description="What an accent sets on `:root`: two base colours and their tints. The default sets nothing inline."
   code={`accentVars(accentById("${look.accent.value}"), "${look.theme.value}")`}
   block
 >
@@ -142,7 +138,7 @@
 
 <Section
   title="onThemeChange"
-  description="Told whenever the painted theme flips, a system change included; returns the unsubscribe. Toggle the theme to see it."
+  description="Called whenever the painted theme flips; returns the unsubscribe."
   code={`$effect(() => onThemeChange((theme) => editor.setTheme(theme)));`}
 >
   <div class="s-stack">
@@ -154,7 +150,7 @@
 
 <Section
   title="liveTheme & storedThemeMode"
-  description="`liveTheme.current` is the painted theme as a rune (`liveTheme.dark` too), for markup that differs by theme; on a server it is light, so what the first paint must get right is styled from `html.dark`. `storedThemeMode(key)` is the mode last applied with that `storageKey` (`system` when none), for a page that has no preferences of its own. `ThemeScript` paints it before anything loads."
+  description="`liveTheme.current` is the painted theme as a rune (light on a server, so first paint styles from `html.dark`). `storedThemeMode(key)` is the last mode stored under that key."
   code={`applyTheme({ mode: storedThemeMode("theme"), storageKey: "theme" });
 liveTheme.current // "${liveTheme.current}"`}
 >
@@ -164,7 +160,7 @@ liveTheme.current // "${liveTheme.current}"`}
 
 <Section
   title="Platform"
-  description={"`applyPlatform({ mobile })` marks `html[data-os]` and turns on `body.mobile`: touch-sized targets, safe-area insets, keyboard tracking. The hand in the top bar (or `?mobile`) toggles it on this site."}
+  description={"`applyPlatform({ mobile })` sets `html[data-os]` and `body.mobile`: touch-sized targets, safe areas, keyboard tracking."}
   code={`applyPlatform({ mobile: isMobile });`}
   block
 >
