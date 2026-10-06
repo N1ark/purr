@@ -14,8 +14,9 @@ turns the Unreleased section into a dated one and tags it.
   view, or set them to scroll there; `day`, `actions` and `target` are `MonthGrid`'s.
 - `DatePicker`: a small month to pick a day from, for a popover (arrows walk the days, Page
   Up/Down the months); `value` and `onpick` are `dayKey`s.
-- `TimePicker`: a time field over a list of times every `step` minutes, scrolled to the picked
-  one; `noneLabel` adds an entry that picks no time.
+- `TimePicker`: a field that reads a typed time (Enter picks it) over a list of times every
+  `step` minutes, scrolled to the picked one; `noneLabel` adds an entry that picks no time.
+- `parseTime`: a time of day as people type it (`930`, `9h30`, `5pm`) as `HH:mm`, or null.
 
 ### Fixed
 

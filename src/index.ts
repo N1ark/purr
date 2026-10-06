@@ -236,6 +236,7 @@ export {
   formatWeekday,
   isSameDay,
   isoDate,
+  parseTime,
   setTwentyFourHourClock,
   startOfDay,
   toDate,

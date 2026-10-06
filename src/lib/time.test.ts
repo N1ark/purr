@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  parseTime,
   formatAbsolute,
   formatClock,
   addDays,
@@ -136,5 +137,23 @@ describe("formatDate", () => {
     expect(isoDate(" 2026-07 ")).toBe("2026-07");
     expect(isoDate("2023 – 2024")).toBe("");
     expect(isoDate(Date.UTC(2026, 6, 20))).toBe("2026-07-20T00:00:00.000Z");
+  });
+});
+
+describe("parseTime", () => {
+  it("reads the ways people type a time", () => {
+    expect(parseTime("9")).toBe("09:00");
+    expect(parseTime("930")).toBe("09:30");
+    expect(parseTime("0930")).toBe("09:30");
+    expect(parseTime(" 21:05 ")).toBe("21:05");
+    expect(parseTime("9h30")).toBe("09:30");
+    expect(parseTime("9.30pm")).toBe("21:30");
+    expect(parseTime("12am")).toBe("00:00");
+    expect(parseTime("12 PM")).toBe("12:00");
+    expect(parseTime("5 p.m.")).toBe("17:00");
+  });
+  it("refuses what isn't one", () => {
+    for (const bad of ["", "24:00", "9:60", "13pm", "noon", "9:3", "12345"])
+      expect(parseTime(bad)).toBeNull();
   });
 });

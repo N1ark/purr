@@ -250,3 +250,16 @@ export function formatRelative(input: TimeInput, options: RelativeOptions = {}):
   }
   return options.justNow ?? "just now";
 }
+
+/** A time of day as people type it (`9`, `930`, `9:30`, `9h30`, `9.30pm`, `21:05`), as `HH:mm`; null if it isn't one. */
+export function parseTime(text: string): string | null {
+  const m = /^(\d{1,2})(?:[:.h]?(\d{2}))?\s*([ap])?\.?m?\.?$/i.exec(text.trim());
+  if (!m) return null;
+  let h = Number(m[1]);
+  const min = Number(m[2] ?? 0);
+  const half = m[3]?.toLowerCase();
+  if (half && (h < 1 || h > 12)) return null;
+  if (half) h = (h % 12) + (half === "p" ? 12 : 0);
+  if (h > 23 || min > 59) return null;
+  return `${String(h).padStart(2, "0")}:${String(min).padStart(2, "0")}`;
+}

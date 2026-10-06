@@ -124,13 +124,18 @@
     gap: 2px;
   }
   .weekday {
-    text-align: center;
+    display: grid;
+    place-items: center;
     font-size: var(--fs-nano);
     text-transform: uppercase;
     color: var(--muted);
   }
   .day {
+    display: grid;
+    place-items: center;
+    width: var(--btn);
     height: var(--btn);
+    padding: 0;
     font-size: var(--fs-xs);
     font-variant-numeric: tabular-nums;
     color: var(--color);

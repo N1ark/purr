@@ -1,7 +1,7 @@
 <script lang="ts">
-  // A time of day to pick, for a popover: a field for an exact time over a list of steps,
-  // scrolled to the picked one (or the morning).
-  import { formatClock } from "../lib/time";
+  // A time of day to pick, for a popover: a field that reads a typed time (Enter picks it) over
+  // a list of steps, scrolled to the picked one (or the morning).
+  import { formatClock, parseTime } from "../lib/time";
 
   interface Props {
     /** The picked time, `HH:mm`. */
@@ -13,9 +13,20 @@
     /** Offers a first entry that picks no time at all. */
     noneLabel?: string;
     label?: string;
+    placeholder?: string;
   }
 
-  let { value = null, onpick, step = 30, noneLabel, label = "Time" }: Props = $props();
+  let {
+    value = null,
+    onpick,
+    step = 30,
+    noneLabel,
+    label = "Time",
+    placeholder = "Type a time",
+  }: Props = $props();
+
+  let typed = $state("");
+  const parsed = $derived(parseTime(typed));
 
   const p2 = (n: number) => String(n).padStart(2, "0");
   const times = $derived(
@@ -29,7 +40,7 @@
 
   let list = $state<HTMLElement | null>(null);
   $effect(() => {
-    const at = value ?? "09:00";
+    const at = parsed ?? value ?? "09:00";
     const el = [...(list?.querySelectorAll<HTMLElement>("[data-time]") ?? [])].find(
       (b) => b.dataset.time! >= at,
     );
@@ -40,12 +51,19 @@
 <div class="time-picker">
   <input
     class="field-input"
-    class:empty={!value}
-    type="time"
     aria-label={label}
-    value={value ?? ""}
+    aria-invalid={!!typed.trim() && !parsed}
+    {placeholder}
+    bind:value={typed}
     data-autofocus
-    onchange={(e) => e.currentTarget.value && onpick(e.currentTarget.value)}
+    autocomplete="off"
+    spellcheck="false"
+    onkeydown={(e) => {
+      if (e.key === "Enter" && parsed) {
+        e.preventDefault();
+        onpick(parsed);
+      }
+    }}
   />
   <div class="list" role="listbox" aria-label={label} bind:this={list}>
     {#if noneLabel}
@@ -74,10 +92,6 @@
     flex-direction: column;
     gap: var(--gap-2);
     width: 120px;
-  }
-  /* WebKit draws an empty time field as a time; faded, it reads as a placeholder. */
-  .empty {
-    color: var(--faint);
   }
   .list {
     position: relative;
