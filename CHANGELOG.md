@@ -12,6 +12,10 @@ turns the Unreleased section into a dated one and tags it.
 - `MonthScroller`: the days of `MonthGrid` as one continuous scroll of weeks that stops at each
   month's first week, as macOS Calendar does. Bind `year` and `month` to follow the month in
   view, or set them to scroll there; `day`, `actions` and `target` are `MonthGrid`'s.
+- `DatePicker`: a small month to pick a day from, for a popover (arrows walk the days, Page
+  Up/Down the months); `value` and `onpick` are `dayKey`s.
+- `TimePicker`: a time field over a list of times every `step` minutes, scrolled to the picked
+  one; `noneLabel` adds an entry that picks no time.
 
 ## 0.5.4 — 2026-10-05
 

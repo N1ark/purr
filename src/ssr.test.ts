@@ -42,6 +42,8 @@ const PROPS: Record<string, Record<string, unknown>> = {
   Menu: { items: [{ label: "Copy", run: noop }], onclose: noop, x: 0, y: 0 },
   MonthGrid: { year: 2026, month: 9, today: "2026-10-05", day: item, actions: item },
   MonthScroller: { year: 2026, month: 9, today: "2026-10-05", day: item, actions: item },
+  DatePicker: { value: "2026-10-05", today: "2026-10-05", onpick: noop },
+  TimePicker: { value: "09:30", onpick: noop, noneLabel: "No time" },
   Modal: { label: "Dialog", onclose: noop, children: text("<p>Body</p>") },
   PanelHeader: { title: "Panel" },
   Popover: { open: true, onclose: noop, children: text("<p>Pop</p>") },
