@@ -44,6 +44,3 @@ function escapeHtml(text: string): string {
 export function inlineCode(text: string): string {
   return escapeHtml(text).replace(/`([^`]+)`/g, "<code>$1</code>");
 }
-
-/** The same prose as plain text, for a card or a tooltip. */
-export const plain = (text: string) => text.replace(/`/g, "");

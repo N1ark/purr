@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { describe as show, describeCall, inlineCode, plain } from "./format";
+import { describe as show, describeCall, inlineCode } from "./format";
 
 describe("describe", () => {
   it("names events and elements rather than dumping them", () => {
@@ -27,6 +27,5 @@ describe("describe", () => {
 describe("inlineCode", () => {
   it("escapes and turns backticks into code", () => {
     expect(inlineCode("Use `<Button>` & co")).toBe("Use <code>&lt;Button&gt;</code> &amp; co");
-    expect(plain("a `b` c")).toBe("a b c");
   });
 });

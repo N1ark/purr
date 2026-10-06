@@ -5,19 +5,12 @@
   import { ArrowCounterClockwise, Lightning, Trash } from "purr/icons";
   import { storyCode } from "../lib/code";
   import { describeCall } from "../lib/format";
-  import { ICONS } from "../lib/icons";
-  import {
-    eventSpecs,
-    initialArgs,
-    isUnset,
-    optionOf,
-    type Args,
-    type Example,
-    type Story,
-  } from "../lib/story";
+  import { propsOf } from "../lib/props";
+  import { eventSpecs, initialArgs, type Args, type Example, type Story } from "../lib/story";
   import CodeSnippet from "./CodeSnippet.svelte";
   import Controls from "./Controls.svelte";
   import PageHeader from "./PageHeader.svelte";
+  import Rendered from "./Rendered.svelte";
 
   interface Props {
     story: Story;
@@ -36,7 +29,6 @@
   let seq = 0;
 
   const specs = $derived(eventSpecs(story));
-  const content = $derived(new Set([story.children?.text, story.children?.icon]));
 
   function record(event: string, params: unknown[]) {
     log = [{ id: ++seq, name: event, detail: describeCall(params), at: Date.now() }, ...log].slice(
@@ -63,32 +55,8 @@
   const on = handlers(true);
   const quiet = handlers(false);
 
-  /** The controls' raw values turned into props, plus the fixed ones and the callbacks. */
-  function propsFor(values: Args, calls: Record<string, (...params: any[]) => void>): Args {
-    const props: Args = {};
-    for (const [key, control] of Object.entries(story.controls ?? {})) {
-      if (control.pseudo || content.has(key)) continue;
-      const raw = values[key];
-      if (isUnset(control, raw)) continue;
-      if (control.type === "icon") props[key] = ICONS[String(raw)];
-      else if (control.type === "select")
-        props[key] = control.options.map(optionOf).find((o) => o.key === raw)?.value;
-      else props[key] = raw;
-    }
-    Object.assign(props, typeof story.props === "function" ? story.props(values) : story.props);
-    for (const [event, spec] of specs)
-      if (!spec.optional || values[event]) props[event] = calls[event];
-    return props;
-  }
-
-  const liveProps = $derived(propsFor(args, on));
+  const liveProps = $derived(propsOf(story, args, on));
   const code = $derived(storyCode(story, args));
-
-  function childrenOf(values: Args) {
-    const icon = story.children?.icon ? values[story.children.icon] : undefined;
-    const text = story.children?.text ? values[story.children.text] : undefined;
-    return { Icon: icon ? ICONS[String(icon)] : undefined, text: text ? String(text) : "" };
-  }
 
   const set = (patch: Args) => Object.assign(args, patch);
   const reset = () => Object.assign(args, initialArgs(story));
@@ -99,28 +67,6 @@
     document.getElementById("playground")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 </script>
-
-{#snippet render(values: Args, calls: Record<string, (...params: any[]) => void>)}
-  {@const C = story.component}
-  {#if C}
-    {@const p = propsFor(values, calls)}
-    <div class="stage" class:sized={!!story.width} style:width={story.width}>
-      {#if story.children}
-        {@const { Icon, text } = childrenOf(values)}
-        <C {...p}>
-          {#if story.children.tag === "p"}
-            <p>{text}</p>
-          {:else}
-            {#if Icon}<Icon />{/if}
-            {text}
-          {/if}
-        </C>
-      {:else}
-        <C {...p} />
-      {/if}
-    </div>
-  {/if}
-{/snippet}
 
 <PageHeader
   title={story.title}
@@ -138,11 +84,11 @@
         {story.overlay.open ?? `Open ${story.title}`}
       </Button>
       {#if open}
-        {@render render(args, on)}
+        <Rendered {story} values={args} calls={on} />
       {/if}
     {:else}
       <div class="zoomed" style:zoom={zoom === "2×" ? 2 : undefined}>
-        {@render render(args, on)}
+        <Rendered {story} values={args} calls={on} />
       </div>
       <div class="zoom">
         <Segmented
@@ -219,12 +165,12 @@
               {@const values = exampleArgs(example)}
               <story.preview
                 args={values}
-                props={propsFor(values, quiet)}
+                props={propsOf(story, values, quiet)}
                 on={quiet}
                 set={() => {}}
               />
             {:else}
-              {@render render(exampleArgs(example), quiet)}
+              <Rendered {story} values={exampleArgs(example)} calls={quiet} />
             {/if}
           </div>
           <figcaption>
@@ -287,13 +233,6 @@
     position: absolute;
     top: var(--sp-3);
     left: var(--sp-3);
-  }
-  .stage {
-    display: contents;
-  }
-  .stage.sized {
-    display: block;
-    max-width: 100%;
   }
   .panel {
     min-width: 0;

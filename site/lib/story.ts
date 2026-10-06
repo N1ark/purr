@@ -111,6 +111,8 @@ export interface Story {
   examples?: Example[];
   /** Richer fixed examples than `examples` can describe. */
   demo?: Component;
+  /** The home page's thumbnail: values over the initial ones, or `false` for a drawn one. */
+  thumb?: Args | false;
   /** Words the sidebar filter also matches. */
   keywords?: string[];
 }

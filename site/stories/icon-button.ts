@@ -33,6 +33,7 @@ export default defineStory({
   },
   children: { icon: "icon" },
   events: { onclick: "openSettings" },
+  thumb: { variant: "default", size: "lg" },
   examples: [
     { title: "Small, inline", args: { size: "sm", icon: "X", label: "Remove", shortcut: "" } },
     {

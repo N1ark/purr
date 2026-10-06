@@ -1,9 +1,9 @@
 <script lang="ts">
-  // The front page: what purr is, how an app takes it in, and every page as a card.
+  // The front page: what purr is, how to take it in, and every page as a card with a picture.
   import { GROUPS, PAGES } from "../pages";
-  import { plain } from "../lib/format";
   import { REPO, href } from "../lib/site.svelte";
   import CodeSnippet from "./CodeSnippet.svelte";
+  import Thumb from "./Thumb.svelte";
 
   // `purr\/icons` because the purr plugin rewrites that import even inside a string.
   const SETUP = `// vite.config.ts
@@ -22,20 +22,34 @@ import { Gear } from "purr\/icons";`;
     group,
     pages: PAGES.filter((p) => p.group === group),
   }));
+
+  // Thumbnails render once their card nears the screen.
+  let seen = $state<Record<string, boolean>>({});
+  let observer: IntersectionObserver | undefined;
+
+  function lazy(node: HTMLElement, slug: string) {
+    observer ??= new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const el = entry.target as HTMLElement;
+          seen[el.dataset.slug!] = true;
+          observer?.unobserve(el);
+        }
+      },
+      { rootMargin: "400px" },
+    );
+    node.dataset.slug = slug;
+    observer.observe(node);
+    return { destroy: () => observer?.unobserve(node) };
+  }
 </script>
 
 <header>
   <h1>purr</h1>
   <p class="lead">
-    The shared UI layer of <strong>dagobert</strong>, <strong>legit</strong> and
-    <strong>Tulip</strong>: Svelte 5 components, actions, small utilities, icons and the styling
-    they share. Opinionated on purpose: consistency first, then performance, then reuse.
-  </p>
-  <p class="muted">
-    Every page here renders purr's own source, live: change a component's props and the preview, the
-    event log and the snippet follow. The site itself is built from purr. Source on <a href={REPO}
-      >GitHub</a
-    >.
+    Svelte 5 components, actions, utilities, icons and styles. Every page renders the live source;
+    code on <a href={REPO}>GitHub</a>.
   </p>
 </header>
 
@@ -49,9 +63,11 @@ import { Gear } from "purr\/icons";`;
     <h2>{group}</h2>
     <div class="cards">
       {#each pages as page (page.slug)}
-        <a class="card" href={href(page.slug)}>
-          <strong>{page.title}</strong>
-          <span class="muted">{plain(page.description)}</span>
+        <a class="card" href={href(page.slug)} use:lazy={page.slug}>
+          <div class="thumb">
+            {#if seen[page.slug]}<Thumb {page} />{/if}
+          </div>
+          <span class="name">{page.title}</span>
         </a>
       {/each}
     </div>
@@ -71,12 +87,9 @@ import { Gear } from "purr\/icons";`;
   }
   .lead {
     max-width: 68ch;
-    margin: 0 0 var(--sp-4);
+    margin: 0;
     font-size: var(--fs-lg);
     color: var(--color2);
-  }
-  p {
-    max-width: 75ch;
   }
   section {
     margin-bottom: calc(var(--sp-5) * 2);
@@ -89,25 +102,35 @@ import { Gear } from "purr\/icons";`;
   }
   .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
     gap: var(--sp-4);
   }
   .card {
     display: flex;
     flex-direction: column;
-    gap: var(--gap-2);
-    padding: var(--sp-4) var(--sp-5);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
+    overflow: hidden;
     background: var(--bg);
-    color: var(--color);
-    font-size: var(--fs-sm);
+    color: var(--color2);
     text-decoration: none;
     transition: border-color var(--dur) var(--ease);
   }
-  .card strong {
-    font-size: var(--fs-base);
-    color: var(--color2);
+  .thumb {
+    height: 100px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .name {
+    padding: var(--sp-3) var(--sp-4);
+    background: var(--bg2);
+    font-size: var(--fs-sm);
+    font-weight: 550;
+  }
+  @media (max-width: 600px) {
+    .cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
   @media (hover: hover) {
     .card:hover {
