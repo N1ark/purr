@@ -7,6 +7,8 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+## 0.6.0 — 2026-10-06
+
 ### Added
 
 - `MonthScroller`: the days of `MonthGrid` as one continuous scroll of weeks that stops at each

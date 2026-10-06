@@ -1,6 +1,6 @@
 {
   "name": "purr",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "description": "Svelte 5 components, utilities and styling for desktop and web apps",
   "type": "module",
   "private": true,
