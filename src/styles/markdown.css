@@ -105,20 +105,20 @@
   appearance: none;
   -webkit-appearance: none;
   position: relative;
-  display: inline-grid;
-  place-items: center;
+  display: inline-block;
   width: var(--check);
   height: var(--check);
   padding: 0;
-  vertical-align: -0.2em;
+  /* An empty inline-block sits on its bottom edge: this centres it on the capitals. */
+  vertical-align: calc(0.36em - var(--check) / 2);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius);
   background: var(--bg);
 }
 .md input[type="checkbox"]::before {
   content: "";
-  width: 60%;
-  height: 60%;
+  position: absolute;
+  inset: 20%;
   background: var(--on-accent);
   -webkit-mask: var(--md-tick) center / contain no-repeat;
   mask: var(--md-tick) center / contain no-repeat;

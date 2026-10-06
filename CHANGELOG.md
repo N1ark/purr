@@ -17,6 +17,11 @@ turns the Unreleased section into a dated one and tags it.
 - `TimePicker`: a time field over a list of times every `step` minutes, scrolled to the picked
   one; `noneLabel` adds an entry that picks no time.
 
+### Fixed
+
+- A task list's checkbox in `.md` sits centred on the text's capitals; WebKit drew it a few
+  pixels low, taking its baseline from the tick.
+
 ## 0.5.4 — 2026-10-05
 
 ### Changed
