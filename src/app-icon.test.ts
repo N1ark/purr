@@ -7,8 +7,8 @@ const GLYPH = `<path class="line" d="M430 230 V794"/><circle class="fill" cx="60
 
 describe("composeIcon", () => {
   it("puts the glyph on the tile with the family's light and marks", () => {
-    const svg = composeIcon(GLYPH, { title: "legit" });
-    expect(svg).toContain(`<title>legit</title>`);
+    const svg = composeIcon(GLYPH, { title: "notes" });
+    expect(svg).toContain(`<title>notes</title>`);
     expect(svg).toContain(`rx="${TILE.radius}"`);
     expect(svg).toContain(`stop-color="${PURPLE.from}"`);
     expect(svg).toContain(".line{fill:none;stroke:#fff;stroke-width:44");

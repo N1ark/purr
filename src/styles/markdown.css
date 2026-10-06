@@ -183,7 +183,7 @@
   font-size: 0.86em;
 }
 
-/* A code block with a header: `.code-block` (or Zulip's `div.codehilite`) wraps a `.code-head`
+/* A code block with a header: `.code-block` (or Pygments' `div.codehilite`) wraps a `.code-head`
    (`.code-lang`, `.code-copy`) and the `pre`. */
 .md :is(.code-block, div.codehilite) {
   position: relative;

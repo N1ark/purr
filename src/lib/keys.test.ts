@@ -185,7 +185,7 @@ describe("resolveKey", () => {
     expect(hit).toMatchObject({ action: "switcher" });
   });
 
-  it("lets a binding opt out of typing, as Legit's ⌘Z does for a field's own undo", () => {
+  it("lets a binding opt out of typing, leaving ⌘Z to a field's own undo", () => {
     const undo: Binding[] = [{ keys: "⌘Z", action: "undo", label: "Undo", typing: false }];
     expect(resolveKey(undo, key("z", { metaKey: true }), ctx({ typing: true }))).toEqual({
       kind: "none",

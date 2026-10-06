@@ -143,7 +143,7 @@ const PC_KEYS: Record<string, string> = {
 function keyLabel(s: Shortcut, written: string, table: Record<string, string>): string {
   if (table[s.key]) return table[s.key];
   if (/^f\d{1,2}$/.test(s.key)) return s.key.toUpperCase();
-  // A bare `j` stays lower case, as Tulip's help writes it; with a modifier it is a menu's `K`.
+  // A bare `j` stays lower case, as help screens write it; with a modifier it is a menu's `K`.
   const bare = !s.mod && !s.ctrl && !s.alt && !s.shift;
   return bare ? written : s.key.toUpperCase();
 }

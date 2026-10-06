@@ -1,7 +1,7 @@
 {
   "name": "purr",
   "version": "0.5.4",
-  "description": "Shared Svelte 5 components, utilities and styling for N1ark's Tauri apps",
+  "description": "Svelte 5 components, utilities and styling for desktop and web apps",
   "type": "module",
   "private": true,
   "license": "MIT",

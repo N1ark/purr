@@ -16,7 +16,7 @@ export interface Accent {
 /** Checked against the palette in `theme.test.ts`: every pair keeps AA in its theme. */
 export const ACCENTS: readonly Accent[] = [
   // One lightness per role, so every accent weighs the same; chroma is what each hue holds in sRGB.
-  // The default, n1ark.com's purple; `tokens.css` carries the same four values.
+  // The default purple; `tokens.css` carries the same four values.
   {
     id: "purple",
     label: "Purple",

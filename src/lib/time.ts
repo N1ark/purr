@@ -1,7 +1,7 @@
 /**
  * Dates as people read them, in the platform's locale. Every `Intl` formatter is built once and
  * kept: a row is a hot path, and constructing one per call is what this module exists to avoid.
- * Inputs are a `Date`, epoch milliseconds or an ISO string (Zulip's and git's seconds: `× 1000`).
+ * Inputs are a `Date`, epoch milliseconds or an ISO string (epoch seconds, as from git or a server: `× 1000`).
  */
 
 export type TimeInput = Date | number | string;
@@ -239,7 +239,7 @@ export interface RelativeOptions {
   invalid?: string;
 }
 
-/** `5m ago`, `in 2 days`, `just now`: in the locale, so the apps' catalogues need not carry it. */
+/** `5m ago`, `in 2 days`, `just now`: in the locale, so an app's catalogue need not carry it. */
 export function formatRelative(input: TimeInput, options: RelativeOptions = {}): string {
   const ms = toDate(input).getTime();
   if (Number.isNaN(ms)) return options.invalid ?? "—";

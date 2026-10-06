@@ -1,12 +1,12 @@
 // @ts-check
-// The house style for app icons, lifted from legit's: a rounded tile on Apple's 1024 grid, a
+// The house style for app icons: a rounded tile on Apple's 1024 grid, a
 // purple diagonal with a soft glow, grain and a rim, and a white mark drawn in a few strokes.
 // An app supplies only the mark, a `glyph` in the 1024 space using the classes below; this module
 // composes the rest. Plain JavaScript so Node (the `purr-icon` CLI) and the site can share it.
 
 /**
  * The marks an icon is drawn with. Everything else in a glyph is up to the app, but these keep
- * three apps reading as one family: the same line weight, the same dot, the same faint step.
+ * every app reading as one family: the same line weight, the same dot, the same faint step.
  */
 export const GLYPH_CLASSES = {
   /** A line: the white stroke every mark is built from. */
@@ -24,7 +24,7 @@ export const GLYPH_CLASSES = {
 /** The tile: Apple's macOS grid puts an 824 square at 100 in a 1024 canvas. */
 export const TILE = { canvas: 1024, inset: 100, size: 824, radius: 185 };
 
-/** The default colours: n1ark.com's purple, light to deep along the diagonal. */
+/** The default colours: purr's purple, light to deep along the diagonal. */
 export const PURPLE = { from: "#b045ab", mid: "#8a2aa2", to: "#451551" };
 
 /**

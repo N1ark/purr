@@ -2,7 +2,7 @@
 
 export const IS_BROWSER = typeof window !== "undefined";
 
-/** Inside a Tauri webview; Legit's UI is a plain page served by its own Node server. */
+/** Inside a Tauri webview, rather than a plain page in a browser. */
 export const IS_TAURI = IS_BROWSER && "__TAURI_INTERNALS__" in window;
 
 /**

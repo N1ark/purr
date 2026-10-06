@@ -1,6 +1,6 @@
 /**
- * The windowing arithmetic behind `VirtualList`, pure so a hand-rolled virtual view (Legit's
- * diff, with files of known heights and rows inside them) can share it.
+ * The windowing arithmetic behind `VirtualList`, pure so a hand-rolled virtual view (a diff,
+ * with files of known heights and rows inside them) can share it.
  */
 
 /** `[first, end)` of the rows of fixed `rowHeight` overlapping `[top, top + height)`, plus `overscan` rows. */

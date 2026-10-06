@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Builds an app's icon in the family style from its glyph:
-//   purr-icon <dagobert|legit|tulip|purr|path/to/glyph.svg> [--out src-tauri/icons]
+//   purr-icon <path/to/glyph.svg | bundled name> [--out src-tauri/icons]
 //     [--tray] [--mark <colour>] [--favicon] [--no-icon]
 // Writes icon.svg and source.png (1024, for `tauri icon`) unless `--no-icon`. `--tray` adds
 // tray.svg and tray.png (a 128 menu-bar template), `--mark` adds mark.svg (the glyph alone in that

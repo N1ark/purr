@@ -1,4 +1,4 @@
-/* Design tokens, lifted from n1ark.com so every app is part of the same family.
+/* Design tokens: every app built on them is part of the same family.
    Light is the default; `html.dark` switches (see `lib/theme.ts`, which also follows the system). */
 
 :root {

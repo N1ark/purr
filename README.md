@@ -2,11 +2,9 @@
 
 # purr
 
-The shared interface of three Svelte 5 + Tauri 2 apps — [dagobert](https://github.com/N1ark/dagobert),
-[legit](https://github.com/N1ark/legit) and [Tulip](https://github.com/N1ark/better-zulip):
-components, actions, small utilities, icons and styling, so none of them reimplements a menu, a
-modal or a token again. It is opinionated on purpose, and shipped as source: there is no build
-step, the app's Vite compiles it.
+A UI layer for Svelte 5 apps (Tauri or the web): components, actions, small utilities, icons
+and styling, so an app never reimplements a menu, a modal or a token again. It is opinionated on
+purpose, and shipped as source: there is no build step, the app's Vite compiles it.
 
 **[Browse every component →](https://n1ark.github.io/purr/)** (light and dark, with live props)
 
@@ -101,8 +99,8 @@ npm test         # vitest
 To try a change inside an app before releasing it, link the working copy and reinstall when done:
 
 ```sh
-cd ../dagobert && npm link ../purr   # the app now uses ../purr live
-npm install                          # back to the pinned version
+cd ../my-app && npm link ../purr   # the app now uses ../purr live
+npm install                        # back to the pinned version
 ```
 
 While linked, purr's own `node_modules/svelte` can give svelte-check two `Snippet` types; the
