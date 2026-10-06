@@ -2,7 +2,8 @@
   // A month as a six-week grid of days; what sits in a day is the app's.
   import type { Snippet } from "svelte";
   import { firstWeekday, monthGrid, type CalendarDay } from "../lib/calendar";
-  import { dayKey, formatDate, formatMonth, formatWeekday } from "../lib/time";
+  import { dayKey, formatMonth, formatWeekday } from "../lib/time";
+  import DayCell from "./DayCell.svelte";
 
   interface Props {
     year: number;
@@ -46,21 +47,7 @@
   {#each weeks as week, i (i)}
     <div class="week" role="row">
       {#each week as d (d.key)}
-        <div
-          class="day"
-          class:out={!d.inMonth}
-          class:is-target={target === d.key}
-          role="gridcell"
-          aria-label={formatDate(d.key, { style: "long" })}
-          aria-current={d.key === now ? "date" : undefined}
-          data-day={d.key}
-        >
-          <div class="head">
-            <span class="num">{d.date}</span>
-            {#if actions}<span class="actions">{@render actions(d)}</span>{/if}
-          </div>
-          {@render day?.(d)}
-        </div>
+        <DayCell {d} {now} out={!d.inMonth} target={target === d.key} {day} {actions} />
       {/each}
     </div>
   {/each}
@@ -89,69 +76,5 @@
     letter-spacing: 0.04em;
     color: var(--muted);
     background: var(--bg2);
-  }
-  .day {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 0;
-    min-height: 0;
-    padding: var(--gap-1) var(--gap-2) var(--gap-2);
-    background: var(--bg2);
-    overflow: hidden;
-  }
-  /* A phone's seven columns are narrow: every pixel goes to what is on the day. */
-  :global(body.mobile) .day {
-    padding-inline: var(--gap-1);
-  }
-  /* A full day clips its last items rather than squashing every one. */
-  .day > :global(*) {
-    flex-shrink: 0;
-  }
-  .day.out {
-    background: var(--bg);
-  }
-  .day.out .num {
-    color: var(--faint);
-  }
-  .day.is-target {
-    background: var(--theme-soft);
-    box-shadow: inset 0 0 0 1.5px var(--theme2);
-  }
-  .head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    min-height: 20px;
-  }
-  .num {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 20px;
-    height: 20px;
-    padding: 0 var(--gap-1);
-    font-size: var(--fs-xs);
-    font-variant-numeric: tabular-nums;
-    color: var(--muted);
-    border-radius: var(--radius-pill);
-  }
-  [aria-current="date"] .num {
-    color: var(--on-accent);
-    background: var(--theme);
-    font-weight: 600;
-  }
-  .actions {
-    display: inline-flex;
-  }
-  @media (hover: hover) {
-    .actions {
-      opacity: 0;
-      transition: opacity var(--dur);
-    }
-    .day:hover .actions,
-    .actions:focus-within {
-      opacity: 1;
-    }
   }
 </style>

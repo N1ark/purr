@@ -41,6 +41,7 @@ const PROPS: Record<string, Record<string, unknown>> = {
   Masonry: { items: [1, 2, 3], ratio: () => 1, item },
   Menu: { items: [{ label: "Copy", run: noop }], onclose: noop, x: 0, y: 0 },
   MonthGrid: { year: 2026, month: 9, today: "2026-10-05", day: item, actions: item },
+  MonthScroller: { year: 2026, month: 9, today: "2026-10-05", day: item, actions: item },
   Modal: { label: "Dialog", onclose: noop, children: text("<p>Body</p>") },
   PanelHeader: { title: "Panel" },
   Popover: { open: true, onclose: noop, children: text("<p>Pop</p>") },

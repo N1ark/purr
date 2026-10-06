@@ -7,6 +7,12 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+### Added
+
+- `MonthScroller`: the days of `MonthGrid` as one continuous scroll of weeks that stops at each
+  month's first week, as macOS Calendar does. Bind `year` and `month` to follow the month in
+  view, or set them to scroll there; `day`, `actions` and `target` are `MonthGrid`'s.
+
 ## 0.5.4 — 2026-10-05
 
 ### Changed

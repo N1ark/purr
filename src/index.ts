@@ -42,6 +42,7 @@ export { default as Kbd } from "./components/Kbd.svelte";
 export { default as Lightbox } from "./components/Lightbox.svelte";
 export { default as Masonry } from "./components/Masonry.svelte";
 export { default as MonthGrid } from "./components/MonthGrid.svelte";
+export { default as MonthScroller } from "./components/MonthScroller.svelte";
 export { default as Menu } from "./components/Menu.svelte";
 export { default as Modal } from "./components/Modal.svelte";
 export { default as Popover } from "./components/Popover.svelte";
