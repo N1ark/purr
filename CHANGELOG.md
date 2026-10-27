@@ -7,6 +7,11 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+### Added
+
+- `purr/icons`: `GitPullRequestDraft` (a draft pull request, as GitHub draws it) and
+  `GitMergeQueue` (one waiting in a merge queue), in Phosphor's style like `GitPullRequestClosed`.
+
 ## 0.6.0 — 2026-10-06
 
 ### Added
