@@ -7,6 +7,8 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+## 0.6.1 — 2026-10-27
+
 ### Added
 
 - `purr/icons`: `GitPullRequestDraft` (a draft pull request, as GitHub draws it) and
