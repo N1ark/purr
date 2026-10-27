@@ -41,7 +41,7 @@
   </g>
   <g fill="none" stroke={color} stroke-width={stroke} stroke-linecap="round">
     <line x1="72" y1="88" x2="72" y2="168" />
-    <line x1="200" y1="60" x2="200" y2="84" />
-    <line x1="200" y1="116" x2="200" y2="140" />
+    <line x1="200" y1="56" x2="200" y2="64" />
+    <line x1="200" y1="104" x2="200" y2="112" />
   </g>
 </svg>

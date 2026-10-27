@@ -13,6 +13,8 @@
   }: IconComponentProps = $props();
 
   const stroke = $derived(STROKE[weight]);
+  // The waiting dots grow with the line, as the branch's circles do.
+  const dot = $derived(10 + stroke * 0.5);
 </script>
 
 <svg
@@ -39,9 +41,9 @@
     <circle cx="72" cy="192" r="24" />
   </g>
   <g fill={color} stroke="none">
-    <circle cx="192" cy="64" r="22" />
-    <circle cx="192" cy="128" r="22" />
-    <circle cx="192" cy="192" r="22" />
+    <circle cx="192" cy="64" r={dot} />
+    <circle cx="192" cy="128" r={dot} />
+    <circle cx="192" cy="192" r={dot} />
   </g>
   <line
     x1="72"
