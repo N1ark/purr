@@ -7,6 +7,12 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+### Fixed
+
+- `VirtualList` with a `scroller` no longer re-adds its scroll listener and `ResizeObserver` (and
+  forces a layout) each time scrolling reaches another row or the items change: long lists scroll and
+  filter more smoothly.
+
 ## 0.6.1 — 2026-10-27
 
 ### Added

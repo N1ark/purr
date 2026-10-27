@@ -1,7 +1,7 @@
 <script lang="ts" generics="T">
   // Renders only the rows on screen. Heights are known up front — one number, or one per row —
   // which keeps the maths and the scrollbar honest and means nothing is ever measured.
-  import type { Snippet } from "svelte";
+  import { type Snippet, untrack } from "svelte";
 
   import { fixedRange, offsets, rowAt, variableRange } from "../lib/virtual";
 
@@ -88,7 +88,8 @@
         Math.max(0, box.getBoundingClientRect().top - list.getBoundingClientRect().top),
         box.clientHeight,
       );
-    follow();
+    // Untracked: what it reads changes on every scroll, which would rebuild the listener and observer.
+    untrack(follow);
     box.addEventListener("scroll", follow, { passive: true });
     // Folding a block above, or resizing the window, moves the list without a scroll event.
     const observer = new ResizeObserver(follow);
