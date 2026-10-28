@@ -7,6 +7,8 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+## 0.6.2 — 2026-10-28
+
 ### Fixed
 
 - `VirtualList` with a `scroller` no longer re-adds its scroll listener and `ResizeObserver` (and
