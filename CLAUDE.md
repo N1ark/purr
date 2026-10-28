@@ -11,11 +11,13 @@ Goals, in order: consistency, performance, reusability. It is opinionated on pur
   (`.svelte`, `.ts`, `.css`); there is no build step. The app's Vite + `vite-plugin-svelte`
   compile it. To work on purr inside an app, `npm link ../purr` there; `npm install` undoes it.
 - `vite.config`: add the `purr()` plugin from `purr/vite` (serves purr's source when linked,
-  rewrites `purr/icons` imports to per-file ones, trims unused Phosphor weights).
+  rewrites `purr/icons` imports to per-file ones, trims unused Phosphor weights, serves
+  `purr/glyphs` one glyph per module).
 - Entry: `import "purr/fonts.css"; import "purr/styles.css"; import "purr/shell.css";` then the
   app's own CSS. `shell.css` is the app's fixed window (no document scroll, chrome not
   selectable); a website (n1ark.com, SvelteKit) leaves it out and renders purr on the server.
-- Imports: components/actions/utilities from `"purr"`, icons from `"purr/icons"`.
+- Imports: components/actions/utilities from `"purr"`, icons from `"purr/icons"`, light icons
+  from `"purr/glyphs"` (same names; `StarFill` is Star's fill alone), which only `purr()` serves.
 
 ## Setup gotchas
 
@@ -50,7 +52,8 @@ npm run format   # prettier
 | `src/components/` | Svelte components, PascalCase, one per file                                                                                                               |
 | `src/actions/`    | Svelte actions (`use:tooltip`, `use:dragList`, …)                                                                                                         |
 | `src/lib/`        | Plain TS utilities and `.svelte.ts` rune state (overlays, menu, theme)                                                                                    |
-| `src/icons/`      | `index.ts` re-exports all of `phosphor-svelte` plus purr's hand-drawn icons                                                                               |
+| `src/icons/`      | `index.ts` re-exports Phosphor plus purr's hand-drawn icons; `glyph.ts` makes light icons; `glyphs.json`, `ui.ts` are data `npm run glyphs` writes        |
+| `src/glyphs.*`    | `purr/glyphs`: `.d.ts` names every glyph (`npm run glyphs`), `.js` is the empty module the plugin fills                                                   |
 | `src/vite.js`     | The `purr()` Vite plugin                                                                                                                                  |
 | `site/`           | The catalog: one `stories/*.ts` per component (controls, events, examples), hand-written pages; not shipped                                               |
 
@@ -90,7 +93,8 @@ npm run format   # prettier
 - **Escape and click-outside go through `registerOverlay()`** (`lib/overlays.svelte.ts`), never a
   component's own `svelte:window onkeydown`, so only the topmost overlay closes.
 - **Hot paths**: a component that can render once per row (Icon, Avatar, Badge, rows) carries no
-  `svelte:window` listener, `ResizeObserver`, `getComputedStyle` or `Intl` construction. Lists
+  `svelte:window` listener, `ResizeObserver`, `getComputedStyle` or `Intl` construction, and
+  draws its icons from `icons/ui.ts`, light ones that need no plugin; purr imports no Phosphor. Lists
   longer than a screenful use `VirtualList`. Large collections are `$state.raw`.
 - **No coloured left border on a rounded box** (a stripe down a chip, card, callout or row):
   never. Show an accent with a tinted fill, a dot or the text colour instead.
@@ -103,6 +107,7 @@ npm run format   # prettier
 - **Components**: Svelte 5 runes only, `<script lang="ts">`, one `interface Props` destructured
   once from `$props()`, callbacks as `onx` props, content as snippets. Scoped styles; `:global`
   only for content the component does not own.
+- **After Phosphor or a hand-drawn icon changes**, `npm run glyphs`; `glyph.svelte.test.ts` fails until then.
 - **Pure logic gets a test**, colocated (`fuzzy.ts` → `fuzzy.test.ts`).
 - **Every export shows on the site**: a new component gets a `site/stories/<name>.ts`; a new
   action or utility a section on its `site/pages/` page.

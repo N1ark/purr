@@ -72,6 +72,21 @@ rather than overriding its selectors.
 The `purr()` plugin rewrites `purr/icons` imports to one file per icon and cuts the Phosphor
 weights the app doesn't use. Loading `purr/vite` needs Node ≥ 22.18.
 
+`purr/glyphs` has the same icons under the same names as light components: an icon's shapes as
+data drawn by one shared renderer, pixel for pixel as the full one, in a fraction of the bytes and
+under half the mount time. Swap the import where icons are small and many (rows, chips, trees,
+menus). A bare name carries the plugin's `weights`; a suffixed one is that weight alone, the
+smallest.
+
+```svelte
+<script lang="ts">
+  import { Bell, CaretRightBold, IssueOpenedFill } from "purr/glyphs"; // was "purr/icons"
+</script>
+
+<CaretRightBold size={12} />
+<Bell weight={unread ? "fill" : "regular"} aria-label="Notifications" />
+```
+
 ## Versions
 
 Every release is a `vX.Y.Z` tag with a [GitHub release](https://github.com/N1ark/purr/releases)

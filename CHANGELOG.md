@@ -7,6 +7,29 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+### Added
+
+- `purr/glyphs`: light icons, for those drawn small and often (rows, chips, trees, menus). The
+  same names as `purr/icons` (Phosphor's and purr's own) and the same use: components taking
+  `weight`, `size`, `color`, `mirrored`, `class`, `aria-label` and `aria-hidden`, drawn pixel for
+  pixel as the full icon, in under half the mount time and without `IconContext`. A bare name
+  (`Bell`) carries the plugin's `weights`; a suffixed one (`BellFill`, `BellRegular`) is that
+  weight alone, about 340 bytes against a full icon's 1.9 KB. They fit wherever an icon does:
+  `IconComponent` maps, `<Icon />` from a variable, the `icon` of a menu item, a palette item,
+  `EmptyState` or `Banner`. They are decorative (`aria-hidden`) unless given an `aria-label`,
+  where a full icon is `role="img"` either way. Needs the `purr()` plugin.
+- `glyph()` makes a light icon from path data of your own, by weight; `GlyphComponent` and
+  `GlyphProps` type them.
+
+### Changed
+
+- Purr's components draw their icons as glyphs and import no Phosphor icon: `Twisty`, `Tag`,
+  `Menu`, `CommandPalette`, `SearchInput`, `ToastHost`, `Banner`, `PanelHeader`, `DatePicker`,
+  `Lightbox` and `ColorGrid` look the same and cost less, but no longer follow an `IconContext`
+  an app sets around them.
+- `purr()` gives an icon and its `Icon`-suffixed twin (`X`, `XIcon`) one module, so an app that
+  names both ships it once.
+
 ## 0.6.2 — 2026-10-28
 
 ### Fixed
