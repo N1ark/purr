@@ -10,10 +10,19 @@
     Switch,
     VirtualList,
     copyText,
+    glyph,
     rank,
     toast,
   } from "purr";
   import { MagnifyingGlass } from "purr/icons";
+  import {
+    CaretRightBold,
+    CheckCircleFill,
+    GitBranchRegular,
+    IssueOpened,
+    Star,
+  } from "purr/glyphs";
+  import Section from "../components/Section.svelte";
   import PageHeader from "../components/PageHeader.svelte";
   import CodeSnippet from "../components/CodeSnippet.svelte";
   import IconCell from "./icons/IconCell.svelte";
@@ -31,7 +40,9 @@
   let weight = $state<Weight>("regular");
   let color = $state<string | null>(null);
   let mirrored = $state(false);
-  let copyAs = $state<"import" | "tag">("import");
+  let starred = $state(true);
+  const Mark = glyph({ regular: "M128,24A104,104,0,1,0,232,128Z" });
+  let copyAs = $state<"import" | "tag" | "glyph">("import");
 
   let grid = $state<HTMLElement | null>(null);
   let scroller = $state<HTMLElement | null>(null);
@@ -73,9 +84,25 @@
     return `<${[name, ...props].join(" ")} />`;
   };
   const importOf = (name: string) => `import { ${name} } from "purr/icons";`;
+  const SUFFIX: Record<Weight, string> = {
+    thin: "Thin",
+    light: "Light",
+    regular: "Regular",
+    bold: "Bold",
+    fill: "Fill",
+    duotone: "Duotone",
+  };
+  // Written through a helper: an import at the start of a line in a string would be rewritten.
+  const glyphImport = (names: string) => `import { ${names} } from "purr/glyphs";`;
+  const glyphOf = (name: string) => glyphImport(`${name}${SUFFIX[weight]}`);
 
   async function pick(icon: IconEntry) {
-    const text = copyAs === "import" ? importOf(icon.name) : tag(icon.name);
+    const text =
+      copyAs === "import"
+        ? importOf(icon.name)
+        : copyAs === "glyph"
+          ? glyphOf(icon.name)
+          : tag(icon.name);
     if (await copyText(text)) toast(`Copied ${text}`);
     else toast.error("Couldn't reach the clipboard");
   }
@@ -99,6 +126,27 @@
 purr({ weights: ["regular", "bold", "fill"] })`}
   />
 </div>
+
+<Section
+  title="Light icons"
+  description="`purr/glyphs` has every icon here, under the same name and drawn the same, as a light component: its shapes as data, a few hundred bytes rather than about two kilobytes, under half the mount time, no `IconContext`. Swap the import where icons are drawn small and often. A bare name (`Star`) carries the plugin's `weights` and takes `weight`; a suffixed one (`StarFill`, `StarRegular`) is that weight alone, the smallest. `glyph()` makes one from path data of your own. Decorative unless given an `aria-label`; needs `purr()` in `vite.config`."
+  code={`${glyphImport("CaretRightBold, IssueOpened, Star")} // was "purr/icons"
+import { glyph } from "purr";
+
+<CaretRightBold size={12} />
+<IssueOpened weight="fill" />
+<Star weight={starred ? "fill" : "regular"} aria-label="Starred" />
+
+const Mark = glyph({ regular: "M128,24A104,104,0,1,0,232,128Z" }); // one of your own`}
+>
+  <CaretRightBold size={12} />
+  <GitBranchRegular size={14} />
+  <CheckCircleFill size={16} color="var(--success)" />
+  <IssueOpened weight="fill" size={16} color="var(--info)" />
+  <Star weight={starred ? "fill" : "regular"} size={20} aria-label="Starred" />
+  <Mark size={20} />
+  <Switch label="Starred" bind:checked={starred} />
+</Section>
 
 <div class="toolbar">
   <div class="search">
@@ -146,6 +194,7 @@ purr({ weights: ["regular", "bold", "fill"] })`}
       options={[
         { id: "import", label: "Copy import" },
         { id: "tag", label: "Copy tag" },
+        { id: "glyph", label: "Copy glyph" },
       ]}
       bind:value={copyAs}
     />
@@ -191,6 +240,7 @@ purr({ weights: ["regular", "bold", "fill"] })`}
   .usage {
     margin-bottom: calc(var(--sp-5) * 2);
   }
+
   .toolbar {
     position: sticky;
     top: 0;
