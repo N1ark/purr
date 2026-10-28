@@ -1,9 +1,6 @@
 <script lang="ts">
   // Mount once: shows what `toast(...)` says, newest last, above everything but tooltips.
-  import CheckCircleIcon from "phosphor-svelte/lib/CheckCircleIcon";
-  import WarningCircleIcon from "phosphor-svelte/lib/WarningCircleIcon";
-  import XIcon from "phosphor-svelte/lib/XIcon";
-
+  import { CheckCircleFill, WarningCircleFill, XRegular } from "../icons/ui";
   import { toasts } from "../lib/toast.svelte";
   import IconButton from "./IconButton.svelte";
 
@@ -20,9 +17,9 @@
   {#each toasts.list as t (t.id)}
     <div class="toast surface {t.kind}" role={t.kind === "error" ? "alert" : "status"}>
       {#if t.kind === "error"}
-        <span class="icon"><WarningCircleIcon weight="fill" /></span>
+        <span class="icon"><WarningCircleFill /></span>
       {:else if t.kind === "success"}
-        <span class="icon"><CheckCircleIcon weight="fill" /></span>
+        <span class="icon"><CheckCircleFill /></span>
       {/if}
       <span class="text">{t.text}</span>
       {#if t.action}
@@ -37,7 +34,7 @@
         >
       {/if}
       <IconButton label={dismissLabel} size="sm" tip={false} onclick={() => toasts.dismiss(t.id)}>
-        <XIcon />
+        <XRegular />
       </IconButton>
     </div>
   {/each}

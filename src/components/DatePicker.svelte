@@ -1,10 +1,9 @@
 <script lang="ts">
   // A small month to pick a day from, for a popover: arrows move the focused day (Page Up/Down
   // a month), Enter or a click picks it.
+  import { CaretLeftRegular, CaretRightRegular } from "../icons/ui";
   import { tick } from "svelte";
   import IconButton from "./IconButton.svelte";
-  import CaretLeftIcon from "phosphor-svelte/lib/CaretLeftIcon";
-  import CaretRightIcon from "phosphor-svelte/lib/CaretRightIcon";
   import { firstWeekday, monthGrid } from "../lib/calendar";
   import { addDays, dayKey, formatDate, formatMonth, formatWeekday } from "../lib/time";
 
@@ -72,8 +71,12 @@
 <div class="date-picker">
   <div class="bar">
     <span class="month">{formatMonth(shown)}</span>
-    <IconButton label={prevLabel} size="sm" onclick={() => turn(-1)}><CaretLeftIcon /></IconButton>
-    <IconButton label={nextLabel} size="sm" onclick={() => turn(1)}><CaretRightIcon /></IconButton>
+    <IconButton label={prevLabel} size="sm" onclick={() => turn(-1)}
+      ><CaretLeftRegular /></IconButton
+    >
+    <IconButton label={nextLabel} size="sm" onclick={() => turn(1)}
+      ><CaretRightRegular /></IconButton
+    >
   </div>
   <!-- svelte-ignore a11y_interactive_supports_focus -->
   <div class="days" role="grid" aria-label={formatMonth(shown)} bind:this={grid} {onkeydown}>

@@ -2,11 +2,9 @@
   // Renders a `MenuEntry[]`: a popover on the desktop, an action sheet on a phone. Arrows walk it,
   // → and ← go in and out of submenus, typing a letter jumps to the entry it starts, and hovering
   // moves the same cursor the keyboard does.
-  import CaretRightIcon from "phosphor-svelte/lib/CaretRightIcon";
-  import CheckIcon from "phosphor-svelte/lib/CheckIcon";
-  import MinusIcon from "phosphor-svelte/lib/MinusIcon";
-  import PlusIcon from "phosphor-svelte/lib/PlusIcon";
   import { tick } from "svelte";
+
+  import { CaretRightRegular, CheckBold, MinusBold, PlusBold } from "../icons/ui";
 
   import { isItem, type MenuAnchor, type MenuEntry, type MenuItem } from "../lib/menu.svelte";
   import { usingKeyboard } from "../lib/modality";
@@ -223,9 +221,7 @@
 {#snippet mark(item: MenuItem)}
   {#if item.checked}
     <span class="mark" class:mixed={item.checked === "mixed"}>
-      {#if item.checked === "mixed"}<MinusIcon weight="bold" />{:else}<CheckIcon
-          weight="bold"
-        />{/if}
+      {#if item.checked === "mixed"}<MinusBold />{:else}<CheckBold />{/if}
     </span>
   {/if}
 {/snippet}
@@ -257,7 +253,7 @@
           {/each}
           {#if colors.custom}
             <label class="swatch custom" aria-label={colors.customLabel ?? customColorLabel}>
-              <PlusIcon weight="bold" />
+              <PlusBold />
               <input
                 type="color"
                 value={colors.selected ?? colors.colors[0] ?? "#000000"}
@@ -317,7 +313,7 @@
               {@render mark(item)}
             {/if}
             {#if sub}
-              <span class="caret" class:open={expanded && sheet}><CaretRightIcon /></span>
+              <span class="caret" class:open={expanded && sheet}><CaretRightRegular /></span>
             {:else if item.hint}
               <Kbd hint={item.hint} />
             {/if}

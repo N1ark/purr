@@ -2,7 +2,7 @@
   // A small capsule label: a note's tag in its colour, or furniture ("BOT") with `caps`.
   // Optionally clickable (`onclick`) and removable (`onremove`). Rendered once per row.
   import type { Snippet } from "svelte";
-  import XIcon from "phosphor-svelte/lib/XIcon";
+  import { XBold } from "../icons/ui";
 
   interface Props {
     label?: string;
@@ -47,7 +47,7 @@
   {/if}
   {#if onremove}
     <button type="button" class="remove" aria-label={removeLabel} onclick={onremove}>
-      <XIcon weight="bold" />
+      <XBold />
     </button>
   {/if}
 </span>

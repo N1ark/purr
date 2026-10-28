@@ -9,7 +9,7 @@ import type { Placement, Point, Rect } from "./position";
 
 export interface MenuItem {
   label: string;
-  /** A Phosphor (or any) icon component, rendered at the menu's icon size. */
+  /** A Phosphor (or any) icon component, a `purr/glyphs` one too, at the menu's icon size. */
   icon?: Component<any>;
   /** Extra props for `icon`, e.g. `{ weight: "fill" }` or an emoji component's `{ name }`. */
   iconProps?: Record<string, unknown>;

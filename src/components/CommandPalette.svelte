@@ -7,8 +7,8 @@
   // items, walked with the arrows, chosen with ↩. On a phone it docks to the bottom edge with
   // the field last, and rides up with the keyboard.
   import type { Snippet } from "svelte";
-  import MagnifyingGlassIcon from "phosphor-svelte/lib/MagnifyingGlassIcon";
 
+  import { MagnifyingGlassRegular } from "../icons/ui";
   import { rank, type Ranked } from "../lib/fuzzy";
   import { isMobileLayout } from "../lib/platform";
   import Highlight from "./Highlight.svelte";
@@ -129,7 +129,7 @@
   <div class="palette-body">
     <div class="field">
       <span class="lead">
-        {#if leading}{@render leading()}{:else}<MagnifyingGlassIcon />{/if}
+        {#if leading}{@render leading()}{:else}<MagnifyingGlassRegular />{/if}
       </span>
       <input
         bind:value={query}

@@ -1,8 +1,8 @@
 <script lang="ts">
   // A standing notice the person acts on in their own time — an update is ready, the connection
   // dropped — rather than a dialog in their way. Floats in a corner, or sits inline in a layout.
+  import { XRegular } from "../icons/ui";
   import type { Component, Snippet } from "svelte";
-  import XIcon from "phosphor-svelte/lib/XIcon";
 
   import IconButton from "./IconButton.svelte";
 
@@ -46,7 +46,8 @@
   </div>
   {#if actions}<div class="actions">{@render actions()}</div>{/if}
   {#if ondismiss}
-    <IconButton label={dismissLabel} size="sm" tip={false} onclick={ondismiss}><XIcon /></IconButton
+    <IconButton label={dismissLabel} size="sm" tip={false} onclick={ondismiss}
+      ><XRegular /></IconButton
     >
   {/if}
 </div>

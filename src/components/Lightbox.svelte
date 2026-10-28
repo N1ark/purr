@@ -5,10 +5,8 @@
 <script lang="ts">
   // Pictures, videos and sounds full-size over a dimmed app: ← and → step through them, Escape
   // or a click beside the picture closes it.
+  import { CaretLeftRegular, CaretRightRegular, XRegular } from "../icons/ui";
   import type { Snippet } from "svelte";
-  import CaretLeftIcon from "phosphor-svelte/lib/CaretLeftIcon";
-  import CaretRightIcon from "phosphor-svelte/lib/CaretRightIcon";
-  import XIcon from "phosphor-svelte/lib/XIcon";
 
   import IconButton from "./IconButton.svelte";
   import Modal from "./Modal.svelte";
@@ -87,11 +85,11 @@
       <div class="bar surface">
         {#if items.length > 1}
           <IconButton label={previousLabel} size="lg" onclick={() => step(-1)}>
-            <CaretLeftIcon />
+            <CaretLeftRegular />
           </IconButton>
           <span class="count">{index + 1} / {items.length}</span>
           <IconButton label={nextLabel} size="lg" onclick={() => step(1)}>
-            <CaretRightIcon />
+            <CaretRightRegular />
           </IconButton>
         {/if}
         {#if caption || current.detail}
@@ -104,7 +102,7 @@
       </div>
       <span class="corner surface">
         <IconButton label={closeLabel} size="lg" onclick={onclose}>
-          <XIcon />
+          <XRegular />
         </IconButton>
       </span>
     </div>

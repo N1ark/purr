@@ -1,10 +1,9 @@
 <script lang="ts">
   // The filter at the top of a list. `bar` is a full-width row with a rule under it (a panel's
   // first line); `field` is a rounded box that sits among other controls.
+  import { MagnifyingGlassRegular, XRegular } from "../icons/ui";
   import type { Snippet } from "svelte";
   import type { HTMLInputAttributes } from "svelte/elements";
-  import MagnifyingGlassIcon from "phosphor-svelte/lib/MagnifyingGlassIcon";
-  import XIcon from "phosphor-svelte/lib/XIcon";
   import IconButton from "./IconButton.svelte";
 
   interface Props extends Omit<HTMLInputAttributes, "value" | "type" | "children"> {
@@ -46,7 +45,7 @@
 </script>
 
 <div class={["search", variant, extra]}>
-  <MagnifyingGlassIcon />
+  <MagnifyingGlassRegular />
   <input
     bind:this={input}
     bind:value
@@ -57,7 +56,7 @@
     {...rest}
   />
   {#if clearable && value}
-    <IconButton label={clearLabel} size="sm" tip={false} onclick={clear}><XIcon /></IconButton>
+    <IconButton label={clearLabel} size="sm" tip={false} onclick={clear}><XRegular /></IconButton>
   {/if}
   {@render trailing?.()}
 </div>

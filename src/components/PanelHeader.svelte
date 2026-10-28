@@ -1,7 +1,7 @@
 <script lang="ts">
   // The title bar of a panel or dialog: icon, title, count, actions, close.
+  import { XRegular } from "../icons/ui";
   import type { Component, Snippet } from "svelte";
-  import XIcon from "phosphor-svelte/lib/XIcon";
   import IconButton from "./IconButton.svelte";
 
   interface Props {
@@ -41,7 +41,7 @@
     <div class="actions">
       {@render actions?.()}
       {#if onclose}
-        <IconButton label={closeLabel} onclick={onclose}><XIcon /></IconButton>
+        <IconButton label={closeLabel} onclick={onclose}><XRegular /></IconButton>
       {/if}
     </div>
   {/if}

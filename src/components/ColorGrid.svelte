@@ -1,8 +1,7 @@
 <script lang="ts">
   // A grid of colour swatches: pick one, optionally "automatic" (no fixed colour), optionally
   // any colour through the native picker. Put it in a popover or a menu; it owns no overlay.
-  import LightningIcon from "phosphor-svelte/lib/LightningIcon";
-  import PlusIcon from "phosphor-svelte/lib/PlusIcon";
+  import { LightningFill, PlusBold } from "../icons/ui";
   import { tooltip } from "../actions/tooltip";
 
   interface Props {
@@ -82,13 +81,13 @@
       use:tooltip={autoLabel}
       onclick={() => onpick(null)}
     >
-      <LightningIcon weight="fill" />
+      <LightningFill />
     </button>
   {/if}
   {#if custom}
     <!-- The native panel anchors to its input, so the input lies exactly over the swatch. -->
     <label class={["swatch extra", shape === "round" && "swatch--round"]} use:tooltip={customLabel}>
-      <PlusIcon weight="bold" />
+      <PlusBold />
       <input
         type="color"
         value={value ?? colors[0] ?? "#000000"}

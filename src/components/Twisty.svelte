@@ -1,6 +1,6 @@
 <script lang="ts">
   // A disclosure chevron: right when closed, down when open, everywhere.
-  import CaretRightIcon from "phosphor-svelte/lib/CaretRightIcon";
+  import { CaretRightBold } from "../icons/ui";
 
   interface Props {
     open: boolean;
@@ -13,7 +13,7 @@
 
 <!-- Sized from the icon, not by it: a box that grew as the chevron turned would nudge its neighbours. -->
 <span class="twisty" class:open style:--twisty="{size}px" aria-hidden="true">
-  <CaretRightIcon {size} weight="bold" />
+  <CaretRightBold {size} />
 </span>
 
 <style>
