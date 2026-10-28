@@ -7,6 +7,8 @@ turns the Unreleased section into a dated one and tags it.
 
 ## Unreleased
 
+## 0.7.0 — 2026-10-28
+
 ### Added
 
 - `purr/glyphs`: light icons, for those drawn small and often (rows, chips, trees, menus). The
