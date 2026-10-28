@@ -23,10 +23,11 @@ turns the Unreleased section into a dated one and tags it.
 
 ### Changed
 
-- Purr's components draw their icons as glyphs and import no Phosphor icon: `Twisty`, `Tag`,
-  `Menu`, `CommandPalette`, `SearchInput`, `ToastHost`, `Banner`, `PanelHeader`, `DatePicker`,
-  `Lightbox` and `ColorGrid` look the same and cost less, but no longer follow an `IconContext`
-  an app sets around them.
+- **Breaking**, only for an app that sets an `IconContext` around purr's components: they draw
+  their icons as glyphs and import no Phosphor icon, so `Twisty`, `Tag`, `Menu`,
+  `CommandPalette`, `SearchInput`, `ToastHost`, `Banner`, `PanelHeader`, `DatePicker`, `Lightbox`
+  and `ColorGrid` look the same and cost less, but no longer take its weight, size or colour.
+  Size and colour them with CSS (`font-size`, `color`) instead; their weights are fixed.
 - `purr()` gives an icon and its `Icon`-suffixed twin (`X`, `XIcon`) one module, so an app that
   names both ships it once.
 
