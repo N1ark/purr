@@ -94,6 +94,17 @@ describe("on a server", async () => {
     expect(body).toContain('<a href="#a"');
   });
 
+  it("draws a glyph's path, or its markup, decorative unless labelled", () => {
+    const glyph = purr.glyph as (weights: Record<string, string>) => AnyComponent;
+    const html = (c: AnyComponent, props: Record<string, unknown>) =>
+      render(c, { props }).body.replace(/<!--[^>]*-->/g, "");
+    expect(html(glyph({ regular: "M0,0Z" }), { size: 12 })).toMatch(
+      /^<svg width="12" height="12" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M0,0Z"><\/path>/,
+    );
+    const markup = html(glyph({ bold: '<circle r="9"></circle>' }), { "aria-label": "Open" });
+    expect(markup).toContain('role="img" aria-label="Open"><circle r="9"></circle>');
+  });
+
   it("writes the theme script into the head", () => {
     const { head } = render(purr.ThemeScript as AnyComponent, {
       props: { storageKey: "theme" },

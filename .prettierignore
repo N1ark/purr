@@ -1,4 +1,5 @@
 dist-site/
 src/icons/index.ts
+src/glyphs.d.ts
 package-lock.json
 site/public/favicon.svg

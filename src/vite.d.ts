@@ -1,7 +1,10 @@
 // Types for `vite.js`, which stays plain JavaScript so Node can load it from `node_modules`.
 
 export interface PurrOptions {
-  /** Phosphor weights the app uses; the others are cut from every icon before it compiles. */
+  /**
+   * Phosphor weights the app uses; the others are cut from every icon before it compiles. A bare
+   * `purr/glyphs` name (`Star`) carries these too.
+   */
   weights?: string[];
 }
 
@@ -28,3 +31,17 @@ export function rewriteIconImports(
 ): string | null;
 export function iconDepsIn(code: string, lookup: (name: string) => string | null): string[];
 export function trimWeights(code: string, weights: readonly string[]): string;
+
+/** Every weight, with the suffix that names a glyph of that weight alone (`StarFill`). */
+export const GLYPH_WEIGHTS: Record<string, string>;
+export function parseGlyph(
+  name: string,
+  exists: (icon: string) => boolean,
+): { icon: string; weight: string | null } | null;
+export function glyphFromMarkup(markup: string): string;
+export function phosphorGlyph(source: string, weight: string): string | null;
+export function phosphorIcons(lib: string): string[];
+export function rewriteGlyphImports(code: string, has: (name: string) => boolean): string | null;
+export function glyphModule(weights: Record<string, string>, factory: string): string;
+export function glyphSvelte(weights: Record<string, string>): string | null;
+export function glyphDeclarations(icons: readonly string[]): string;

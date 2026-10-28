@@ -3,7 +3,9 @@
  * for `svelte-check` but not for an app's type-aware ESLint, which sees only `*.svelte`'s shim.
  */
 
+import type { IconWeight } from "phosphor-svelte";
 import type { Component, Snippet } from "svelte";
+import type { SVGAttributes } from "svelte/elements";
 
 /** `PresenceDot`, `Avatar`. */
 export type Presence = "active" | "idle" | "offline";
@@ -65,3 +67,21 @@ export interface SettingsGroup {
   /** After the group's sections: an "add" button. */
   footer?: Snippet;
 }
+
+/** What a `purr/glyphs` icon takes: a full icon's props, less those it does not need. */
+export interface GlyphProps {
+  /** A bare name's weight, among the `purr()` plugin's `weights`; a suffixed name has its own. */
+  weight?: IconWeight;
+  /** A number is pixels; `1em` follows the text, as a Phosphor icon does. */
+  size?: number | string;
+  /** Any CSS colour; unset, the text's. */
+  color?: string;
+  mirrored?: boolean;
+  class?: SVGAttributes<SVGSVGElement>["class"];
+  /** Names an icon that means something on its own; without one it is hidden from readers. */
+  "aria-label"?: SVGAttributes<SVGSVGElement>["aria-label"];
+  "aria-hidden"?: SVGAttributes<SVGSVGElement>["aria-hidden"];
+}
+
+/** A light icon: `purr/glyphs`' exports, and what `glyph()` makes. Fits where an icon does. */
+export type GlyphComponent = Component<GlyphProps>;

@@ -58,6 +58,8 @@ export { default as ThemeScript } from "./components/ThemeScript.svelte";
 export { default as ToastHost } from "./components/ToastHost.svelte";
 export { default as VirtualList } from "./components/VirtualList.svelte";
 export type {
+  GlyphComponent,
+  GlyphProps,
   LightboxItem,
   PaletteItem,
   Presence,
@@ -127,6 +129,7 @@ export {
   type Run,
   type Tier,
 } from "./lib/fuzzy";
+export { glyph } from "./icons/glyph";
 export { inlineCodeLang, type InlineCode } from "./lib/inlineCode";
 export {
   accelerator,
